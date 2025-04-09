@@ -45,11 +45,14 @@
 extern int yydebug;
 #endif
 /* "%code requires" blocks.  */
-#line 26 "parser.y"
+#line 22 "parser.y"
 
-    void yyerror(YYLTYPE *loc, const char *s);
+    // Declare YYSTYPE/YYLTYPE early
+    typedef union YYSTYPE YYSTYPE;
+    typedef struct YYLTYPE YYLTYPE;
+    extern int yylex(YYSTYPE*, YYLTYPE*);
 
-#line 53 "parser.tab.h"
+#line 56 "parser.tab.h"
 
 /* Token kinds.  */
 #ifndef YYTOKENTYPE
@@ -89,13 +92,13 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 13 "parser.y"
+#line 16 "parser.y"
 
     int num;
     char *str;
     struct Uzel *node;
 
-#line 99 "parser.tab.h"
+#line 102 "parser.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;
@@ -122,5 +125,11 @@ struct YYLTYPE
 
 int yyparse (void);
 
+/* "%code provides" blocks.  */
+#line 36 "parser.y"
+
+    void yyerror(YYLTYPE *loc, const char *s);
+
+#line 134 "parser.tab.h"
 
 #endif /* !YY_YY_PARSER_TAB_H_INCLUDED  */

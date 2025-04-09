@@ -75,7 +75,9 @@
 #include <string.h>
 #include <ctype.h>
 
-#line 79 "parser.tab.c"
+extern FILE *yyin;
+
+#line 81 "parser.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -540,9 +542,9 @@ static const yytype_int8 yytranslate[] =
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int8 yyrline[] =
 {
-       0,    47,    47,    50,    51,    52,    53,    54,    55,    56,
-      57,    58,    59,    60,    64,    68,    69,    73,    74,    75,
-      76,    77,    78,    79
+       0,    57,    57,    60,    61,    62,    63,    64,    65,    66,
+      67,    68,    69,    70,    74,    78,    79,    83,    84,    85,
+      86,    87,    88,    89
 };
 #endif
 
@@ -1535,139 +1537,139 @@ yyreduce:
   switch (yyn)
     {
   case 2: /* program: prikaz  */
-#line 47 "parser.y"
+#line 57 "parser.y"
                 { (yyval.node) = (yyvsp[0].node); }
-#line 1541 "parser.tab.c"
+#line 1543 "parser.tab.c"
     break;
 
   case 3: /* prikaz: vyraz ';'  */
-#line 50 "parser.y"
+#line 60 "parser.y"
                        { (yyval.node) = (yyvsp[-1].node); }
-#line 1547 "parser.tab.c"
+#line 1549 "parser.tab.c"
     break;
 
   case 4: /* prikaz: blok  */
-#line 51 "parser.y"
+#line 61 "parser.y"
                        { (yyval.node) = (yyvsp[0].node); }
-#line 1553 "parser.tab.c"
+#line 1555 "parser.tab.c"
     break;
 
   case 5: /* prikaz: IF '(' vyraz ')' prikaz  */
-#line 52 "parser.y"
+#line 62 "parser.y"
                                      { (yyval.node) = GenUzel(IF_NODE, (yyvsp[-2].node), (yyvsp[0].node), NULL, NULL); }
-#line 1559 "parser.tab.c"
+#line 1561 "parser.tab.c"
     break;
 
   case 6: /* prikaz: IF '(' vyraz ')' prikaz ELSE prikaz  */
-#line 53 "parser.y"
+#line 63 "parser.y"
                                         { (yyval.node) = GenUzel(IF_ELSE_NODE, (yyvsp[-4].node), (yyvsp[-2].node), (yyvsp[0].node), NULL); }
-#line 1565 "parser.tab.c"
+#line 1567 "parser.tab.c"
     break;
 
   case 7: /* prikaz: FOR '(' vyraz ';' vyraz ';' vyraz ')' prikaz  */
-#line 54 "parser.y"
+#line 64 "parser.y"
                                                  { (yyval.node) = GenUzel(FOR_NODE, (yyvsp[-6].node), (yyvsp[-4].node), (yyvsp[-2].node), (yyvsp[0].node)); }
-#line 1571 "parser.tab.c"
+#line 1573 "parser.tab.c"
     break;
 
   case 8: /* prikaz: WHILE '(' vyraz ')' prikaz  */
-#line 55 "parser.y"
+#line 65 "parser.y"
                                      { (yyval.node) = GenUzel(WHILE_NODE, (yyvsp[-2].node), (yyvsp[0].node), NULL, NULL); }
-#line 1577 "parser.tab.c"
+#line 1579 "parser.tab.c"
     break;
 
   case 9: /* prikaz: DO prikaz WHILE '(' vyraz ')' ';'  */
-#line 56 "parser.y"
+#line 66 "parser.y"
                                       { (yyval.node) = GenUzel(DO_WHILE_NODE, (yyvsp[-5].node), (yyvsp[-2].node), NULL, NULL); }
-#line 1583 "parser.tab.c"
+#line 1585 "parser.tab.c"
     break;
 
   case 10: /* prikaz: PRINT '(' STRING ')' ';'  */
-#line 57 "parser.y"
+#line 67 "parser.y"
                                      { (yyval.node) = GenRetez((yyvsp[-2].str)); }
-#line 1589 "parser.tab.c"
+#line 1591 "parser.tab.c"
     break;
 
   case 11: /* prikaz: PRINT '(' STRING ',' vyraz ')' ';'  */
-#line 58 "parser.y"
+#line 68 "parser.y"
                                        { (yyval.node) = GenUzel(PRINT_FORMAT_NODE, GenRetez((yyvsp[-4].str)), (yyvsp[-2].node), NULL, NULL); }
-#line 1595 "parser.tab.c"
+#line 1597 "parser.tab.c"
     break;
 
   case 12: /* prikaz: PRINT '(' vyraz ')' ';'  */
-#line 59 "parser.y"
+#line 69 "parser.y"
                                     { (yyval.node) = GenUzel(PRINT_NODE, (yyvsp[-2].node), NULL, NULL, NULL); }
-#line 1601 "parser.tab.c"
+#line 1603 "parser.tab.c"
     break;
 
   case 13: /* prikaz: SCAN '(' ID ')' ';'  */
-#line 60 "parser.y"
+#line 70 "parser.y"
                                     { (yyval.node) = GenPromen((yyvsp[-2].str)); }
-#line 1607 "parser.tab.c"
+#line 1609 "parser.tab.c"
     break;
 
   case 14: /* blok: '{' prikazy '}'  */
-#line 64 "parser.y"
+#line 74 "parser.y"
                        { (yyval.node) = (yyvsp[-1].node); }
-#line 1613 "parser.tab.c"
+#line 1615 "parser.tab.c"
     break;
 
   case 15: /* prikazy: prikazy prikaz  */
-#line 68 "parser.y"
+#line 78 "parser.y"
                        { (yyval.node) = GenUzel(BLOCK_NODE, (yyvsp[-1].node), (yyvsp[0].node), NULL, NULL); }
-#line 1619 "parser.tab.c"
+#line 1621 "parser.tab.c"
     break;
 
   case 16: /* prikazy: prikaz  */
-#line 69 "parser.y"
+#line 79 "parser.y"
                        { (yyval.node) = (yyvsp[0].node); }
-#line 1625 "parser.tab.c"
+#line 1627 "parser.tab.c"
     break;
 
   case 17: /* vyraz: ID '=' vyraz  */
-#line 73 "parser.y"
+#line 83 "parser.y"
                        { (yyval.node) = GenUzel(ASSIGN_NODE, GenPromen((yyvsp[-2].str)), (yyvsp[0].node), NULL, NULL); }
-#line 1631 "parser.tab.c"
+#line 1633 "parser.tab.c"
     break;
 
   case 18: /* vyraz: vyraz '+' vyraz  */
-#line 74 "parser.y"
+#line 84 "parser.y"
                        { (yyval.node) = GenUzel(ADD_NODE, (yyvsp[-2].node), (yyvsp[0].node), NULL, NULL); }
-#line 1637 "parser.tab.c"
+#line 1639 "parser.tab.c"
     break;
 
   case 19: /* vyraz: vyraz '*' vyraz  */
-#line 75 "parser.y"
+#line 85 "parser.y"
                        { (yyval.node) = GenUzel(MUL_NODE, (yyvsp[-2].node), (yyvsp[0].node), NULL, NULL); }
-#line 1643 "parser.tab.c"
+#line 1645 "parser.tab.c"
     break;
 
   case 20: /* vyraz: INC ID  */
-#line 76 "parser.y"
+#line 86 "parser.y"
                        { (yyval.node) = GenUzel(PRE_INC_NODE, GenPromen((yyvsp[0].str)), NULL, NULL, NULL); }
-#line 1649 "parser.tab.c"
+#line 1651 "parser.tab.c"
     break;
 
   case 21: /* vyraz: ID INC  */
-#line 77 "parser.y"
+#line 87 "parser.y"
                        { (yyval.node) = GenUzel(POST_INC_NODE, GenPromen((yyvsp[-1].str)), NULL, NULL, NULL); }
-#line 1655 "parser.tab.c"
+#line 1657 "parser.tab.c"
     break;
 
   case 22: /* vyraz: CONST  */
-#line 78 "parser.y"
+#line 88 "parser.y"
                        { (yyval.node) = GenCislo((yyvsp[0].num)); }
-#line 1661 "parser.tab.c"
+#line 1663 "parser.tab.c"
     break;
 
   case 23: /* vyraz: ID  */
-#line 79 "parser.y"
+#line 89 "parser.y"
                        { (yyval.node) = GenPromen((yyvsp[0].str)); }
-#line 1667 "parser.tab.c"
+#line 1669 "parser.tab.c"
     break;
 
 
-#line 1671 "parser.tab.c"
+#line 1673 "parser.tab.c"
 
       default: break;
     }
@@ -1896,14 +1898,11 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 82 "parser.y"
+#line 92 "parser.y"
 
 
 void yyerror(YYLTYPE *loc, const char *s) {
-    fprintf(stderr, "%d.%d: error: %s\n", 
-            loc->first_line, 
-            loc->first_column,
-            s);
+    fprintf(stderr, "%d.%d: error: %s\n", loc->first_line, loc->first_column, s);
 }
 
 int main(int argc, char *argv[]) {
