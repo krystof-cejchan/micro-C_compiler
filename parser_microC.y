@@ -1,5 +1,5 @@
 %{
-#include "ast.h"
+#include "microC.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

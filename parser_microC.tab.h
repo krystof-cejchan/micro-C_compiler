@@ -35,8 +35,8 @@
    especially those whose name start with YY_ or yy_.  They are
    private implementation details that can be changed or removed.  */
 
-#ifndef YY_YY_PARSER_TAB_H_INCLUDED
-# define YY_YY_PARSER_TAB_H_INCLUDED
+#ifndef YY_YY_PARSER_MICROC_TAB_H_INCLUDED
+# define YY_YY_PARSER_MICROC_TAB_H_INCLUDED
 /* Debug traces.  */
 #ifndef YYDEBUG
 # define YYDEBUG 0
@@ -45,14 +45,14 @@
 extern int yydebug;
 #endif
 /* "%code requires" blocks.  */
-#line 22 "parser.y"
+#line 22 "parser_microC.y"
 
     // Declare YYSTYPE/YYLTYPE early
     typedef union YYSTYPE YYSTYPE;
     typedef struct YYLTYPE YYLTYPE;
     extern int yylex(YYSTYPE*, YYLTYPE*);
 
-#line 56 "parser.tab.h"
+#line 56 "parser_microC.tab.h"
 
 /* Token kinds.  */
 #ifndef YYTOKENTYPE
@@ -92,13 +92,13 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 16 "parser.y"
+#line 16 "parser_microC.y"
 
     int num;
     char *str;
     struct Uzel *node;
 
-#line 102 "parser.tab.h"
+#line 102 "parser_microC.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;
@@ -126,10 +126,10 @@ struct YYLTYPE
 int yyparse (void);
 
 /* "%code provides" blocks.  */
-#line 36 "parser.y"
+#line 36 "parser_microC.y"
 
     void yyerror(YYLTYPE *loc, const char *s);
 
-#line 134 "parser.tab.h"
+#line 134 "parser_microC.tab.h"
 
-#endif /* !YY_YY_PARSER_TAB_H_INCLUDED  */
+#endif /* !YY_YY_PARSER_MICROC_TAB_H_INCLUDED  */

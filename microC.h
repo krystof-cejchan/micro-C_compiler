@@ -1,5 +1,5 @@
-#ifndef AST_H
-#define AST_H
+#ifndef MIKROC_H
+#define MIKROC_H
 
 typedef enum {
     CONST_NODE, VAR_NODE, ADD_NODE, MUL_NODE, ASSIGN_NODE,
