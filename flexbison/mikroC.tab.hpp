@@ -35,8 +35,9 @@
    especially those whose name start with YY_ or yy_.  They are
    private implementation details that can be changed or removed.  */
 
-#ifndef YY_YY_PARSER_MICROC_TAB_H_INCLUDED
-# define YY_YY_PARSER_MICROC_TAB_H_INCLUDED
+#include "microC.h"
+#ifndef YY_YY_MIKROC_TAB_HPP_INCLUDED
+# define YY_YY_MIKROC_TAB_HPP_INCLUDED
 /* Debug traces.  */
 #ifndef YYDEBUG
 # define YYDEBUG 0
@@ -44,15 +45,6 @@
 #if YYDEBUG
 extern int yydebug;
 #endif
-/* "%code requires" blocks.  */
-#line 22 "parser_microC.y"
-
-    // Declare YYSTYPE/YYLTYPE early
-    typedef union YYSTYPE YYSTYPE;
-    typedef struct YYLTYPE YYLTYPE;
-    extern int yylex(YYSTYPE*, YYLTYPE*);
-
-#line 56 "parser_microC.tab.h"
 
 /* Token kinds.  */
 #ifndef YYTOKENTYPE
@@ -63,9 +55,9 @@ extern int yydebug;
     YYEOF = 0,                     /* "end of file"  */
     YYerror = 256,                 /* error  */
     YYUNDEF = 257,                 /* "invalid token"  */
-    CONST = 258,                   /* CONST  */
-    ID = 259,                      /* ID  */
-    STRING = 260,                  /* STRING  */
+    CISLO = 258,                   /* CISLO  */
+    RETEZ = 259,                   /* RETEZ  */
+    PROMENNA = 260,                /* PROMENNA  */
     IF = 261,                      /* IF  */
     ELSE = 262,                    /* ELSE  */
     FOR = 263,                     /* FOR  */
@@ -73,63 +65,40 @@ extern int yydebug;
     DO = 265,                      /* DO  */
     PRINT = 266,                   /* PRINT  */
     SCAN = 267,                    /* SCAN  */
-    INC = 268,                     /* INC  */
-    DEC = 269,                     /* DEC  */
-    NOT = 270,                     /* NOT  */
-    AND = 271,                     /* AND  */
-    OR = 272,                      /* OR  */
-    LSHIFT = 273,                  /* LSHIFT  */
-    RSHIFT = 274,                  /* RSHIFT  */
-    EQ = 275,                      /* EQ  */
-    NEQ = 276,                     /* NEQ  */
-    LE = 277,                      /* LE  */
-    GE = 278                       /* GE  */
+    P_NASOB = 268,                 /* P_NASOB  */
+    P_DELEN = 269,                 /* P_DELEN  */
+    P_MODUL = 270,                 /* P_MODUL  */
+    P_PRICT = 271,                 /* P_PRICT  */
+    P_ODECT = 272,                 /* P_ODECT  */
+    P_POSUNVLEVO = 273,            /* P_POSUNVLEVO  */
+    P_POSUNVPRAVO = 274,           /* P_POSUNVPRAVO  */
+    P_AND = 275,                   /* P_AND  */
+    P_XOR = 276,                   /* P_XOR  */
+    P_OR = 277,                    /* P_OR  */
+    OR = 278,                      /* OR  */
+    AND = 279,                     /* AND  */
+    ROVNO = 280,                   /* ROVNO  */
+    NENIROVNO = 281,               /* NENIROVNO  */
+    MENSIROVNO = 282,              /* MENSIROVNO  */
+    VETSIROVNO = 283,              /* VETSIROVNO  */
+    POSUNVLEVO = 284,              /* POSUNVLEVO  */
+    POSUNVPRAVO = 285,             /* POSUNVPRAVO  */
+    INKREM = 286,                  /* INKREM  */
+    DEKREM = 287,                  /* DEKREM  */
+    NOT = 288,                     /* NOT  */
+    MINUS = 289,                   /* MINUS  */
+    PLUS = 290                     /* PLUS  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
 
 /* Value type.  */
-#if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
-union YYSTYPE
-{
-#line 16 "parser_microC.y"
-
-    int num;
-    char *str;
-    struct Uzel *node;
-
-#line 102 "parser_microC.tab.h"
-
-};
-typedef union YYSTYPE YYSTYPE;
-# define YYSTYPE_IS_TRIVIAL 1
-# define YYSTYPE_IS_DECLARED 1
-#endif
-
-/* Location type.  */
-#if ! defined YYLTYPE && ! defined YYLTYPE_IS_DECLARED
-typedef struct YYLTYPE YYLTYPE;
-struct YYLTYPE
-{
-  int first_line;
-  int first_column;
-  int last_line;
-  int last_column;
-};
-# define YYLTYPE_IS_DECLARED 1
-# define YYLTYPE_IS_TRIVIAL 1
-#endif
 
 
+extern YYSTYPE yylval;
 
 
 int yyparse (void);
 
-/* "%code provides" blocks.  */
-#line 36 "parser_microC.y"
 
-    void yyerror(YYLTYPE *loc, const char *s);
-
-#line 134 "parser_microC.tab.h"
-
-#endif /* !YY_YY_PARSER_MICROC_TAB_H_INCLUDED  */
+#endif /* !YY_YY_MIKROC_TAB_HPP_INCLUDED  */
