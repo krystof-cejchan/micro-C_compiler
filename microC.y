@@ -1,196 +1,101 @@
 %{
+#include "ast.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
 
-#include  "microC.h"
-
-int yylex();
-void yyerror(const char *);
-
-extern Uzel *Koren;
-
-bool Konst(const Uzel *);
-
-bool Konst(const Uzel *,const Uzel *);
-
+extern int yylex();
+extern FILE *yyin;
 %}
 
-%token  <c>  CISLO
-%token  <r>  RETEZ PROMENNA
-%token  IF ELSE FOR WHILE DO PRINT SCAN
-%type   <u>  program prikaz prikazy vyraz vyrazf retez promenna
+%locations
 
-%right  '=' P_NASOB P_DELEN P_MODUL P_PRICT P_ODECT P_POSUNVLEVO P_POSUNVPRAVO P_AND P_XOR P_OR
-%left   OR
-%left   AND
-%left   '|'
-%left   '^'
-%left   '&'
-%left   ROVNO NENIROVNO
-%left   '<' '>' MENSIROVNO VETSIROVNO
-%left   POSUNVLEVO POSUNVPRAVO
-%left   '+' '-'
-%left   '*' '/' '%'
-%right  INKREM DEKREM '!' '~' NOT MINUS PLUS
+%union {
+    int num;
+    char *str;
+    struct Uzel *node;
+}
 
-%start  program
+%token <num> CONST
+%token <str> ID STRING
+%token IF ELSE FOR WHILE DO PRINT SCAN INC DEC NOT AND OR
+%token LSHIFT RSHIFT EQ NEQ LE GE
 
-%error_verbose
+%type <node> program prikaz vyraz blok prikazy
+
+%left OR
+%left AND
+%left '|'
+%left '^'
+%left '&'
+%left EQ NEQ
+%left '<' '>' LE GE
+%left LSHIFT RSHIFT
+%left '+' '-'
+%left '*' '/' '%'
+%right NOT INC DEC
+
+%start program
 
 %%
 
-program:   '{' prikazy '}'    { Koren=$2; return 0; };
+/* Grammar rules unchanged */
+program: prikaz { $$ = $1; };
 
-prikazy:   prikaz prikazy     { $$= $2 ? GenUzel(0,$1,$2) : $1; }
-         |                    { $$=NULL; };
+prikaz:
+    vyraz ';'          { $$ = $1; }
+  | blok               { $$ = $1; }
+  | IF '(' vyraz ')' prikaz          { $$ = GenUzel(IF_NODE, $3, $5, NULL, NULL); }
+  | IF '(' vyraz ')' prikaz ELSE prikaz { $$ = GenUzel(IF_ELSE_NODE, $3, $5, $7, NULL); }
+  | FOR '(' vyraz ';' vyraz ';' vyraz ')' prikaz { $$ = GenUzel(FOR_NODE, $3, $5, $7, $9); }
+  | WHILE '(' vyraz ')' prikaz       { $$ = GenUzel(WHILE_NODE, $3, $5, NULL, NULL); }
+  | DO prikaz WHILE '(' vyraz ')' ';' { $$ = GenUzel(DO_WHILE_NODE, $2, $5, NULL, NULL); }
+  | PRINT '(' STRING ')' ';'         { $$ = GenRetez($3); }
+  | PRINT '(' STRING ',' vyraz ')' ';' { $$ = GenUzel(PRINT_FORMAT_NODE, GenRetez($3), $5, NULL, NULL); }
+  | PRINT '(' vyraz ')' ';'         { $$ = GenUzel(PRINT_NODE, $3, NULL, NULL, NULL); }
+  | SCAN '(' ID ')' ';'             { $$ = GenPromen($3); }
+  ;
 
-prikaz:    '{' prikazy '}'    { $$=$2; }
+blok:
+    '{' prikazy '}'    { $$ = $2; }
+  ;
 
-         | vyraz ';'          { $$=$1; }
+prikazy:
+    prikazy prikaz     { $$ = GenUzel(BLOCK_NODE, $1, $2, NULL, NULL); }
+  | prikaz             { $$ = $1; }
+  ;
 
-         | ';'                { $$=NULL; }
-
-         | IF '(' vyraz ')' prikaz { $$=GenUzel(IF,$3,$5); }
-
-         | IF '(' vyraz ')' prikaz ELSE prikaz { $$=GenUzel(IF,$3,$5,$7); }
-
-         | FOR '(' vyrazf ';' vyraz ';' vyrazf ')' prikaz { $$=GenUzel(FOR,$3,$5,$7,$9); }
-
-         | WHILE '(' vyraz ')' prikaz { $$=GenUzel(WHILE,$3,$5); }
-
-         | DO prikaz WHILE '(' vyraz ')' ';' { $$=GenUzel(DO,$2,$5); }
-
-         | '{' prikazy error '}' { $$=NULL; }
-
-         | error ';'          { $$=NULL; };
-
-vyrazf:    vyraz              { $$=$1; }
-         |                    { $$=NULL; };
-
-prikaz:    PRINT '(' vyraz ')' ';' { $$=GenUzel(PRINT,$3); }
-
-         | PRINT '(' retez ')' ';' { $$=GenUzel(PRINT,$3); }
-
-         | PRINT '(' retez ',' vyraz ')' ';' { $$=GenUzel(PRINT,$3,$5); }
-
-         | SCAN '(' promenna ')' ';' { $$=GenUzel(SCAN,$3); };
-
-retez:     RETEZ              { $$=GenRetez($1); };
-
-vyraz:     INKREM promenna    { $$=GenUzel(INKREM,$2); }
-
-         | DEKREM promenna    { $$=GenUzel(DEKREM,$2); }
-
-         | promenna INKREM    { $$=GenUzel(INKREM,NULL,$1); }
-
-         | promenna DEKREM    { $$=GenUzel(DEKREM,NULL,$1); }
-
-         | '!' vyraz          { if (Konst($2)) { $2->z.Cislo=!$2->z.Cislo; $$=$2; }
-                                else $$=GenUzel('!',$2); }
-
-         | NOT vyraz          { if (Konst($2)) { $2->z.Cislo=!$2->z.Cislo; $$=$2; }
-                                else $$=GenUzel('!',$2); }
-
-         | '~' vyraz          { if (Konst($2)) { $2->z.Cislo=~$2->z.Cislo; $$=$2; }
-                                else $$=GenUzel('~',$2); }
-
-         | vyraz '*' vyraz    { if (Konst($1,$3)) { $1->z.Cislo*=$3->z.Cislo; $$=$1; }
-                                else $$=GenUzel('*',$1,$3); }
-
-         | vyraz '/' vyraz    { if (Konst($1,$3)) { if ($3->z.Cislo!=0) $1->z.Cislo/=$3->z.Cislo;
-                                                    else Chyba("Deleni nulou");
-                                                    $$=$1; }
-                                else $$=GenUzel('/',$1,$3); }
-
-         | vyraz '%' vyraz    { if (Konst($1,$3)) { if ($3->z.Cislo!=0) $1->z.Cislo%=$3->z.Cislo;
-                                                    else Chyba("Deleni nulou");
-                                                    $$=$1; }
-                                else $$=GenUzel('%',$1,$3); }
-
-         | vyraz '+' vyraz    { if (Konst($1,$3)) { $1->z.Cislo+=$3->z.Cislo; $$=$1; }
-                                else $$=GenUzel('+',$1,$3); }
-
-         | vyraz '-' vyraz    { if (Konst($1,$3)) { $1->z.Cislo-=$3->z.Cislo; $$=$1; }
-                                else $$=GenUzel('-',$1,$3); }
-
-         | vyraz POSUNVLEVO vyraz  { if (Konst($1,$3)) { $1->z.Cislo<<=$3->z.Cislo; $$=$1; }
-                                     else $$=GenUzel(POSUNVLEVO,$1,$3); }
-
-         | vyraz POSUNVPRAVO vyraz { if (Konst($1,$3)) { $1->z.Cislo>>=$3->z.Cislo; $$=$1; }
-                                     else $$=GenUzel(POSUNVPRAVO,$1,$3); }
-
-         | vyraz '<' vyraz    { if (Konst($1,$3)) { $1->z.Cislo= $1->z.Cislo<$3->z.Cislo; $$=$1; }
-                                else $$=GenUzel('<',$1,$3); }
-
-         | vyraz '>' vyraz    { if (Konst($1,$3)) { $1->z.Cislo= $1->z.Cislo>$3->z.Cislo; $$=$1; }
-                                else $$=GenUzel('>',$1,$3); }
-
-         | vyraz MENSIROVNO vyraz { if (Konst($1,$3)) { $1->z.Cislo= $1->z.Cislo<=$3->z.Cislo; $$=$1; }
-                                    else $$=GenUzel(MENSIROVNO,$1,$3); }
-
-         | vyraz VETSIROVNO vyraz { if (Konst($1,$3)) { $1->z.Cislo= $1->z.Cislo>=$3->z.Cislo; $$=$1; }
-                                    else $$=GenUzel(VETSIROVNO,$1,$3); }
-
-         | vyraz ROVNO vyraz  { if (Konst($1,$3)) { $1->z.Cislo= $1->z.Cislo==$3->z.Cislo; $$=$1; }
-                                else $$=GenUzel(ROVNO,$1,$3); }
-
-         | vyraz NENIROVNO vyraz { if (Konst($1,$3)) { $1->z.Cislo= $1->z.Cislo!=$3->z.Cislo; $$=$1; }
-                                   else $$=GenUzel(NENIROVNO,$1,$3); }
-
-         | vyraz '&' vyraz    { if (Konst($1,$3)) { $1->z.Cislo&=$3->z.Cislo; $$=$1; }
-                                else $$=GenUzel('&',$1,$3); }
-
-         | vyraz '^' vyraz    { if (Konst($1,$3)) { $1->z.Cislo^=$3->z.Cislo; $$=$1; }
-                                else $$=GenUzel('^',$1,$3); }
-
-         | vyraz '|' vyraz    { if (Konst($1,$3)) { $1->z.Cislo|=$3->z.Cislo; $$=$1; }
-                                else $$=GenUzel('|',$1,$3); }
-
-         | vyraz AND vyraz    { if (Konst($1,$3)) { $1->z.Cislo= $1->z.Cislo && $3->z.Cislo; $$=$1; }
-                                else $$=GenUzel(AND,$1,$3); }
-
-         | vyraz OR vyraz     { if (Konst($1,$3)) { $1->z.Cislo= $1->z.Cislo || $3->z.Cislo; $$=$1; }
-                                else $$=GenUzel(OR,$1,$3); }
-
-         | promenna '=' vyraz { $$=GenUzel('=',$1,$3); }
-
-         | promenna P_NASOB vyraz { $$=GenUzel(P_NASOB,$1,$3); }
-
-         | promenna P_DELEN vyraz { $$=GenUzel(P_DELEN,$1,$3); }
-
-         | promenna P_MODUL vyraz { $$=GenUzel(P_MODUL,$1,$3); }
-
-         | promenna P_PRICT vyraz { $$=GenUzel(P_PRICT,$1,$3); }
-
-         | promenna P_ODECT vyraz { $$=GenUzel(P_ODECT,$1,$3); }
-
-         | promenna P_POSUNVLEVO vyraz  { $$=GenUzel(P_POSUNVLEVO,$1,$3); }
-
-         | promenna P_POSUNVPRAVO vyraz { $$=GenUzel(P_POSUNVPRAVO,$1,$3); }
-
-         | promenna P_AND vyraz { $$=GenUzel(P_AND,$1,$3); }
-
-         | promenna P_XOR vyraz { $$=GenUzel(P_XOR,$1,$3); }
-
-         | promenna P_OR vyraz  { $$=GenUzel(P_OR,$1,$3); }
-
-         | '-' vyraz %prec MINUS { if (Konst($2)) { $2->z.Cislo=-$2->z.Cislo; $$=$2; }
-                                   else $$=GenUzel('-',$2); }
-
-         | '+' vyraz %prec PLUS { $$=$2; }
-
-         | '(' vyraz ')'      { $$=$2; }
-
-         | promenna           { $$=$1; }
-
-         | CISLO              { $$=GenCislo($1); }
-
-         | '(' error ')'      { $$=NULL; };
-
-promenna:  PROMENNA           { $$=GenPromen($1); };
+vyraz:
+    ID '=' vyraz       { $$ = GenUzel(ASSIGN_NODE, GenPromen($1), $3, NULL, NULL); }
+  | vyraz '+' vyraz    { $$ = GenUzel(ADD_NODE, $1, $3, NULL, NULL); }
+  | vyraz '*' vyraz    { $$ = GenUzel(MUL_NODE, $1, $3, NULL, NULL); }
+  | INC ID             { $$ = GenUzel(PRE_INC_NODE, GenPromen($2), NULL, NULL, NULL); }
+  | ID INC             { $$ = GenUzel(POST_INC_NODE, GenPromen($1), NULL, NULL, NULL); }
+  | CONST              { $$ = GenCislo($1); }
+  | ID                 { $$ = GenPromen($1); }
+  ;
 
 %%
 
-static bool Konst(const Uzel *u)
-{ return u && u->Typ==CISLO; }
+void yyerror(YYLTYPE *loc, const char *s) {
+    fprintf(stderr, "%d.%d: error: %s\n", 
+            loc->first_line, 
+            loc->first_column,
+            s);
+}
 
-static bool Konst(const Uzel *u1,const Uzel *u2)
-{ return u1 && u1->Typ==CISLO && u2 && u2->Typ==CISLO; }
+int main(int argc, char *argv[]) {
+    if (argc < 2) {
+        fprintf(stderr, "Usage: %s <input_file>\n", argv[0]);
+        return 1;
+    }
+    yyin = fopen(argv[1], "r");
+    if (!yyin) {
+        perror("Failed to open input file");
+        return 1;
+    }
+    yyparse();
+    fclose(yyin);
+    return 0;
+}

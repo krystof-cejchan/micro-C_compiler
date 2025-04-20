@@ -39,9 +39,9 @@
    /* Put the tokens into the symbol table, so that GDB and other debuggers
       know about them.  */
    enum yytokentype {
-     CISLO = 258,
-     RETEZ = 259,
-     PROMENNA = 260,
+     CONST = 258,
+     ID = 259,
+     STRING = 260,
      IF = 261,
      ELSE = 262,
      FOR = 263,
@@ -49,40 +49,57 @@
      DO = 265,
      PRINT = 266,
      SCAN = 267,
-     P_OR = 268,
-     P_XOR = 269,
-     P_AND = 270,
-     P_POSUNVPRAVO = 271,
-     P_POSUNVLEVO = 272,
-     P_ODECT = 273,
-     P_PRICT = 274,
-     P_MODUL = 275,
-     P_DELEN = 276,
-     P_NASOB = 277,
-     OR = 278,
-     AND = 279,
-     NENIROVNO = 280,
-     ROVNO = 281,
-     VETSIROVNO = 282,
-     MENSIROVNO = 283,
-     POSUNVPRAVO = 284,
-     POSUNVLEVO = 285,
-     PLUS = 286,
-     MINUS = 287,
-     NOT = 288,
-     DEKREM = 289,
-     INKREM = 290
+     INC = 268,
+     DEC = 269,
+     NOT = 270,
+     AND = 271,
+     OR = 272,
+     LSHIFT = 273,
+     RSHIFT = 274,
+     EQ = 275,
+     NEQ = 276,
+     LE = 277,
+     GE = 278
    };
 #endif
 
 
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
+typedef union YYSTYPE
+{
 
+/* Line 1676 of yacc.c  */
+#line 14 "microC.y"
+
+    int num;
+    char *str;
+    struct Uzel *node;
+
+
+
+/* Line 1676 of yacc.c  */
+#line 83 "microC.tab.h"
+} YYSTYPE;
+# define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1
 #endif
 
 extern YYSTYPE yylval;
 
+#if ! defined YYLTYPE && ! defined YYLTYPE_IS_DECLARED
+typedef struct YYLTYPE
+{
+  int first_line;
+  int first_column;
+  int last_line;
+  int last_column;
+} YYLTYPE;
+# define yyltype YYLTYPE /* obsolescent; will be withdrawn */
+# define YYLTYPE_IS_DECLARED 1
+# define YYLTYPE_IS_TRIVIAL 1
+#endif
+
+extern YYLTYPE yylloc;
 
