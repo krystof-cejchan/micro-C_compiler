@@ -39,27 +39,46 @@
    /* Put the tokens into the symbol table, so that GDB and other debuggers
       know about them.  */
    enum yytokentype {
-     CONST = 258,
-     ID = 259,
-     STRING = 260,
-     IF = 261,
-     ELSE = 262,
-     FOR = 263,
-     WHILE = 264,
-     DO = 265,
-     PRINT = 266,
-     SCAN = 267,
-     INC = 268,
-     DEC = 269,
-     NOT = 270,
-     AND = 271,
-     OR = 272,
-     LSHIFT = 273,
-     RSHIFT = 274,
-     EQ = 275,
-     NEQ = 276,
-     LE = 277,
-     GE = 278
+     CISLO = 258,
+     PROMENNA = 259,
+     RETEZ = 260,
+     PRINT = 261,
+     SCAN = 262,
+     IF = 263,
+     ELSE = 264,
+     FOR = 265,
+     WHILE = 266,
+     DO = 267,
+     INKREM = 268,
+     DEKREM = 269,
+     SHL = 270,
+     SHR = 271,
+     MOD = 272,
+     AND = 273,
+     OR = 274,
+     NOT = 275,
+     BIT_NOT = 276,
+     POROVNANI = 277,
+     NENIROVNO = 278,
+     MENSIROVNO = 279,
+     VETSIROVNO = 280,
+     ADD_ASSIGN = 281,
+     SUB_ASSIGN = 282,
+     MUL_ASSIGN = 283,
+     DIV_ASSIGN = 284,
+     MOD_ASSIGN = 285,
+     SHL_ASSIGN = 286,
+     SHR_ASSIGN = 287,
+     AND_ASSIGN = 288,
+     XOR_ASSIGN = 289,
+     OR_ASSIGN = 290,
+     BIT_AND = 291,
+     BIT_OR = 292,
+     BIT_XOR = 293,
+     COMMA = 294,
+     TERNARY_QUEST = 295,
+     TERNARY_COLON = 296,
+     UMINUS = 297
    };
 #endif
 
@@ -70,16 +89,12 @@ typedef union YYSTYPE
 {
 
 /* Line 1676 of yacc.c  */
-#line 14 "microC.y"
-
-    int num;
-    char *str;
-    struct Uzel *node;
-
+#line 10 "parser.y"
+ Uzel *u; 
 
 
 /* Line 1676 of yacc.c  */
-#line 83 "microC.tab.h"
+#line 98 "parser.tab.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
@@ -88,18 +103,4 @@ typedef union YYSTYPE
 
 extern YYSTYPE yylval;
 
-#if ! defined YYLTYPE && ! defined YYLTYPE_IS_DECLARED
-typedef struct YYLTYPE
-{
-  int first_line;
-  int first_column;
-  int last_line;
-  int last_column;
-} YYLTYPE;
-# define yyltype YYLTYPE /* obsolescent; will be withdrawn */
-# define YYLTYPE_IS_DECLARED 1
-# define YYLTYPE_IS_TRIVIAL 1
-#endif
-
-extern YYLTYPE yylloc;
 
