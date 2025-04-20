@@ -2,7 +2,7 @@
 
 #include <stdlib.h>
 #include <string.h>
-#include "MikroC.h"
+#include "microC.h"
 
 extern YYSTYPE yylval;
 

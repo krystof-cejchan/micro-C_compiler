@@ -1,5 +1,5 @@
-#ifndef  MikroC_h
-#define  MikroC_h
+#ifndef  microC_h
+#define  microC_h
 
 struct Uzel { int Typ;
               union { struct { Uzel *prvni,*druhy,*treti,*ctvrty; } z;
@@ -26,6 +26,6 @@ void LexInit();
 
 void Flush();
 
-#include "MikroC.tab.hpp"
+#include "microC.tab.h"
 
 #endif

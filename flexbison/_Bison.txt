@@ -1,7 +1,0 @@
-mikroC.y:36.1-14: warning: deprecated directive: ‘%error_verbose’, use ‘%define parse.error verbose’ [-Wdeprecated]
-   36 | %error_verbose
-      | ^~~~~~~~~~~~~~
-      | %define parse.error verbose
-mikroC.y: warning: 3 shift/reduce conflicts [-Wconflicts-sr]
-mikroC.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
-mikroC.y: warning: fix-its can be applied.  Rerun with option '--update'. [-Wother]
