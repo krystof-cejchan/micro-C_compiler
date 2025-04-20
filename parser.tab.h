@@ -47,7 +47,7 @@ extern int yydebug;
 /* "%code requires" blocks.  */
 #line 1 "parser.y"
 
-    typedef struct Uzel Uzel;  // Forward declaration for Bison
+    typedef struct Uzel Uzel;
 
 #line 53 "parser.tab.h"
 

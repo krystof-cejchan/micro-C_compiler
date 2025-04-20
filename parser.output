@@ -1,0 +1,4020 @@
+Terminals unused in grammar
+
+    NOT
+    TERNARY_QUEST
+    TERNARY_COLON
+
+
+Rules useless in parser due to conflicts
+
+    3 prikaz: prikaz
+    4       | prikaz prikaz_list
+   10       | IF '(' vyraz ')' prikaz
+   11       | IF '(' vyraz ')' prikaz ELSE prikaz
+   12       | FOR '(' vyraz ';' vyraz ';' vyraz ')' prikaz
+   13       | WHILE '(' vyraz ')' prikaz
+
+   19 prikaz_list: ε
+   20            | prikaz
+   21            | prikaz_list prikaz
+
+
+State 0 conflicts: 9 shift/reduce
+State 7 conflicts: 9 shift/reduce
+State 9 conflicts: 9 shift/reduce, 10 reduce/reduce
+State 11 conflicts: 9 shift/reduce, 21 reduce/reduce
+State 19 conflicts: 9 shift/reduce, 18 reduce/reduce
+State 21 conflicts: 9 shift/reduce, 36 reduce/reduce
+State 22 conflicts: 10 shift/reduce
+State 24 conflicts: 9 shift/reduce, 12 reduce/reduce
+State 44 conflicts: 10 reduce/reduce
+State 46 conflicts: 9 shift/reduce, 36 reduce/reduce
+State 87 conflicts: 9 shift/reduce
+State 89 conflicts: 9 shift/reduce
+State 120 conflicts: 10 shift/reduce, 36 reduce/reduce
+State 122 conflicts: 9 shift/reduce, 36 reduce/reduce
+State 125 conflicts: 9 shift/reduce
+State 127 conflicts: 9 shift/reduce
+State 129 conflicts: 9 shift/reduce, 36 reduce/reduce
+State 131 conflicts: 9 reduce/reduce
+State 132 conflicts: 9 shift/reduce
+State 133 conflicts: 9 shift/reduce, 36 reduce/reduce
+
+
+Grammar
+
+    0 $accept: program $end
+
+    1 program: prikaz
+
+    2 prikaz: ε
+    3       | prikaz
+    4       | prikaz prikaz_list
+    5       | PRINT '(' RETEZ ')' ';'
+    6       | PRINT '(' RETEZ ',' vyraz ')' ';'
+    7       | PRINT '(' vyraz ')' ';'
+    8       | SCAN '(' PROMENNA ')' ';'
+    9       | '{' prikaz_list '}'
+   10       | IF '(' vyraz ')' prikaz
+   11       | IF '(' vyraz ')' prikaz ELSE prikaz
+   12       | FOR '(' vyraz ';' vyraz ';' vyraz ')' prikaz
+   13       | WHILE '(' vyraz ')' prikaz
+   14       | DO prikaz WHILE '(' vyraz ')' ';'
+   15       | error ';'
+   16       | error '}'
+   17       | '{' error '}'
+   18       | ';'
+
+   19 prikaz_list: ε
+   20            | prikaz
+   21            | prikaz_list prikaz
+
+   22 vyraz: CISLO
+   23      | PROMENNA
+   24      | vyraz '=' vyraz
+   25      | vyraz ADD_ASSIGN vyraz
+   26      | vyraz SUB_ASSIGN vyraz
+   27      | vyraz MUL_ASSIGN vyraz
+   28      | vyraz DIV_ASSIGN vyraz
+   29      | vyraz MOD_ASSIGN vyraz
+   30      | vyraz SHL_ASSIGN vyraz
+   31      | vyraz SHR_ASSIGN vyraz
+   32      | vyraz AND_ASSIGN vyraz
+   33      | vyraz XOR_ASSIGN vyraz
+   34      | vyraz OR_ASSIGN vyraz
+   35      | vyraz '+' vyraz
+   36      | vyraz '-' vyraz
+   37      | vyraz '*' vyraz
+   38      | vyraz '/' vyraz
+   39      | vyraz MOD vyraz
+   40      | vyraz SHL vyraz
+   41      | vyraz SHR vyraz
+   42      | vyraz BIT_AND vyraz
+   43      | vyraz BIT_OR vyraz
+   44      | vyraz BIT_XOR vyraz
+   45      | vyraz AND vyraz
+   46      | vyraz OR vyraz
+   47      | '<' vyraz
+   48      | '>' vyraz
+   49      | POROVNANI vyraz
+   50      | NENIROVNO vyraz
+   51      | MENSIROVNO vyraz
+   52      | VETSIROVNO vyraz
+   53      | '-' vyraz
+   54      | BIT_NOT vyraz
+   55      | INKREM PROMENNA
+   56      | PROMENNA INKREM
+   57      | PROMENNA DEKREM
+   58      | '(' vyraz ')'
+   59      | vyraz COMMA vyraz
+
+
+Terminals, with rules where they appear
+
+    $end (0) 0
+    '(' (40) 5 6 7 8 10 11 12 13 14 58
+    ')' (41) 5 6 7 8 10 11 12 13 14 58
+    '*' (42) 37
+    '+' (43) 35
+    ',' (44) 6
+    '-' (45) 36 53
+    '/' (47) 38
+    ';' (59) 5 6 7 8 12 14 15 18
+    '<' (60) 47
+    '=' (61) 24
+    '>' (62) 48
+    '{' (123) 9 17
+    '}' (125) 9 16 17
+    error (256) 15 16 17
+    CISLO <u> (258) 22
+    PROMENNA <u> (259) 8 23 55 56 57
+    RETEZ <u> (260) 5 6
+    PRINT (261) 5 6 7
+    SCAN (262) 8
+    IF (263) 10 11
+    ELSE (264) 11
+    FOR (265) 12
+    WHILE (266) 13 14
+    DO (267) 14
+    SHL (268) 40
+    SHR (269) 41
+    MOD (270) 39
+    AND (271) 45
+    OR (272) 46
+    NOT (273)
+    BIT_NOT (274) 54
+    POROVNANI (275) 49
+    NENIROVNO (276) 50
+    MENSIROVNO (277) 51
+    VETSIROVNO (278) 52
+    ADD_ASSIGN (279) 25
+    SUB_ASSIGN (280) 26
+    MUL_ASSIGN (281) 27
+    DIV_ASSIGN (282) 28
+    MOD_ASSIGN (283) 29
+    SHL_ASSIGN (284) 30
+    SHR_ASSIGN (285) 31
+    AND_ASSIGN (286) 32
+    XOR_ASSIGN (287) 33
+    OR_ASSIGN (288) 34
+    BIT_AND (289) 42
+    BIT_OR (290) 43
+    BIT_XOR (291) 44
+    COMMA (292) 59
+    TERNARY_QUEST (293)
+    TERNARY_COLON (294)
+    INKREM (295) 55 56
+    DEKREM (296) 57
+    UMINUS (297)
+
+
+Nonterminals, with rules where they appear
+
+    $accept (56)
+        on left: 0
+    program <u> (57)
+        on left: 1
+        on right: 0
+    prikaz <u> (58)
+        on left: 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18
+        on right: 1 3 4 10 11 12 13 14 20 21
+    prikaz_list <u> (59)
+        on left: 19 20 21
+        on right: 4 9 21
+    vyraz <u> (60)
+        on left: 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59
+        on right: 6 7 10 11 12 13 14 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 58 59
+
+
+State 0
+
+    0 $accept: • program $end
+
+    error  shift, and go to state 1
+    PRINT  shift, and go to state 2
+    SCAN   shift, and go to state 3
+    IF     shift, and go to state 4
+    FOR    shift, and go to state 5
+    WHILE  shift, and go to state 6
+    DO     shift, and go to state 7
+    ';'    shift, and go to state 8
+    '{'    shift, and go to state 9
+
+    $end   reduce using rule 2 (prikaz)
+    error  [reduce using rule 2 (prikaz)]
+    PRINT  [reduce using rule 2 (prikaz)]
+    SCAN   [reduce using rule 2 (prikaz)]
+    IF     [reduce using rule 2 (prikaz)]
+    FOR    [reduce using rule 2 (prikaz)]
+    WHILE  [reduce using rule 2 (prikaz)]
+    DO     [reduce using rule 2 (prikaz)]
+    ';'    [reduce using rule 2 (prikaz)]
+    '{'    [reduce using rule 2 (prikaz)]
+
+    program  go to state 10
+    prikaz   go to state 11
+
+
+State 1
+
+   15 prikaz: error • ';'
+   16       | error • '}'
+
+    ';'  shift, and go to state 12
+    '}'  shift, and go to state 13
+
+
+State 2
+
+    5 prikaz: PRINT • '(' RETEZ ')' ';'
+    6       | PRINT • '(' RETEZ ',' vyraz ')' ';'
+    7       | PRINT • '(' vyraz ')' ';'
+
+    '('  shift, and go to state 14
+
+
+State 3
+
+    8 prikaz: SCAN • '(' PROMENNA ')' ';'
+
+    '('  shift, and go to state 15
+
+
+State 4
+
+   10 prikaz: IF • '(' vyraz ')' prikaz
+   11       | IF • '(' vyraz ')' prikaz ELSE prikaz
+
+    '('  shift, and go to state 16
+
+
+State 5
+
+   12 prikaz: FOR • '(' vyraz ';' vyraz ';' vyraz ')' prikaz
+
+    '('  shift, and go to state 17
+
+
+State 6
+
+   13 prikaz: WHILE • '(' vyraz ')' prikaz
+
+    '('  shift, and go to state 18
+
+
+State 7
+
+   14 prikaz: DO • prikaz WHILE '(' vyraz ')' ';'
+
+    error  shift, and go to state 1
+    PRINT  shift, and go to state 2
+    SCAN   shift, and go to state 3
+    IF     shift, and go to state 4
+    FOR    shift, and go to state 5
+    WHILE  shift, and go to state 6
+    DO     shift, and go to state 7
+    ';'    shift, and go to state 8
+    '{'    shift, and go to state 9
+
+    error  [reduce using rule 2 (prikaz)]
+    PRINT  [reduce using rule 2 (prikaz)]
+    SCAN   [reduce using rule 2 (prikaz)]
+    IF     [reduce using rule 2 (prikaz)]
+    FOR    [reduce using rule 2 (prikaz)]
+    WHILE  [reduce using rule 2 (prikaz)]
+    DO     [reduce using rule 2 (prikaz)]
+    ';'    [reduce using rule 2 (prikaz)]
+    '{'    [reduce using rule 2 (prikaz)]
+
+    prikaz  go to state 19
+
+
+State 8
+
+   18 prikaz: ';' •
+
+    $default  reduce using rule 18 (prikaz)
+
+
+State 9
+
+    9 prikaz: '{' • prikaz_list '}'
+   17       | '{' • error '}'
+
+    error  shift, and go to state 20
+    PRINT  shift, and go to state 2
+    SCAN   shift, and go to state 3
+    IF     shift, and go to state 4
+    FOR    shift, and go to state 5
+    WHILE  shift, and go to state 6
+    DO     shift, and go to state 7
+    ';'    shift, and go to state 8
+    '{'    shift, and go to state 9
+
+    error  [reduce using rule 2 (prikaz)]
+    error  [reduce using rule 19 (prikaz_list)]
+    PRINT  [reduce using rule 2 (prikaz)]
+    PRINT  [reduce using rule 19 (prikaz_list)]
+    SCAN   [reduce using rule 2 (prikaz)]
+    SCAN   [reduce using rule 19 (prikaz_list)]
+    IF     [reduce using rule 2 (prikaz)]
+    IF     [reduce using rule 19 (prikaz_list)]
+    FOR    [reduce using rule 2 (prikaz)]
+    FOR    [reduce using rule 19 (prikaz_list)]
+    WHILE  [reduce using rule 2 (prikaz)]
+    WHILE  [reduce using rule 19 (prikaz_list)]
+    DO     [reduce using rule 2 (prikaz)]
+    DO     [reduce using rule 19 (prikaz_list)]
+    ';'    [reduce using rule 2 (prikaz)]
+    ';'    [reduce using rule 19 (prikaz_list)]
+    '{'    [reduce using rule 2 (prikaz)]
+    '{'    [reduce using rule 19 (prikaz_list)]
+    '}'    reduce using rule 2 (prikaz)
+    '}'    [reduce using rule 19 (prikaz_list)]
+
+    prikaz       go to state 21
+    prikaz_list  go to state 22
+
+
+State 10
+
+    0 $accept: program • $end
+
+    $end  shift, and go to state 23
+
+
+State 11
+
+    1 program: prikaz •
+    3 prikaz: prikaz •
+    4       | prikaz • prikaz_list
+
+    error  shift, and go to state 1
+    PRINT  shift, and go to state 2
+    SCAN   shift, and go to state 3
+    IF     shift, and go to state 4
+    FOR    shift, and go to state 5
+    WHILE  shift, and go to state 6
+    DO     shift, and go to state 7
+    ';'    shift, and go to state 8
+    '{'    shift, and go to state 9
+
+    $end   reduce using rule 1 (program)
+    $end   [reduce using rule 2 (prikaz)]
+    $end   [reduce using rule 3 (prikaz)]
+    $end   [reduce using rule 19 (prikaz_list)]
+    error  [reduce using rule 2 (prikaz)]
+    error  [reduce using rule 3 (prikaz)]
+    error  [reduce using rule 19 (prikaz_list)]
+    PRINT  [reduce using rule 2 (prikaz)]
+    PRINT  [reduce using rule 3 (prikaz)]
+    PRINT  [reduce using rule 19 (prikaz_list)]
+    SCAN   [reduce using rule 2 (prikaz)]
+    SCAN   [reduce using rule 3 (prikaz)]
+    SCAN   [reduce using rule 19 (prikaz_list)]
+    IF     [reduce using rule 2 (prikaz)]
+    IF     [reduce using rule 3 (prikaz)]
+    IF     [reduce using rule 19 (prikaz_list)]
+    FOR    [reduce using rule 2 (prikaz)]
+    FOR    [reduce using rule 3 (prikaz)]
+    FOR    [reduce using rule 19 (prikaz_list)]
+    WHILE  [reduce using rule 2 (prikaz)]
+    WHILE  [reduce using rule 3 (prikaz)]
+    WHILE  [reduce using rule 19 (prikaz_list)]
+    DO     [reduce using rule 2 (prikaz)]
+    DO     [reduce using rule 3 (prikaz)]
+    DO     [reduce using rule 19 (prikaz_list)]
+    ';'    [reduce using rule 2 (prikaz)]
+    ';'    [reduce using rule 3 (prikaz)]
+    ';'    [reduce using rule 19 (prikaz_list)]
+    '{'    [reduce using rule 2 (prikaz)]
+    '{'    [reduce using rule 3 (prikaz)]
+    '{'    [reduce using rule 19 (prikaz_list)]
+
+    prikaz       go to state 21
+    prikaz_list  go to state 24
+
+
+State 12
+
+   15 prikaz: error ';' •
+
+    $default  reduce using rule 15 (prikaz)
+
+
+State 13
+
+   16 prikaz: error '}' •
+
+    $default  reduce using rule 16 (prikaz)
+
+
+State 14
+
+    5 prikaz: PRINT '(' • RETEZ ')' ';'
+    6       | PRINT '(' • RETEZ ',' vyraz ')' ';'
+    7       | PRINT '(' • vyraz ')' ';'
+
+    CISLO       shift, and go to state 25
+    PROMENNA    shift, and go to state 26
+    RETEZ       shift, and go to state 27
+    BIT_NOT     shift, and go to state 28
+    POROVNANI   shift, and go to state 29
+    NENIROVNO   shift, and go to state 30
+    MENSIROVNO  shift, and go to state 31
+    VETSIROVNO  shift, and go to state 32
+    INKREM      shift, and go to state 33
+    '<'         shift, and go to state 34
+    '>'         shift, and go to state 35
+    '-'         shift, and go to state 36
+    '('         shift, and go to state 37
+
+    vyraz  go to state 38
+
+
+State 15
+
+    8 prikaz: SCAN '(' • PROMENNA ')' ';'
+
+    PROMENNA  shift, and go to state 39
+
+
+State 16
+
+   10 prikaz: IF '(' • vyraz ')' prikaz
+   11       | IF '(' • vyraz ')' prikaz ELSE prikaz
+
+    CISLO       shift, and go to state 25
+    PROMENNA    shift, and go to state 26
+    BIT_NOT     shift, and go to state 28
+    POROVNANI   shift, and go to state 29
+    NENIROVNO   shift, and go to state 30
+    MENSIROVNO  shift, and go to state 31
+    VETSIROVNO  shift, and go to state 32
+    INKREM      shift, and go to state 33
+    '<'         shift, and go to state 34
+    '>'         shift, and go to state 35
+    '-'         shift, and go to state 36
+    '('         shift, and go to state 37
+
+    vyraz  go to state 40
+
+
+State 17
+
+   12 prikaz: FOR '(' • vyraz ';' vyraz ';' vyraz ')' prikaz
+
+    CISLO       shift, and go to state 25
+    PROMENNA    shift, and go to state 26
+    BIT_NOT     shift, and go to state 28
+    POROVNANI   shift, and go to state 29
+    NENIROVNO   shift, and go to state 30
+    MENSIROVNO  shift, and go to state 31
+    VETSIROVNO  shift, and go to state 32
+    INKREM      shift, and go to state 33
+    '<'         shift, and go to state 34
+    '>'         shift, and go to state 35
+    '-'         shift, and go to state 36
+    '('         shift, and go to state 37
+
+    vyraz  go to state 41
+
+
+State 18
+
+   13 prikaz: WHILE '(' • vyraz ')' prikaz
+
+    CISLO       shift, and go to state 25
+    PROMENNA    shift, and go to state 26
+    BIT_NOT     shift, and go to state 28
+    POROVNANI   shift, and go to state 29
+    NENIROVNO   shift, and go to state 30
+    MENSIROVNO  shift, and go to state 31
+    VETSIROVNO  shift, and go to state 32
+    INKREM      shift, and go to state 33
+    '<'         shift, and go to state 34
+    '>'         shift, and go to state 35
+    '-'         shift, and go to state 36
+    '('         shift, and go to state 37
+
+    vyraz  go to state 42
+
+
+State 19
+
+    3 prikaz: prikaz •
+    4       | prikaz • prikaz_list
+   14       | DO prikaz • WHILE '(' vyraz ')' ';'
+
+    error  shift, and go to state 1
+    PRINT  shift, and go to state 2
+    SCAN   shift, and go to state 3
+    IF     shift, and go to state 4
+    FOR    shift, and go to state 5
+    WHILE  shift, and go to state 43
+    DO     shift, and go to state 7
+    ';'    shift, and go to state 8
+    '{'    shift, and go to state 9
+
+    error  [reduce using rule 2 (prikaz)]
+    error  [reduce using rule 3 (prikaz)]
+    error  [reduce using rule 19 (prikaz_list)]
+    PRINT  [reduce using rule 2 (prikaz)]
+    PRINT  [reduce using rule 3 (prikaz)]
+    PRINT  [reduce using rule 19 (prikaz_list)]
+    SCAN   [reduce using rule 2 (prikaz)]
+    SCAN   [reduce using rule 3 (prikaz)]
+    SCAN   [reduce using rule 19 (prikaz_list)]
+    IF     [reduce using rule 2 (prikaz)]
+    IF     [reduce using rule 3 (prikaz)]
+    IF     [reduce using rule 19 (prikaz_list)]
+    FOR    [reduce using rule 2 (prikaz)]
+    FOR    [reduce using rule 3 (prikaz)]
+    FOR    [reduce using rule 19 (prikaz_list)]
+    WHILE  [reduce using rule 2 (prikaz)]
+    WHILE  [reduce using rule 3 (prikaz)]
+    WHILE  [reduce using rule 19 (prikaz_list)]
+    DO     [reduce using rule 2 (prikaz)]
+    DO     [reduce using rule 3 (prikaz)]
+    DO     [reduce using rule 19 (prikaz_list)]
+    ';'    [reduce using rule 2 (prikaz)]
+    ';'    [reduce using rule 3 (prikaz)]
+    ';'    [reduce using rule 19 (prikaz_list)]
+    '{'    [reduce using rule 2 (prikaz)]
+    '{'    [reduce using rule 3 (prikaz)]
+    '{'    [reduce using rule 19 (prikaz_list)]
+
+    prikaz       go to state 21
+    prikaz_list  go to state 24
+
+
+State 20
+
+   15 prikaz: error • ';'
+   16       | error • '}'
+   17       | '{' error • '}'
+
+    ';'  shift, and go to state 12
+    '}'  shift, and go to state 44
+
+
+State 21
+
+    3 prikaz: prikaz •
+    4       | prikaz • prikaz_list
+   20 prikaz_list: prikaz •
+
+    error  shift, and go to state 1
+    PRINT  shift, and go to state 2
+    SCAN   shift, and go to state 3
+    IF     shift, and go to state 4
+    FOR    shift, and go to state 5
+    WHILE  shift, and go to state 6
+    DO     shift, and go to state 7
+    ';'    shift, and go to state 8
+    '{'    shift, and go to state 9
+
+    $end   reduce using rule 2 (prikaz)
+    $end   [reduce using rule 3 (prikaz)]
+    $end   [reduce using rule 19 (prikaz_list)]
+    $end   [reduce using rule 20 (prikaz_list)]
+    error  [reduce using rule 2 (prikaz)]
+    error  [reduce using rule 3 (prikaz)]
+    error  [reduce using rule 19 (prikaz_list)]
+    error  [reduce using rule 20 (prikaz_list)]
+    PRINT  [reduce using rule 2 (prikaz)]
+    PRINT  [reduce using rule 3 (prikaz)]
+    PRINT  [reduce using rule 19 (prikaz_list)]
+    PRINT  [reduce using rule 20 (prikaz_list)]
+    SCAN   [reduce using rule 2 (prikaz)]
+    SCAN   [reduce using rule 3 (prikaz)]
+    SCAN   [reduce using rule 19 (prikaz_list)]
+    SCAN   [reduce using rule 20 (prikaz_list)]
+    IF     [reduce using rule 2 (prikaz)]
+    IF     [reduce using rule 3 (prikaz)]
+    IF     [reduce using rule 19 (prikaz_list)]
+    IF     [reduce using rule 20 (prikaz_list)]
+    ELSE   reduce using rule 2 (prikaz)
+    ELSE   [reduce using rule 3 (prikaz)]
+    ELSE   [reduce using rule 19 (prikaz_list)]
+    ELSE   [reduce using rule 20 (prikaz_list)]
+    FOR    [reduce using rule 2 (prikaz)]
+    FOR    [reduce using rule 3 (prikaz)]
+    FOR    [reduce using rule 19 (prikaz_list)]
+    FOR    [reduce using rule 20 (prikaz_list)]
+    WHILE  [reduce using rule 2 (prikaz)]
+    WHILE  [reduce using rule 3 (prikaz)]
+    WHILE  [reduce using rule 19 (prikaz_list)]
+    WHILE  [reduce using rule 20 (prikaz_list)]
+    DO     [reduce using rule 2 (prikaz)]
+    DO     [reduce using rule 3 (prikaz)]
+    DO     [reduce using rule 19 (prikaz_list)]
+    DO     [reduce using rule 20 (prikaz_list)]
+    ';'    [reduce using rule 2 (prikaz)]
+    ';'    [reduce using rule 3 (prikaz)]
+    ';'    [reduce using rule 19 (prikaz_list)]
+    ';'    [reduce using rule 20 (prikaz_list)]
+    '{'    [reduce using rule 2 (prikaz)]
+    '{'    [reduce using rule 3 (prikaz)]
+    '{'    [reduce using rule 19 (prikaz_list)]
+    '{'    [reduce using rule 20 (prikaz_list)]
+    '}'    reduce using rule 2 (prikaz)
+    '}'    [reduce using rule 3 (prikaz)]
+    '}'    [reduce using rule 19 (prikaz_list)]
+    '}'    [reduce using rule 20 (prikaz_list)]
+
+    prikaz       go to state 21
+    prikaz_list  go to state 24
+
+
+State 22
+
+    9 prikaz: '{' prikaz_list • '}'
+   21 prikaz_list: prikaz_list • prikaz
+
+    error  shift, and go to state 1
+    PRINT  shift, and go to state 2
+    SCAN   shift, and go to state 3
+    IF     shift, and go to state 4
+    FOR    shift, and go to state 5
+    WHILE  shift, and go to state 6
+    DO     shift, and go to state 7
+    ';'    shift, and go to state 8
+    '{'    shift, and go to state 9
+    '}'    shift, and go to state 45
+
+    error  [reduce using rule 2 (prikaz)]
+    PRINT  [reduce using rule 2 (prikaz)]
+    SCAN   [reduce using rule 2 (prikaz)]
+    IF     [reduce using rule 2 (prikaz)]
+    FOR    [reduce using rule 2 (prikaz)]
+    WHILE  [reduce using rule 2 (prikaz)]
+    DO     [reduce using rule 2 (prikaz)]
+    ';'    [reduce using rule 2 (prikaz)]
+    '{'    [reduce using rule 2 (prikaz)]
+    '}'    [reduce using rule 2 (prikaz)]
+
+    prikaz  go to state 46
+
+
+State 23
+
+    0 $accept: program $end •
+
+    $default  accept
+
+
+State 24
+
+    4 prikaz: prikaz prikaz_list •
+   21 prikaz_list: prikaz_list • prikaz
+
+    error  shift, and go to state 1
+    PRINT  shift, and go to state 2
+    SCAN   shift, and go to state 3
+    IF     shift, and go to state 4
+    FOR    shift, and go to state 5
+    WHILE  shift, and go to state 6
+    DO     shift, and go to state 7
+    ';'    shift, and go to state 8
+    '{'    shift, and go to state 9
+
+    $end   reduce using rule 2 (prikaz)
+    $end   [reduce using rule 4 (prikaz)]
+    error  [reduce using rule 2 (prikaz)]
+    error  [reduce using rule 4 (prikaz)]
+    PRINT  [reduce using rule 2 (prikaz)]
+    PRINT  [reduce using rule 4 (prikaz)]
+    SCAN   [reduce using rule 2 (prikaz)]
+    SCAN   [reduce using rule 4 (prikaz)]
+    IF     [reduce using rule 2 (prikaz)]
+    IF     [reduce using rule 4 (prikaz)]
+    ELSE   reduce using rule 2 (prikaz)
+    ELSE   [reduce using rule 4 (prikaz)]
+    FOR    [reduce using rule 2 (prikaz)]
+    FOR    [reduce using rule 4 (prikaz)]
+    WHILE  [reduce using rule 2 (prikaz)]
+    WHILE  [reduce using rule 4 (prikaz)]
+    DO     [reduce using rule 2 (prikaz)]
+    DO     [reduce using rule 4 (prikaz)]
+    ';'    [reduce using rule 2 (prikaz)]
+    ';'    [reduce using rule 4 (prikaz)]
+    '{'    [reduce using rule 2 (prikaz)]
+    '{'    [reduce using rule 4 (prikaz)]
+    '}'    reduce using rule 2 (prikaz)
+    '}'    [reduce using rule 4 (prikaz)]
+
+    prikaz  go to state 46
+
+
+State 25
+
+   22 vyraz: CISLO •
+
+    $default  reduce using rule 22 (vyraz)
+
+
+State 26
+
+   23 vyraz: PROMENNA •
+   56      | PROMENNA • INKREM
+   57      | PROMENNA • DEKREM
+
+    INKREM  shift, and go to state 47
+    DEKREM  shift, and go to state 48
+
+    $default  reduce using rule 23 (vyraz)
+
+
+State 27
+
+    5 prikaz: PRINT '(' RETEZ • ')' ';'
+    6       | PRINT '(' RETEZ • ',' vyraz ')' ';'
+
+    ')'  shift, and go to state 49
+    ','  shift, and go to state 50
+
+
+State 28
+
+   54 vyraz: BIT_NOT • vyraz
+
+    CISLO       shift, and go to state 25
+    PROMENNA    shift, and go to state 26
+    BIT_NOT     shift, and go to state 28
+    POROVNANI   shift, and go to state 29
+    NENIROVNO   shift, and go to state 30
+    MENSIROVNO  shift, and go to state 31
+    VETSIROVNO  shift, and go to state 32
+    INKREM      shift, and go to state 33
+    '<'         shift, and go to state 34
+    '>'         shift, and go to state 35
+    '-'         shift, and go to state 36
+    '('         shift, and go to state 37
+
+    vyraz  go to state 51
+
+
+State 29
+
+   49 vyraz: POROVNANI • vyraz
+
+    CISLO       shift, and go to state 25
+    PROMENNA    shift, and go to state 26
+    BIT_NOT     shift, and go to state 28
+    POROVNANI   shift, and go to state 29
+    NENIROVNO   shift, and go to state 30
+    MENSIROVNO  shift, and go to state 31
+    VETSIROVNO  shift, and go to state 32
+    INKREM      shift, and go to state 33
+    '<'         shift, and go to state 34
+    '>'         shift, and go to state 35
+    '-'         shift, and go to state 36
+    '('         shift, and go to state 37
+
+    vyraz  go to state 52
+
+
+State 30
+
+   50 vyraz: NENIROVNO • vyraz
+
+    CISLO       shift, and go to state 25
+    PROMENNA    shift, and go to state 26
+    BIT_NOT     shift, and go to state 28
+    POROVNANI   shift, and go to state 29
+    NENIROVNO   shift, and go to state 30
+    MENSIROVNO  shift, and go to state 31
+    VETSIROVNO  shift, and go to state 32
+    INKREM      shift, and go to state 33
+    '<'         shift, and go to state 34
+    '>'         shift, and go to state 35
+    '-'         shift, and go to state 36
+    '('         shift, and go to state 37
+
+    vyraz  go to state 53
+
+
+State 31
+
+   51 vyraz: MENSIROVNO • vyraz
+
+    CISLO       shift, and go to state 25
+    PROMENNA    shift, and go to state 26
+    BIT_NOT     shift, and go to state 28
+    POROVNANI   shift, and go to state 29
+    NENIROVNO   shift, and go to state 30
+    MENSIROVNO  shift, and go to state 31
+    VETSIROVNO  shift, and go to state 32
+    INKREM      shift, and go to state 33
+    '<'         shift, and go to state 34
+    '>'         shift, and go to state 35
+    '-'         shift, and go to state 36
+    '('         shift, and go to state 37
+
+    vyraz  go to state 54
+
+
+State 32
+
+   52 vyraz: VETSIROVNO • vyraz
+
+    CISLO       shift, and go to state 25
+    PROMENNA    shift, and go to state 26
+    BIT_NOT     shift, and go to state 28
+    POROVNANI   shift, and go to state 29
+    NENIROVNO   shift, and go to state 30
+    MENSIROVNO  shift, and go to state 31
+    VETSIROVNO  shift, and go to state 32
+    INKREM      shift, and go to state 33
+    '<'         shift, and go to state 34
+    '>'         shift, and go to state 35
+    '-'         shift, and go to state 36
+    '('         shift, and go to state 37
+
+    vyraz  go to state 55
+
+
+State 33
+
+   55 vyraz: INKREM • PROMENNA
+
+    PROMENNA  shift, and go to state 56
+
+
+State 34
+
+   47 vyraz: '<' • vyraz
+
+    CISLO       shift, and go to state 25
+    PROMENNA    shift, and go to state 26
+    BIT_NOT     shift, and go to state 28
+    POROVNANI   shift, and go to state 29
+    NENIROVNO   shift, and go to state 30
+    MENSIROVNO  shift, and go to state 31
+    VETSIROVNO  shift, and go to state 32
+    INKREM      shift, and go to state 33
+    '<'         shift, and go to state 34
+    '>'         shift, and go to state 35
+    '-'         shift, and go to state 36
+    '('         shift, and go to state 37
+
+    vyraz  go to state 57
+
+
+State 35
+
+   48 vyraz: '>' • vyraz
+
+    CISLO       shift, and go to state 25
+    PROMENNA    shift, and go to state 26
+    BIT_NOT     shift, and go to state 28
+    POROVNANI   shift, and go to state 29
+    NENIROVNO   shift, and go to state 30
+    MENSIROVNO  shift, and go to state 31
+    VETSIROVNO  shift, and go to state 32
+    INKREM      shift, and go to state 33
+    '<'         shift, and go to state 34
+    '>'         shift, and go to state 35
+    '-'         shift, and go to state 36
+    '('         shift, and go to state 37
+
+    vyraz  go to state 58
+
+
+State 36
+
+   53 vyraz: '-' • vyraz
+
+    CISLO       shift, and go to state 25
+    PROMENNA    shift, and go to state 26
+    BIT_NOT     shift, and go to state 28
+    POROVNANI   shift, and go to state 29
+    NENIROVNO   shift, and go to state 30
+    MENSIROVNO  shift, and go to state 31
+    VETSIROVNO  shift, and go to state 32
+    INKREM      shift, and go to state 33
+    '<'         shift, and go to state 34
+    '>'         shift, and go to state 35
+    '-'         shift, and go to state 36
+    '('         shift, and go to state 37
+
+    vyraz  go to state 59
+
+
+State 37
+
+   58 vyraz: '(' • vyraz ')'
+
+    CISLO       shift, and go to state 25
+    PROMENNA    shift, and go to state 26
+    BIT_NOT     shift, and go to state 28
+    POROVNANI   shift, and go to state 29
+    NENIROVNO   shift, and go to state 30
+    MENSIROVNO  shift, and go to state 31
+    VETSIROVNO  shift, and go to state 32
+    INKREM      shift, and go to state 33
+    '<'         shift, and go to state 34
+    '>'         shift, and go to state 35
+    '-'         shift, and go to state 36
+    '('         shift, and go to state 37
+
+    vyraz  go to state 60
+
+
+State 38
+
+    7 prikaz: PRINT '(' vyraz • ')' ';'
+   24 vyraz: vyraz • '=' vyraz
+   25      | vyraz • ADD_ASSIGN vyraz
+   26      | vyraz • SUB_ASSIGN vyraz
+   27      | vyraz • MUL_ASSIGN vyraz
+   28      | vyraz • DIV_ASSIGN vyraz
+   29      | vyraz • MOD_ASSIGN vyraz
+   30      | vyraz • SHL_ASSIGN vyraz
+   31      | vyraz • SHR_ASSIGN vyraz
+   32      | vyraz • AND_ASSIGN vyraz
+   33      | vyraz • XOR_ASSIGN vyraz
+   34      | vyraz • OR_ASSIGN vyraz
+   35      | vyraz • '+' vyraz
+   36      | vyraz • '-' vyraz
+   37      | vyraz • '*' vyraz
+   38      | vyraz • '/' vyraz
+   39      | vyraz • MOD vyraz
+   40      | vyraz • SHL vyraz
+   41      | vyraz • SHR vyraz
+   42      | vyraz • BIT_AND vyraz
+   43      | vyraz • BIT_OR vyraz
+   44      | vyraz • BIT_XOR vyraz
+   45      | vyraz • AND vyraz
+   46      | vyraz • OR vyraz
+   59      | vyraz • COMMA vyraz
+
+    SHL         shift, and go to state 61
+    SHR         shift, and go to state 62
+    MOD         shift, and go to state 63
+    AND         shift, and go to state 64
+    OR          shift, and go to state 65
+    ADD_ASSIGN  shift, and go to state 66
+    SUB_ASSIGN  shift, and go to state 67
+    MUL_ASSIGN  shift, and go to state 68
+    DIV_ASSIGN  shift, and go to state 69
+    MOD_ASSIGN  shift, and go to state 70
+    SHL_ASSIGN  shift, and go to state 71
+    SHR_ASSIGN  shift, and go to state 72
+    AND_ASSIGN  shift, and go to state 73
+    XOR_ASSIGN  shift, and go to state 74
+    OR_ASSIGN   shift, and go to state 75
+    BIT_AND     shift, and go to state 76
+    BIT_OR      shift, and go to state 77
+    BIT_XOR     shift, and go to state 78
+    COMMA       shift, and go to state 79
+    '='         shift, and go to state 80
+    '+'         shift, and go to state 81
+    '-'         shift, and go to state 82
+    '*'         shift, and go to state 83
+    '/'         shift, and go to state 84
+    ')'         shift, and go to state 85
+
+
+State 39
+
+    8 prikaz: SCAN '(' PROMENNA • ')' ';'
+
+    ')'  shift, and go to state 86
+
+
+State 40
+
+   10 prikaz: IF '(' vyraz • ')' prikaz
+   11       | IF '(' vyraz • ')' prikaz ELSE prikaz
+   24 vyraz: vyraz • '=' vyraz
+   25      | vyraz • ADD_ASSIGN vyraz
+   26      | vyraz • SUB_ASSIGN vyraz
+   27      | vyraz • MUL_ASSIGN vyraz
+   28      | vyraz • DIV_ASSIGN vyraz
+   29      | vyraz • MOD_ASSIGN vyraz
+   30      | vyraz • SHL_ASSIGN vyraz
+   31      | vyraz • SHR_ASSIGN vyraz
+   32      | vyraz • AND_ASSIGN vyraz
+   33      | vyraz • XOR_ASSIGN vyraz
+   34      | vyraz • OR_ASSIGN vyraz
+   35      | vyraz • '+' vyraz
+   36      | vyraz • '-' vyraz
+   37      | vyraz • '*' vyraz
+   38      | vyraz • '/' vyraz
+   39      | vyraz • MOD vyraz
+   40      | vyraz • SHL vyraz
+   41      | vyraz • SHR vyraz
+   42      | vyraz • BIT_AND vyraz
+   43      | vyraz • BIT_OR vyraz
+   44      | vyraz • BIT_XOR vyraz
+   45      | vyraz • AND vyraz
+   46      | vyraz • OR vyraz
+   59      | vyraz • COMMA vyraz
+
+    SHL         shift, and go to state 61
+    SHR         shift, and go to state 62
+    MOD         shift, and go to state 63
+    AND         shift, and go to state 64
+    OR          shift, and go to state 65
+    ADD_ASSIGN  shift, and go to state 66
+    SUB_ASSIGN  shift, and go to state 67
+    MUL_ASSIGN  shift, and go to state 68
+    DIV_ASSIGN  shift, and go to state 69
+    MOD_ASSIGN  shift, and go to state 70
+    SHL_ASSIGN  shift, and go to state 71
+    SHR_ASSIGN  shift, and go to state 72
+    AND_ASSIGN  shift, and go to state 73
+    XOR_ASSIGN  shift, and go to state 74
+    OR_ASSIGN   shift, and go to state 75
+    BIT_AND     shift, and go to state 76
+    BIT_OR      shift, and go to state 77
+    BIT_XOR     shift, and go to state 78
+    COMMA       shift, and go to state 79
+    '='         shift, and go to state 80
+    '+'         shift, and go to state 81
+    '-'         shift, and go to state 82
+    '*'         shift, and go to state 83
+    '/'         shift, and go to state 84
+    ')'         shift, and go to state 87
+
+
+State 41
+
+   12 prikaz: FOR '(' vyraz • ';' vyraz ';' vyraz ')' prikaz
+   24 vyraz: vyraz • '=' vyraz
+   25      | vyraz • ADD_ASSIGN vyraz
+   26      | vyraz • SUB_ASSIGN vyraz
+   27      | vyraz • MUL_ASSIGN vyraz
+   28      | vyraz • DIV_ASSIGN vyraz
+   29      | vyraz • MOD_ASSIGN vyraz
+   30      | vyraz • SHL_ASSIGN vyraz
+   31      | vyraz • SHR_ASSIGN vyraz
+   32      | vyraz • AND_ASSIGN vyraz
+   33      | vyraz • XOR_ASSIGN vyraz
+   34      | vyraz • OR_ASSIGN vyraz
+   35      | vyraz • '+' vyraz
+   36      | vyraz • '-' vyraz
+   37      | vyraz • '*' vyraz
+   38      | vyraz • '/' vyraz
+   39      | vyraz • MOD vyraz
+   40      | vyraz • SHL vyraz
+   41      | vyraz • SHR vyraz
+   42      | vyraz • BIT_AND vyraz
+   43      | vyraz • BIT_OR vyraz
+   44      | vyraz • BIT_XOR vyraz
+   45      | vyraz • AND vyraz
+   46      | vyraz • OR vyraz
+   59      | vyraz • COMMA vyraz
+
+    SHL         shift, and go to state 61
+    SHR         shift, and go to state 62
+    MOD         shift, and go to state 63
+    AND         shift, and go to state 64
+    OR          shift, and go to state 65
+    ADD_ASSIGN  shift, and go to state 66
+    SUB_ASSIGN  shift, and go to state 67
+    MUL_ASSIGN  shift, and go to state 68
+    DIV_ASSIGN  shift, and go to state 69
+    MOD_ASSIGN  shift, and go to state 70
+    SHL_ASSIGN  shift, and go to state 71
+    SHR_ASSIGN  shift, and go to state 72
+    AND_ASSIGN  shift, and go to state 73
+    XOR_ASSIGN  shift, and go to state 74
+    OR_ASSIGN   shift, and go to state 75
+    BIT_AND     shift, and go to state 76
+    BIT_OR      shift, and go to state 77
+    BIT_XOR     shift, and go to state 78
+    COMMA       shift, and go to state 79
+    '='         shift, and go to state 80
+    '+'         shift, and go to state 81
+    '-'         shift, and go to state 82
+    '*'         shift, and go to state 83
+    '/'         shift, and go to state 84
+    ';'         shift, and go to state 88
+
+
+State 42
+
+   13 prikaz: WHILE '(' vyraz • ')' prikaz
+   24 vyraz: vyraz • '=' vyraz
+   25      | vyraz • ADD_ASSIGN vyraz
+   26      | vyraz • SUB_ASSIGN vyraz
+   27      | vyraz • MUL_ASSIGN vyraz
+   28      | vyraz • DIV_ASSIGN vyraz
+   29      | vyraz • MOD_ASSIGN vyraz
+   30      | vyraz • SHL_ASSIGN vyraz
+   31      | vyraz • SHR_ASSIGN vyraz
+   32      | vyraz • AND_ASSIGN vyraz
+   33      | vyraz • XOR_ASSIGN vyraz
+   34      | vyraz • OR_ASSIGN vyraz
+   35      | vyraz • '+' vyraz
+   36      | vyraz • '-' vyraz
+   37      | vyraz • '*' vyraz
+   38      | vyraz • '/' vyraz
+   39      | vyraz • MOD vyraz
+   40      | vyraz • SHL vyraz
+   41      | vyraz • SHR vyraz
+   42      | vyraz • BIT_AND vyraz
+   43      | vyraz • BIT_OR vyraz
+   44      | vyraz • BIT_XOR vyraz
+   45      | vyraz • AND vyraz
+   46      | vyraz • OR vyraz
+   59      | vyraz • COMMA vyraz
+
+    SHL         shift, and go to state 61
+    SHR         shift, and go to state 62
+    MOD         shift, and go to state 63
+    AND         shift, and go to state 64
+    OR          shift, and go to state 65
+    ADD_ASSIGN  shift, and go to state 66
+    SUB_ASSIGN  shift, and go to state 67
+    MUL_ASSIGN  shift, and go to state 68
+    DIV_ASSIGN  shift, and go to state 69
+    MOD_ASSIGN  shift, and go to state 70
+    SHL_ASSIGN  shift, and go to state 71
+    SHR_ASSIGN  shift, and go to state 72
+    AND_ASSIGN  shift, and go to state 73
+    XOR_ASSIGN  shift, and go to state 74
+    OR_ASSIGN   shift, and go to state 75
+    BIT_AND     shift, and go to state 76
+    BIT_OR      shift, and go to state 77
+    BIT_XOR     shift, and go to state 78
+    COMMA       shift, and go to state 79
+    '='         shift, and go to state 80
+    '+'         shift, and go to state 81
+    '-'         shift, and go to state 82
+    '*'         shift, and go to state 83
+    '/'         shift, and go to state 84
+    ')'         shift, and go to state 89
+
+
+State 43
+
+   13 prikaz: WHILE • '(' vyraz ')' prikaz
+   14       | DO prikaz WHILE • '(' vyraz ')' ';'
+
+    '('  shift, and go to state 90
+
+
+State 44
+
+   16 prikaz: error '}' •
+   17       | '{' error '}' •
+
+    $end      reduce using rule 17 (prikaz)
+    error     reduce using rule 16 (prikaz)
+    error     [reduce using rule 17 (prikaz)]
+    PRINT     reduce using rule 16 (prikaz)
+    PRINT     [reduce using rule 17 (prikaz)]
+    SCAN      reduce using rule 16 (prikaz)
+    SCAN      [reduce using rule 17 (prikaz)]
+    IF        reduce using rule 16 (prikaz)
+    IF        [reduce using rule 17 (prikaz)]
+    ELSE      reduce using rule 17 (prikaz)
+    FOR       reduce using rule 16 (prikaz)
+    FOR       [reduce using rule 17 (prikaz)]
+    WHILE     reduce using rule 16 (prikaz)
+    WHILE     [reduce using rule 17 (prikaz)]
+    DO        reduce using rule 16 (prikaz)
+    DO        [reduce using rule 17 (prikaz)]
+    ';'       reduce using rule 16 (prikaz)
+    ';'       [reduce using rule 17 (prikaz)]
+    '{'       reduce using rule 16 (prikaz)
+    '{'       [reduce using rule 17 (prikaz)]
+    '}'       reduce using rule 16 (prikaz)
+    '}'       [reduce using rule 17 (prikaz)]
+    $default  reduce using rule 16 (prikaz)
+
+
+State 45
+
+    9 prikaz: '{' prikaz_list '}' •
+
+    $default  reduce using rule 9 (prikaz)
+
+
+State 46
+
+    3 prikaz: prikaz •
+    4       | prikaz • prikaz_list
+   21 prikaz_list: prikaz_list prikaz •
+
+    error  shift, and go to state 1
+    PRINT  shift, and go to state 2
+    SCAN   shift, and go to state 3
+    IF     shift, and go to state 4
+    FOR    shift, and go to state 5
+    WHILE  shift, and go to state 6
+    DO     shift, and go to state 7
+    ';'    shift, and go to state 8
+    '{'    shift, and go to state 9
+
+    $end   reduce using rule 2 (prikaz)
+    $end   [reduce using rule 3 (prikaz)]
+    $end   [reduce using rule 19 (prikaz_list)]
+    $end   [reduce using rule 21 (prikaz_list)]
+    error  [reduce using rule 2 (prikaz)]
+    error  [reduce using rule 3 (prikaz)]
+    error  [reduce using rule 19 (prikaz_list)]
+    error  [reduce using rule 21 (prikaz_list)]
+    PRINT  [reduce using rule 2 (prikaz)]
+    PRINT  [reduce using rule 3 (prikaz)]
+    PRINT  [reduce using rule 19 (prikaz_list)]
+    PRINT  [reduce using rule 21 (prikaz_list)]
+    SCAN   [reduce using rule 2 (prikaz)]
+    SCAN   [reduce using rule 3 (prikaz)]
+    SCAN   [reduce using rule 19 (prikaz_list)]
+    SCAN   [reduce using rule 21 (prikaz_list)]
+    IF     [reduce using rule 2 (prikaz)]
+    IF     [reduce using rule 3 (prikaz)]
+    IF     [reduce using rule 19 (prikaz_list)]
+    IF     [reduce using rule 21 (prikaz_list)]
+    ELSE   reduce using rule 2 (prikaz)
+    ELSE   [reduce using rule 3 (prikaz)]
+    ELSE   [reduce using rule 19 (prikaz_list)]
+    ELSE   [reduce using rule 21 (prikaz_list)]
+    FOR    [reduce using rule 2 (prikaz)]
+    FOR    [reduce using rule 3 (prikaz)]
+    FOR    [reduce using rule 19 (prikaz_list)]
+    FOR    [reduce using rule 21 (prikaz_list)]
+    WHILE  [reduce using rule 2 (prikaz)]
+    WHILE  [reduce using rule 3 (prikaz)]
+    WHILE  [reduce using rule 19 (prikaz_list)]
+    WHILE  [reduce using rule 21 (prikaz_list)]
+    DO     [reduce using rule 2 (prikaz)]
+    DO     [reduce using rule 3 (prikaz)]
+    DO     [reduce using rule 19 (prikaz_list)]
+    DO     [reduce using rule 21 (prikaz_list)]
+    ';'    [reduce using rule 2 (prikaz)]
+    ';'    [reduce using rule 3 (prikaz)]
+    ';'    [reduce using rule 19 (prikaz_list)]
+    ';'    [reduce using rule 21 (prikaz_list)]
+    '{'    [reduce using rule 2 (prikaz)]
+    '{'    [reduce using rule 3 (prikaz)]
+    '{'    [reduce using rule 19 (prikaz_list)]
+    '{'    [reduce using rule 21 (prikaz_list)]
+    '}'    reduce using rule 2 (prikaz)
+    '}'    [reduce using rule 3 (prikaz)]
+    '}'    [reduce using rule 19 (prikaz_list)]
+    '}'    [reduce using rule 21 (prikaz_list)]
+
+    prikaz       go to state 21
+    prikaz_list  go to state 24
+
+
+State 47
+
+   56 vyraz: PROMENNA INKREM •
+
+    $default  reduce using rule 56 (vyraz)
+
+
+State 48
+
+   57 vyraz: PROMENNA DEKREM •
+
+    $default  reduce using rule 57 (vyraz)
+
+
+State 49
+
+    5 prikaz: PRINT '(' RETEZ ')' • ';'
+
+    ';'  shift, and go to state 91
+
+
+State 50
+
+    6 prikaz: PRINT '(' RETEZ ',' • vyraz ')' ';'
+
+    CISLO       shift, and go to state 25
+    PROMENNA    shift, and go to state 26
+    BIT_NOT     shift, and go to state 28
+    POROVNANI   shift, and go to state 29
+    NENIROVNO   shift, and go to state 30
+    MENSIROVNO  shift, and go to state 31
+    VETSIROVNO  shift, and go to state 32
+    INKREM      shift, and go to state 33
+    '<'         shift, and go to state 34
+    '>'         shift, and go to state 35
+    '-'         shift, and go to state 36
+    '('         shift, and go to state 37
+
+    vyraz  go to state 92
+
+
+State 51
+
+   24 vyraz: vyraz • '=' vyraz
+   25      | vyraz • ADD_ASSIGN vyraz
+   26      | vyraz • SUB_ASSIGN vyraz
+   27      | vyraz • MUL_ASSIGN vyraz
+   28      | vyraz • DIV_ASSIGN vyraz
+   29      | vyraz • MOD_ASSIGN vyraz
+   30      | vyraz • SHL_ASSIGN vyraz
+   31      | vyraz • SHR_ASSIGN vyraz
+   32      | vyraz • AND_ASSIGN vyraz
+   33      | vyraz • XOR_ASSIGN vyraz
+   34      | vyraz • OR_ASSIGN vyraz
+   35      | vyraz • '+' vyraz
+   36      | vyraz • '-' vyraz
+   37      | vyraz • '*' vyraz
+   38      | vyraz • '/' vyraz
+   39      | vyraz • MOD vyraz
+   40      | vyraz • SHL vyraz
+   41      | vyraz • SHR vyraz
+   42      | vyraz • BIT_AND vyraz
+   43      | vyraz • BIT_OR vyraz
+   44      | vyraz • BIT_XOR vyraz
+   45      | vyraz • AND vyraz
+   46      | vyraz • OR vyraz
+   54      | BIT_NOT vyraz •
+   59      | vyraz • COMMA vyraz
+
+    COMMA  shift, and go to state 79
+
+    $default  reduce using rule 54 (vyraz)
+
+
+State 52
+
+   24 vyraz: vyraz • '=' vyraz
+   25      | vyraz • ADD_ASSIGN vyraz
+   26      | vyraz • SUB_ASSIGN vyraz
+   27      | vyraz • MUL_ASSIGN vyraz
+   28      | vyraz • DIV_ASSIGN vyraz
+   29      | vyraz • MOD_ASSIGN vyraz
+   30      | vyraz • SHL_ASSIGN vyraz
+   31      | vyraz • SHR_ASSIGN vyraz
+   32      | vyraz • AND_ASSIGN vyraz
+   33      | vyraz • XOR_ASSIGN vyraz
+   34      | vyraz • OR_ASSIGN vyraz
+   35      | vyraz • '+' vyraz
+   36      | vyraz • '-' vyraz
+   37      | vyraz • '*' vyraz
+   38      | vyraz • '/' vyraz
+   39      | vyraz • MOD vyraz
+   40      | vyraz • SHL vyraz
+   41      | vyraz • SHR vyraz
+   42      | vyraz • BIT_AND vyraz
+   43      | vyraz • BIT_OR vyraz
+   44      | vyraz • BIT_XOR vyraz
+   45      | vyraz • AND vyraz
+   46      | vyraz • OR vyraz
+   49      | POROVNANI vyraz •
+   59      | vyraz • COMMA vyraz
+
+    SHL    shift, and go to state 61
+    SHR    shift, and go to state 62
+    MOD    shift, and go to state 63
+    COMMA  shift, and go to state 79
+    '+'    shift, and go to state 81
+    '-'    shift, and go to state 82
+    '*'    shift, and go to state 83
+    '/'    shift, and go to state 84
+
+    $default  reduce using rule 49 (vyraz)
+
+
+State 53
+
+   24 vyraz: vyraz • '=' vyraz
+   25      | vyraz • ADD_ASSIGN vyraz
+   26      | vyraz • SUB_ASSIGN vyraz
+   27      | vyraz • MUL_ASSIGN vyraz
+   28      | vyraz • DIV_ASSIGN vyraz
+   29      | vyraz • MOD_ASSIGN vyraz
+   30      | vyraz • SHL_ASSIGN vyraz
+   31      | vyraz • SHR_ASSIGN vyraz
+   32      | vyraz • AND_ASSIGN vyraz
+   33      | vyraz • XOR_ASSIGN vyraz
+   34      | vyraz • OR_ASSIGN vyraz
+   35      | vyraz • '+' vyraz
+   36      | vyraz • '-' vyraz
+   37      | vyraz • '*' vyraz
+   38      | vyraz • '/' vyraz
+   39      | vyraz • MOD vyraz
+   40      | vyraz • SHL vyraz
+   41      | vyraz • SHR vyraz
+   42      | vyraz • BIT_AND vyraz
+   43      | vyraz • BIT_OR vyraz
+   44      | vyraz • BIT_XOR vyraz
+   45      | vyraz • AND vyraz
+   46      | vyraz • OR vyraz
+   50      | NENIROVNO vyraz •
+   59      | vyraz • COMMA vyraz
+
+    SHL    shift, and go to state 61
+    SHR    shift, and go to state 62
+    MOD    shift, and go to state 63
+    COMMA  shift, and go to state 79
+    '+'    shift, and go to state 81
+    '-'    shift, and go to state 82
+    '*'    shift, and go to state 83
+    '/'    shift, and go to state 84
+
+    $default  reduce using rule 50 (vyraz)
+
+
+State 54
+
+   24 vyraz: vyraz • '=' vyraz
+   25      | vyraz • ADD_ASSIGN vyraz
+   26      | vyraz • SUB_ASSIGN vyraz
+   27      | vyraz • MUL_ASSIGN vyraz
+   28      | vyraz • DIV_ASSIGN vyraz
+   29      | vyraz • MOD_ASSIGN vyraz
+   30      | vyraz • SHL_ASSIGN vyraz
+   31      | vyraz • SHR_ASSIGN vyraz
+   32      | vyraz • AND_ASSIGN vyraz
+   33      | vyraz • XOR_ASSIGN vyraz
+   34      | vyraz • OR_ASSIGN vyraz
+   35      | vyraz • '+' vyraz
+   36      | vyraz • '-' vyraz
+   37      | vyraz • '*' vyraz
+   38      | vyraz • '/' vyraz
+   39      | vyraz • MOD vyraz
+   40      | vyraz • SHL vyraz
+   41      | vyraz • SHR vyraz
+   42      | vyraz • BIT_AND vyraz
+   43      | vyraz • BIT_OR vyraz
+   44      | vyraz • BIT_XOR vyraz
+   45      | vyraz • AND vyraz
+   46      | vyraz • OR vyraz
+   51      | MENSIROVNO vyraz •
+   59      | vyraz • COMMA vyraz
+
+    SHL    shift, and go to state 61
+    SHR    shift, and go to state 62
+    MOD    shift, and go to state 63
+    COMMA  shift, and go to state 79
+    '+'    shift, and go to state 81
+    '-'    shift, and go to state 82
+    '*'    shift, and go to state 83
+    '/'    shift, and go to state 84
+
+    $default  reduce using rule 51 (vyraz)
+
+
+State 55
+
+   24 vyraz: vyraz • '=' vyraz
+   25      | vyraz • ADD_ASSIGN vyraz
+   26      | vyraz • SUB_ASSIGN vyraz
+   27      | vyraz • MUL_ASSIGN vyraz
+   28      | vyraz • DIV_ASSIGN vyraz
+   29      | vyraz • MOD_ASSIGN vyraz
+   30      | vyraz • SHL_ASSIGN vyraz
+   31      | vyraz • SHR_ASSIGN vyraz
+   32      | vyraz • AND_ASSIGN vyraz
+   33      | vyraz • XOR_ASSIGN vyraz
+   34      | vyraz • OR_ASSIGN vyraz
+   35      | vyraz • '+' vyraz
+   36      | vyraz • '-' vyraz
+   37      | vyraz • '*' vyraz
+   38      | vyraz • '/' vyraz
+   39      | vyraz • MOD vyraz
+   40      | vyraz • SHL vyraz
+   41      | vyraz • SHR vyraz
+   42      | vyraz • BIT_AND vyraz
+   43      | vyraz • BIT_OR vyraz
+   44      | vyraz • BIT_XOR vyraz
+   45      | vyraz • AND vyraz
+   46      | vyraz • OR vyraz
+   52      | VETSIROVNO vyraz •
+   59      | vyraz • COMMA vyraz
+
+    SHL    shift, and go to state 61
+    SHR    shift, and go to state 62
+    MOD    shift, and go to state 63
+    COMMA  shift, and go to state 79
+    '+'    shift, and go to state 81
+    '-'    shift, and go to state 82
+    '*'    shift, and go to state 83
+    '/'    shift, and go to state 84
+
+    $default  reduce using rule 52 (vyraz)
+
+
+State 56
+
+   55 vyraz: INKREM PROMENNA •
+
+    $default  reduce using rule 55 (vyraz)
+
+
+State 57
+
+   24 vyraz: vyraz • '=' vyraz
+   25      | vyraz • ADD_ASSIGN vyraz
+   26      | vyraz • SUB_ASSIGN vyraz
+   27      | vyraz • MUL_ASSIGN vyraz
+   28      | vyraz • DIV_ASSIGN vyraz
+   29      | vyraz • MOD_ASSIGN vyraz
+   30      | vyraz • SHL_ASSIGN vyraz
+   31      | vyraz • SHR_ASSIGN vyraz
+   32      | vyraz • AND_ASSIGN vyraz
+   33      | vyraz • XOR_ASSIGN vyraz
+   34      | vyraz • OR_ASSIGN vyraz
+   35      | vyraz • '+' vyraz
+   36      | vyraz • '-' vyraz
+   37      | vyraz • '*' vyraz
+   38      | vyraz • '/' vyraz
+   39      | vyraz • MOD vyraz
+   40      | vyraz • SHL vyraz
+   41      | vyraz • SHR vyraz
+   42      | vyraz • BIT_AND vyraz
+   43      | vyraz • BIT_OR vyraz
+   44      | vyraz • BIT_XOR vyraz
+   45      | vyraz • AND vyraz
+   46      | vyraz • OR vyraz
+   47      | '<' vyraz •
+   59      | vyraz • COMMA vyraz
+
+    SHL    shift, and go to state 61
+    SHR    shift, and go to state 62
+    MOD    shift, and go to state 63
+    COMMA  shift, and go to state 79
+    '+'    shift, and go to state 81
+    '-'    shift, and go to state 82
+    '*'    shift, and go to state 83
+    '/'    shift, and go to state 84
+
+    $default  reduce using rule 47 (vyraz)
+
+
+State 58
+
+   24 vyraz: vyraz • '=' vyraz
+   25      | vyraz • ADD_ASSIGN vyraz
+   26      | vyraz • SUB_ASSIGN vyraz
+   27      | vyraz • MUL_ASSIGN vyraz
+   28      | vyraz • DIV_ASSIGN vyraz
+   29      | vyraz • MOD_ASSIGN vyraz
+   30      | vyraz • SHL_ASSIGN vyraz
+   31      | vyraz • SHR_ASSIGN vyraz
+   32      | vyraz • AND_ASSIGN vyraz
+   33      | vyraz • XOR_ASSIGN vyraz
+   34      | vyraz • OR_ASSIGN vyraz
+   35      | vyraz • '+' vyraz
+   36      | vyraz • '-' vyraz
+   37      | vyraz • '*' vyraz
+   38      | vyraz • '/' vyraz
+   39      | vyraz • MOD vyraz
+   40      | vyraz • SHL vyraz
+   41      | vyraz • SHR vyraz
+   42      | vyraz • BIT_AND vyraz
+   43      | vyraz • BIT_OR vyraz
+   44      | vyraz • BIT_XOR vyraz
+   45      | vyraz • AND vyraz
+   46      | vyraz • OR vyraz
+   48      | '>' vyraz •
+   59      | vyraz • COMMA vyraz
+
+    SHL    shift, and go to state 61
+    SHR    shift, and go to state 62
+    MOD    shift, and go to state 63
+    COMMA  shift, and go to state 79
+    '+'    shift, and go to state 81
+    '-'    shift, and go to state 82
+    '*'    shift, and go to state 83
+    '/'    shift, and go to state 84
+
+    $default  reduce using rule 48 (vyraz)
+
+
+State 59
+
+   24 vyraz: vyraz • '=' vyraz
+   25      | vyraz • ADD_ASSIGN vyraz
+   26      | vyraz • SUB_ASSIGN vyraz
+   27      | vyraz • MUL_ASSIGN vyraz
+   28      | vyraz • DIV_ASSIGN vyraz
+   29      | vyraz • MOD_ASSIGN vyraz
+   30      | vyraz • SHL_ASSIGN vyraz
+   31      | vyraz • SHR_ASSIGN vyraz
+   32      | vyraz • AND_ASSIGN vyraz
+   33      | vyraz • XOR_ASSIGN vyraz
+   34      | vyraz • OR_ASSIGN vyraz
+   35      | vyraz • '+' vyraz
+   36      | vyraz • '-' vyraz
+   37      | vyraz • '*' vyraz
+   38      | vyraz • '/' vyraz
+   39      | vyraz • MOD vyraz
+   40      | vyraz • SHL vyraz
+   41      | vyraz • SHR vyraz
+   42      | vyraz • BIT_AND vyraz
+   43      | vyraz • BIT_OR vyraz
+   44      | vyraz • BIT_XOR vyraz
+   45      | vyraz • AND vyraz
+   46      | vyraz • OR vyraz
+   53      | '-' vyraz •
+   59      | vyraz • COMMA vyraz
+
+    COMMA  shift, and go to state 79
+
+    $default  reduce using rule 53 (vyraz)
+
+
+State 60
+
+   24 vyraz: vyraz • '=' vyraz
+   25      | vyraz • ADD_ASSIGN vyraz
+   26      | vyraz • SUB_ASSIGN vyraz
+   27      | vyraz • MUL_ASSIGN vyraz
+   28      | vyraz • DIV_ASSIGN vyraz
+   29      | vyraz • MOD_ASSIGN vyraz
+   30      | vyraz • SHL_ASSIGN vyraz
+   31      | vyraz • SHR_ASSIGN vyraz
+   32      | vyraz • AND_ASSIGN vyraz
+   33      | vyraz • XOR_ASSIGN vyraz
+   34      | vyraz • OR_ASSIGN vyraz
+   35      | vyraz • '+' vyraz
+   36      | vyraz • '-' vyraz
+   37      | vyraz • '*' vyraz
+   38      | vyraz • '/' vyraz
+   39      | vyraz • MOD vyraz
+   40      | vyraz • SHL vyraz
+   41      | vyraz • SHR vyraz
+   42      | vyraz • BIT_AND vyraz
+   43      | vyraz • BIT_OR vyraz
+   44      | vyraz • BIT_XOR vyraz
+   45      | vyraz • AND vyraz
+   46      | vyraz • OR vyraz
+   58      | '(' vyraz • ')'
+   59      | vyraz • COMMA vyraz
+
+    SHL         shift, and go to state 61
+    SHR         shift, and go to state 62
+    MOD         shift, and go to state 63
+    AND         shift, and go to state 64
+    OR          shift, and go to state 65
+    ADD_ASSIGN  shift, and go to state 66
+    SUB_ASSIGN  shift, and go to state 67
+    MUL_ASSIGN  shift, and go to state 68
+    DIV_ASSIGN  shift, and go to state 69
+    MOD_ASSIGN  shift, and go to state 70
+    SHL_ASSIGN  shift, and go to state 71
+    SHR_ASSIGN  shift, and go to state 72
+    AND_ASSIGN  shift, and go to state 73
+    XOR_ASSIGN  shift, and go to state 74
+    OR_ASSIGN   shift, and go to state 75
+    BIT_AND     shift, and go to state 76
+    BIT_OR      shift, and go to state 77
+    BIT_XOR     shift, and go to state 78
+    COMMA       shift, and go to state 79
+    '='         shift, and go to state 80
+    '+'         shift, and go to state 81
+    '-'         shift, and go to state 82
+    '*'         shift, and go to state 83
+    '/'         shift, and go to state 84
+    ')'         shift, and go to state 93
+
+
+State 61
+
+   40 vyraz: vyraz SHL • vyraz
+
+    CISLO       shift, and go to state 25
+    PROMENNA    shift, and go to state 26
+    BIT_NOT     shift, and go to state 28
+    POROVNANI   shift, and go to state 29
+    NENIROVNO   shift, and go to state 30
+    MENSIROVNO  shift, and go to state 31
+    VETSIROVNO  shift, and go to state 32
+    INKREM      shift, and go to state 33
+    '<'         shift, and go to state 34
+    '>'         shift, and go to state 35
+    '-'         shift, and go to state 36
+    '('         shift, and go to state 37
+
+    vyraz  go to state 94
+
+
+State 62
+
+   41 vyraz: vyraz SHR • vyraz
+
+    CISLO       shift, and go to state 25
+    PROMENNA    shift, and go to state 26
+    BIT_NOT     shift, and go to state 28
+    POROVNANI   shift, and go to state 29
+    NENIROVNO   shift, and go to state 30
+    MENSIROVNO  shift, and go to state 31
+    VETSIROVNO  shift, and go to state 32
+    INKREM      shift, and go to state 33
+    '<'         shift, and go to state 34
+    '>'         shift, and go to state 35
+    '-'         shift, and go to state 36
+    '('         shift, and go to state 37
+
+    vyraz  go to state 95
+
+
+State 63
+
+   39 vyraz: vyraz MOD • vyraz
+
+    CISLO       shift, and go to state 25
+    PROMENNA    shift, and go to state 26
+    BIT_NOT     shift, and go to state 28
+    POROVNANI   shift, and go to state 29
+    NENIROVNO   shift, and go to state 30
+    MENSIROVNO  shift, and go to state 31
+    VETSIROVNO  shift, and go to state 32
+    INKREM      shift, and go to state 33
+    '<'         shift, and go to state 34
+    '>'         shift, and go to state 35
+    '-'         shift, and go to state 36
+    '('         shift, and go to state 37
+
+    vyraz  go to state 96
+
+
+State 64
+
+   45 vyraz: vyraz AND • vyraz
+
+    CISLO       shift, and go to state 25
+    PROMENNA    shift, and go to state 26
+    BIT_NOT     shift, and go to state 28
+    POROVNANI   shift, and go to state 29
+    NENIROVNO   shift, and go to state 30
+    MENSIROVNO  shift, and go to state 31
+    VETSIROVNO  shift, and go to state 32
+    INKREM      shift, and go to state 33
+    '<'         shift, and go to state 34
+    '>'         shift, and go to state 35
+    '-'         shift, and go to state 36
+    '('         shift, and go to state 37
+
+    vyraz  go to state 97
+
+
+State 65
+
+   46 vyraz: vyraz OR • vyraz
+
+    CISLO       shift, and go to state 25
+    PROMENNA    shift, and go to state 26
+    BIT_NOT     shift, and go to state 28
+    POROVNANI   shift, and go to state 29
+    NENIROVNO   shift, and go to state 30
+    MENSIROVNO  shift, and go to state 31
+    VETSIROVNO  shift, and go to state 32
+    INKREM      shift, and go to state 33
+    '<'         shift, and go to state 34
+    '>'         shift, and go to state 35
+    '-'         shift, and go to state 36
+    '('         shift, and go to state 37
+
+    vyraz  go to state 98
+
+
+State 66
+
+   25 vyraz: vyraz ADD_ASSIGN • vyraz
+
+    CISLO       shift, and go to state 25
+    PROMENNA    shift, and go to state 26
+    BIT_NOT     shift, and go to state 28
+    POROVNANI   shift, and go to state 29
+    NENIROVNO   shift, and go to state 30
+    MENSIROVNO  shift, and go to state 31
+    VETSIROVNO  shift, and go to state 32
+    INKREM      shift, and go to state 33
+    '<'         shift, and go to state 34
+    '>'         shift, and go to state 35
+    '-'         shift, and go to state 36
+    '('         shift, and go to state 37
+
+    vyraz  go to state 99
+
+
+State 67
+
+   26 vyraz: vyraz SUB_ASSIGN • vyraz
+
+    CISLO       shift, and go to state 25
+    PROMENNA    shift, and go to state 26
+    BIT_NOT     shift, and go to state 28
+    POROVNANI   shift, and go to state 29
+    NENIROVNO   shift, and go to state 30
+    MENSIROVNO  shift, and go to state 31
+    VETSIROVNO  shift, and go to state 32
+    INKREM      shift, and go to state 33
+    '<'         shift, and go to state 34
+    '>'         shift, and go to state 35
+    '-'         shift, and go to state 36
+    '('         shift, and go to state 37
+
+    vyraz  go to state 100
+
+
+State 68
+
+   27 vyraz: vyraz MUL_ASSIGN • vyraz
+
+    CISLO       shift, and go to state 25
+    PROMENNA    shift, and go to state 26
+    BIT_NOT     shift, and go to state 28
+    POROVNANI   shift, and go to state 29
+    NENIROVNO   shift, and go to state 30
+    MENSIROVNO  shift, and go to state 31
+    VETSIROVNO  shift, and go to state 32
+    INKREM      shift, and go to state 33
+    '<'         shift, and go to state 34
+    '>'         shift, and go to state 35
+    '-'         shift, and go to state 36
+    '('         shift, and go to state 37
+
+    vyraz  go to state 101
+
+
+State 69
+
+   28 vyraz: vyraz DIV_ASSIGN • vyraz
+
+    CISLO       shift, and go to state 25
+    PROMENNA    shift, and go to state 26
+    BIT_NOT     shift, and go to state 28
+    POROVNANI   shift, and go to state 29
+    NENIROVNO   shift, and go to state 30
+    MENSIROVNO  shift, and go to state 31
+    VETSIROVNO  shift, and go to state 32
+    INKREM      shift, and go to state 33
+    '<'         shift, and go to state 34
+    '>'         shift, and go to state 35
+    '-'         shift, and go to state 36
+    '('         shift, and go to state 37
+
+    vyraz  go to state 102
+
+
+State 70
+
+   29 vyraz: vyraz MOD_ASSIGN • vyraz
+
+    CISLO       shift, and go to state 25
+    PROMENNA    shift, and go to state 26
+    BIT_NOT     shift, and go to state 28
+    POROVNANI   shift, and go to state 29
+    NENIROVNO   shift, and go to state 30
+    MENSIROVNO  shift, and go to state 31
+    VETSIROVNO  shift, and go to state 32
+    INKREM      shift, and go to state 33
+    '<'         shift, and go to state 34
+    '>'         shift, and go to state 35
+    '-'         shift, and go to state 36
+    '('         shift, and go to state 37
+
+    vyraz  go to state 103
+
+
+State 71
+
+   30 vyraz: vyraz SHL_ASSIGN • vyraz
+
+    CISLO       shift, and go to state 25
+    PROMENNA    shift, and go to state 26
+    BIT_NOT     shift, and go to state 28
+    POROVNANI   shift, and go to state 29
+    NENIROVNO   shift, and go to state 30
+    MENSIROVNO  shift, and go to state 31
+    VETSIROVNO  shift, and go to state 32
+    INKREM      shift, and go to state 33
+    '<'         shift, and go to state 34
+    '>'         shift, and go to state 35
+    '-'         shift, and go to state 36
+    '('         shift, and go to state 37
+
+    vyraz  go to state 104
+
+
+State 72
+
+   31 vyraz: vyraz SHR_ASSIGN • vyraz
+
+    CISLO       shift, and go to state 25
+    PROMENNA    shift, and go to state 26
+    BIT_NOT     shift, and go to state 28
+    POROVNANI   shift, and go to state 29
+    NENIROVNO   shift, and go to state 30
+    MENSIROVNO  shift, and go to state 31
+    VETSIROVNO  shift, and go to state 32
+    INKREM      shift, and go to state 33
+    '<'         shift, and go to state 34
+    '>'         shift, and go to state 35
+    '-'         shift, and go to state 36
+    '('         shift, and go to state 37
+
+    vyraz  go to state 105
+
+
+State 73
+
+   32 vyraz: vyraz AND_ASSIGN • vyraz
+
+    CISLO       shift, and go to state 25
+    PROMENNA    shift, and go to state 26
+    BIT_NOT     shift, and go to state 28
+    POROVNANI   shift, and go to state 29
+    NENIROVNO   shift, and go to state 30
+    MENSIROVNO  shift, and go to state 31
+    VETSIROVNO  shift, and go to state 32
+    INKREM      shift, and go to state 33
+    '<'         shift, and go to state 34
+    '>'         shift, and go to state 35
+    '-'         shift, and go to state 36
+    '('         shift, and go to state 37
+
+    vyraz  go to state 106
+
+
+State 74
+
+   33 vyraz: vyraz XOR_ASSIGN • vyraz
+
+    CISLO       shift, and go to state 25
+    PROMENNA    shift, and go to state 26
+    BIT_NOT     shift, and go to state 28
+    POROVNANI   shift, and go to state 29
+    NENIROVNO   shift, and go to state 30
+    MENSIROVNO  shift, and go to state 31
+    VETSIROVNO  shift, and go to state 32
+    INKREM      shift, and go to state 33
+    '<'         shift, and go to state 34
+    '>'         shift, and go to state 35
+    '-'         shift, and go to state 36
+    '('         shift, and go to state 37
+
+    vyraz  go to state 107
+
+
+State 75
+
+   34 vyraz: vyraz OR_ASSIGN • vyraz
+
+    CISLO       shift, and go to state 25
+    PROMENNA    shift, and go to state 26
+    BIT_NOT     shift, and go to state 28
+    POROVNANI   shift, and go to state 29
+    NENIROVNO   shift, and go to state 30
+    MENSIROVNO  shift, and go to state 31
+    VETSIROVNO  shift, and go to state 32
+    INKREM      shift, and go to state 33
+    '<'         shift, and go to state 34
+    '>'         shift, and go to state 35
+    '-'         shift, and go to state 36
+    '('         shift, and go to state 37
+
+    vyraz  go to state 108
+
+
+State 76
+
+   42 vyraz: vyraz BIT_AND • vyraz
+
+    CISLO       shift, and go to state 25
+    PROMENNA    shift, and go to state 26
+    BIT_NOT     shift, and go to state 28
+    POROVNANI   shift, and go to state 29
+    NENIROVNO   shift, and go to state 30
+    MENSIROVNO  shift, and go to state 31
+    VETSIROVNO  shift, and go to state 32
+    INKREM      shift, and go to state 33
+    '<'         shift, and go to state 34
+    '>'         shift, and go to state 35
+    '-'         shift, and go to state 36
+    '('         shift, and go to state 37
+
+    vyraz  go to state 109
+
+
+State 77
+
+   43 vyraz: vyraz BIT_OR • vyraz
+
+    CISLO       shift, and go to state 25
+    PROMENNA    shift, and go to state 26
+    BIT_NOT     shift, and go to state 28
+    POROVNANI   shift, and go to state 29
+    NENIROVNO   shift, and go to state 30
+    MENSIROVNO  shift, and go to state 31
+    VETSIROVNO  shift, and go to state 32
+    INKREM      shift, and go to state 33
+    '<'         shift, and go to state 34
+    '>'         shift, and go to state 35
+    '-'         shift, and go to state 36
+    '('         shift, and go to state 37
+
+    vyraz  go to state 110
+
+
+State 78
+
+   44 vyraz: vyraz BIT_XOR • vyraz
+
+    CISLO       shift, and go to state 25
+    PROMENNA    shift, and go to state 26
+    BIT_NOT     shift, and go to state 28
+    POROVNANI   shift, and go to state 29
+    NENIROVNO   shift, and go to state 30
+    MENSIROVNO  shift, and go to state 31
+    VETSIROVNO  shift, and go to state 32
+    INKREM      shift, and go to state 33
+    '<'         shift, and go to state 34
+    '>'         shift, and go to state 35
+    '-'         shift, and go to state 36
+    '('         shift, and go to state 37
+
+    vyraz  go to state 111
+
+
+State 79
+
+   59 vyraz: vyraz COMMA • vyraz
+
+    CISLO       shift, and go to state 25
+    PROMENNA    shift, and go to state 26
+    BIT_NOT     shift, and go to state 28
+    POROVNANI   shift, and go to state 29
+    NENIROVNO   shift, and go to state 30
+    MENSIROVNO  shift, and go to state 31
+    VETSIROVNO  shift, and go to state 32
+    INKREM      shift, and go to state 33
+    '<'         shift, and go to state 34
+    '>'         shift, and go to state 35
+    '-'         shift, and go to state 36
+    '('         shift, and go to state 37
+
+    vyraz  go to state 112
+
+
+State 80
+
+   24 vyraz: vyraz '=' • vyraz
+
+    CISLO       shift, and go to state 25
+    PROMENNA    shift, and go to state 26
+    BIT_NOT     shift, and go to state 28
+    POROVNANI   shift, and go to state 29
+    NENIROVNO   shift, and go to state 30
+    MENSIROVNO  shift, and go to state 31
+    VETSIROVNO  shift, and go to state 32
+    INKREM      shift, and go to state 33
+    '<'         shift, and go to state 34
+    '>'         shift, and go to state 35
+    '-'         shift, and go to state 36
+    '('         shift, and go to state 37
+
+    vyraz  go to state 113
+
+
+State 81
+
+   35 vyraz: vyraz '+' • vyraz
+
+    CISLO       shift, and go to state 25
+    PROMENNA    shift, and go to state 26
+    BIT_NOT     shift, and go to state 28
+    POROVNANI   shift, and go to state 29
+    NENIROVNO   shift, and go to state 30
+    MENSIROVNO  shift, and go to state 31
+    VETSIROVNO  shift, and go to state 32
+    INKREM      shift, and go to state 33
+    '<'         shift, and go to state 34
+    '>'         shift, and go to state 35
+    '-'         shift, and go to state 36
+    '('         shift, and go to state 37
+
+    vyraz  go to state 114
+
+
+State 82
+
+   36 vyraz: vyraz '-' • vyraz
+
+    CISLO       shift, and go to state 25
+    PROMENNA    shift, and go to state 26
+    BIT_NOT     shift, and go to state 28
+    POROVNANI   shift, and go to state 29
+    NENIROVNO   shift, and go to state 30
+    MENSIROVNO  shift, and go to state 31
+    VETSIROVNO  shift, and go to state 32
+    INKREM      shift, and go to state 33
+    '<'         shift, and go to state 34
+    '>'         shift, and go to state 35
+    '-'         shift, and go to state 36
+    '('         shift, and go to state 37
+
+    vyraz  go to state 115
+
+
+State 83
+
+   37 vyraz: vyraz '*' • vyraz
+
+    CISLO       shift, and go to state 25
+    PROMENNA    shift, and go to state 26
+    BIT_NOT     shift, and go to state 28
+    POROVNANI   shift, and go to state 29
+    NENIROVNO   shift, and go to state 30
+    MENSIROVNO  shift, and go to state 31
+    VETSIROVNO  shift, and go to state 32
+    INKREM      shift, and go to state 33
+    '<'         shift, and go to state 34
+    '>'         shift, and go to state 35
+    '-'         shift, and go to state 36
+    '('         shift, and go to state 37
+
+    vyraz  go to state 116
+
+
+State 84
+
+   38 vyraz: vyraz '/' • vyraz
+
+    CISLO       shift, and go to state 25
+    PROMENNA    shift, and go to state 26
+    BIT_NOT     shift, and go to state 28
+    POROVNANI   shift, and go to state 29
+    NENIROVNO   shift, and go to state 30
+    MENSIROVNO  shift, and go to state 31
+    VETSIROVNO  shift, and go to state 32
+    INKREM      shift, and go to state 33
+    '<'         shift, and go to state 34
+    '>'         shift, and go to state 35
+    '-'         shift, and go to state 36
+    '('         shift, and go to state 37
+
+    vyraz  go to state 117
+
+
+State 85
+
+    7 prikaz: PRINT '(' vyraz ')' • ';'
+
+    ';'  shift, and go to state 118
+
+
+State 86
+
+    8 prikaz: SCAN '(' PROMENNA ')' • ';'
+
+    ';'  shift, and go to state 119
+
+
+State 87
+
+   10 prikaz: IF '(' vyraz ')' • prikaz
+   11       | IF '(' vyraz ')' • prikaz ELSE prikaz
+
+    error  shift, and go to state 1
+    PRINT  shift, and go to state 2
+    SCAN   shift, and go to state 3
+    IF     shift, and go to state 4
+    FOR    shift, and go to state 5
+    WHILE  shift, and go to state 6
+    DO     shift, and go to state 7
+    ';'    shift, and go to state 8
+    '{'    shift, and go to state 9
+
+    $end   reduce using rule 2 (prikaz)
+    error  [reduce using rule 2 (prikaz)]
+    PRINT  [reduce using rule 2 (prikaz)]
+    SCAN   [reduce using rule 2 (prikaz)]
+    IF     [reduce using rule 2 (prikaz)]
+    ELSE   reduce using rule 2 (prikaz)
+    FOR    [reduce using rule 2 (prikaz)]
+    WHILE  [reduce using rule 2 (prikaz)]
+    DO     [reduce using rule 2 (prikaz)]
+    ';'    [reduce using rule 2 (prikaz)]
+    '{'    [reduce using rule 2 (prikaz)]
+    '}'    reduce using rule 2 (prikaz)
+
+    prikaz  go to state 120
+
+
+State 88
+
+   12 prikaz: FOR '(' vyraz ';' • vyraz ';' vyraz ')' prikaz
+
+    CISLO       shift, and go to state 25
+    PROMENNA    shift, and go to state 26
+    BIT_NOT     shift, and go to state 28
+    POROVNANI   shift, and go to state 29
+    NENIROVNO   shift, and go to state 30
+    MENSIROVNO  shift, and go to state 31
+    VETSIROVNO  shift, and go to state 32
+    INKREM      shift, and go to state 33
+    '<'         shift, and go to state 34
+    '>'         shift, and go to state 35
+    '-'         shift, and go to state 36
+    '('         shift, and go to state 37
+
+    vyraz  go to state 121
+
+
+State 89
+
+   13 prikaz: WHILE '(' vyraz ')' • prikaz
+
+    error  shift, and go to state 1
+    PRINT  shift, and go to state 2
+    SCAN   shift, and go to state 3
+    IF     shift, and go to state 4
+    FOR    shift, and go to state 5
+    WHILE  shift, and go to state 6
+    DO     shift, and go to state 7
+    ';'    shift, and go to state 8
+    '{'    shift, and go to state 9
+
+    $end   reduce using rule 2 (prikaz)
+    error  [reduce using rule 2 (prikaz)]
+    PRINT  [reduce using rule 2 (prikaz)]
+    SCAN   [reduce using rule 2 (prikaz)]
+    IF     [reduce using rule 2 (prikaz)]
+    ELSE   reduce using rule 2 (prikaz)
+    FOR    [reduce using rule 2 (prikaz)]
+    WHILE  [reduce using rule 2 (prikaz)]
+    DO     [reduce using rule 2 (prikaz)]
+    ';'    [reduce using rule 2 (prikaz)]
+    '{'    [reduce using rule 2 (prikaz)]
+    '}'    reduce using rule 2 (prikaz)
+
+    prikaz  go to state 122
+
+
+State 90
+
+   13 prikaz: WHILE '(' • vyraz ')' prikaz
+   14       | DO prikaz WHILE '(' • vyraz ')' ';'
+
+    CISLO       shift, and go to state 25
+    PROMENNA    shift, and go to state 26
+    BIT_NOT     shift, and go to state 28
+    POROVNANI   shift, and go to state 29
+    NENIROVNO   shift, and go to state 30
+    MENSIROVNO  shift, and go to state 31
+    VETSIROVNO  shift, and go to state 32
+    INKREM      shift, and go to state 33
+    '<'         shift, and go to state 34
+    '>'         shift, and go to state 35
+    '-'         shift, and go to state 36
+    '('         shift, and go to state 37
+
+    vyraz  go to state 123
+
+
+State 91
+
+    5 prikaz: PRINT '(' RETEZ ')' ';' •
+
+    $default  reduce using rule 5 (prikaz)
+
+
+State 92
+
+    6 prikaz: PRINT '(' RETEZ ',' vyraz • ')' ';'
+   24 vyraz: vyraz • '=' vyraz
+   25      | vyraz • ADD_ASSIGN vyraz
+   26      | vyraz • SUB_ASSIGN vyraz
+   27      | vyraz • MUL_ASSIGN vyraz
+   28      | vyraz • DIV_ASSIGN vyraz
+   29      | vyraz • MOD_ASSIGN vyraz
+   30      | vyraz • SHL_ASSIGN vyraz
+   31      | vyraz • SHR_ASSIGN vyraz
+   32      | vyraz • AND_ASSIGN vyraz
+   33      | vyraz • XOR_ASSIGN vyraz
+   34      | vyraz • OR_ASSIGN vyraz
+   35      | vyraz • '+' vyraz
+   36      | vyraz • '-' vyraz
+   37      | vyraz • '*' vyraz
+   38      | vyraz • '/' vyraz
+   39      | vyraz • MOD vyraz
+   40      | vyraz • SHL vyraz
+   41      | vyraz • SHR vyraz
+   42      | vyraz • BIT_AND vyraz
+   43      | vyraz • BIT_OR vyraz
+   44      | vyraz • BIT_XOR vyraz
+   45      | vyraz • AND vyraz
+   46      | vyraz • OR vyraz
+   59      | vyraz • COMMA vyraz
+
+    SHL         shift, and go to state 61
+    SHR         shift, and go to state 62
+    MOD         shift, and go to state 63
+    AND         shift, and go to state 64
+    OR          shift, and go to state 65
+    ADD_ASSIGN  shift, and go to state 66
+    SUB_ASSIGN  shift, and go to state 67
+    MUL_ASSIGN  shift, and go to state 68
+    DIV_ASSIGN  shift, and go to state 69
+    MOD_ASSIGN  shift, and go to state 70
+    SHL_ASSIGN  shift, and go to state 71
+    SHR_ASSIGN  shift, and go to state 72
+    AND_ASSIGN  shift, and go to state 73
+    XOR_ASSIGN  shift, and go to state 74
+    OR_ASSIGN   shift, and go to state 75
+    BIT_AND     shift, and go to state 76
+    BIT_OR      shift, and go to state 77
+    BIT_XOR     shift, and go to state 78
+    COMMA       shift, and go to state 79
+    '='         shift, and go to state 80
+    '+'         shift, and go to state 81
+    '-'         shift, and go to state 82
+    '*'         shift, and go to state 83
+    '/'         shift, and go to state 84
+    ')'         shift, and go to state 124
+
+
+State 93
+
+   58 vyraz: '(' vyraz ')' •
+
+    $default  reduce using rule 58 (vyraz)
+
+
+State 94
+
+   24 vyraz: vyraz • '=' vyraz
+   25      | vyraz • ADD_ASSIGN vyraz
+   26      | vyraz • SUB_ASSIGN vyraz
+   27      | vyraz • MUL_ASSIGN vyraz
+   28      | vyraz • DIV_ASSIGN vyraz
+   29      | vyraz • MOD_ASSIGN vyraz
+   30      | vyraz • SHL_ASSIGN vyraz
+   31      | vyraz • SHR_ASSIGN vyraz
+   32      | vyraz • AND_ASSIGN vyraz
+   33      | vyraz • XOR_ASSIGN vyraz
+   34      | vyraz • OR_ASSIGN vyraz
+   35      | vyraz • '+' vyraz
+   36      | vyraz • '-' vyraz
+   37      | vyraz • '*' vyraz
+   38      | vyraz • '/' vyraz
+   39      | vyraz • MOD vyraz
+   40      | vyraz • SHL vyraz
+   40      | vyraz SHL vyraz •
+   41      | vyraz • SHR vyraz
+   42      | vyraz • BIT_AND vyraz
+   43      | vyraz • BIT_OR vyraz
+   44      | vyraz • BIT_XOR vyraz
+   45      | vyraz • AND vyraz
+   46      | vyraz • OR vyraz
+   59      | vyraz • COMMA vyraz
+
+    SHL    shift, and go to state 61
+    SHR    shift, and go to state 62
+    COMMA  shift, and go to state 79
+
+    $default  reduce using rule 40 (vyraz)
+
+
+State 95
+
+   24 vyraz: vyraz • '=' vyraz
+   25      | vyraz • ADD_ASSIGN vyraz
+   26      | vyraz • SUB_ASSIGN vyraz
+   27      | vyraz • MUL_ASSIGN vyraz
+   28      | vyraz • DIV_ASSIGN vyraz
+   29      | vyraz • MOD_ASSIGN vyraz
+   30      | vyraz • SHL_ASSIGN vyraz
+   31      | vyraz • SHR_ASSIGN vyraz
+   32      | vyraz • AND_ASSIGN vyraz
+   33      | vyraz • XOR_ASSIGN vyraz
+   34      | vyraz • OR_ASSIGN vyraz
+   35      | vyraz • '+' vyraz
+   36      | vyraz • '-' vyraz
+   37      | vyraz • '*' vyraz
+   38      | vyraz • '/' vyraz
+   39      | vyraz • MOD vyraz
+   40      | vyraz • SHL vyraz
+   41      | vyraz • SHR vyraz
+   41      | vyraz SHR vyraz •
+   42      | vyraz • BIT_AND vyraz
+   43      | vyraz • BIT_OR vyraz
+   44      | vyraz • BIT_XOR vyraz
+   45      | vyraz • AND vyraz
+   46      | vyraz • OR vyraz
+   59      | vyraz • COMMA vyraz
+
+    SHL    shift, and go to state 61
+    SHR    shift, and go to state 62
+    COMMA  shift, and go to state 79
+
+    $default  reduce using rule 41 (vyraz)
+
+
+State 96
+
+   24 vyraz: vyraz • '=' vyraz
+   25      | vyraz • ADD_ASSIGN vyraz
+   26      | vyraz • SUB_ASSIGN vyraz
+   27      | vyraz • MUL_ASSIGN vyraz
+   28      | vyraz • DIV_ASSIGN vyraz
+   29      | vyraz • MOD_ASSIGN vyraz
+   30      | vyraz • SHL_ASSIGN vyraz
+   31      | vyraz • SHR_ASSIGN vyraz
+   32      | vyraz • AND_ASSIGN vyraz
+   33      | vyraz • XOR_ASSIGN vyraz
+   34      | vyraz • OR_ASSIGN vyraz
+   35      | vyraz • '+' vyraz
+   36      | vyraz • '-' vyraz
+   37      | vyraz • '*' vyraz
+   38      | vyraz • '/' vyraz
+   39      | vyraz • MOD vyraz
+   39      | vyraz MOD vyraz •
+   40      | vyraz • SHL vyraz
+   41      | vyraz • SHR vyraz
+   42      | vyraz • BIT_AND vyraz
+   43      | vyraz • BIT_OR vyraz
+   44      | vyraz • BIT_XOR vyraz
+   45      | vyraz • AND vyraz
+   46      | vyraz • OR vyraz
+   59      | vyraz • COMMA vyraz
+
+    SHL    shift, and go to state 61
+    SHR    shift, and go to state 62
+    COMMA  shift, and go to state 79
+
+    $default  reduce using rule 39 (vyraz)
+
+
+State 97
+
+   24 vyraz: vyraz • '=' vyraz
+   25      | vyraz • ADD_ASSIGN vyraz
+   26      | vyraz • SUB_ASSIGN vyraz
+   27      | vyraz • MUL_ASSIGN vyraz
+   28      | vyraz • DIV_ASSIGN vyraz
+   29      | vyraz • MOD_ASSIGN vyraz
+   30      | vyraz • SHL_ASSIGN vyraz
+   31      | vyraz • SHR_ASSIGN vyraz
+   32      | vyraz • AND_ASSIGN vyraz
+   33      | vyraz • XOR_ASSIGN vyraz
+   34      | vyraz • OR_ASSIGN vyraz
+   35      | vyraz • '+' vyraz
+   36      | vyraz • '-' vyraz
+   37      | vyraz • '*' vyraz
+   38      | vyraz • '/' vyraz
+   39      | vyraz • MOD vyraz
+   40      | vyraz • SHL vyraz
+   41      | vyraz • SHR vyraz
+   42      | vyraz • BIT_AND vyraz
+   43      | vyraz • BIT_OR vyraz
+   44      | vyraz • BIT_XOR vyraz
+   45      | vyraz • AND vyraz
+   45      | vyraz AND vyraz •
+   46      | vyraz • OR vyraz
+   59      | vyraz • COMMA vyraz
+
+    SHL      shift, and go to state 61
+    SHR      shift, and go to state 62
+    MOD      shift, and go to state 63
+    BIT_AND  shift, and go to state 76
+    BIT_OR   shift, and go to state 77
+    BIT_XOR  shift, and go to state 78
+    COMMA    shift, and go to state 79
+    '+'      shift, and go to state 81
+    '-'      shift, and go to state 82
+    '*'      shift, and go to state 83
+    '/'      shift, and go to state 84
+
+    $default  reduce using rule 45 (vyraz)
+
+
+State 98
+
+   24 vyraz: vyraz • '=' vyraz
+   25      | vyraz • ADD_ASSIGN vyraz
+   26      | vyraz • SUB_ASSIGN vyraz
+   27      | vyraz • MUL_ASSIGN vyraz
+   28      | vyraz • DIV_ASSIGN vyraz
+   29      | vyraz • MOD_ASSIGN vyraz
+   30      | vyraz • SHL_ASSIGN vyraz
+   31      | vyraz • SHR_ASSIGN vyraz
+   32      | vyraz • AND_ASSIGN vyraz
+   33      | vyraz • XOR_ASSIGN vyraz
+   34      | vyraz • OR_ASSIGN vyraz
+   35      | vyraz • '+' vyraz
+   36      | vyraz • '-' vyraz
+   37      | vyraz • '*' vyraz
+   38      | vyraz • '/' vyraz
+   39      | vyraz • MOD vyraz
+   40      | vyraz • SHL vyraz
+   41      | vyraz • SHR vyraz
+   42      | vyraz • BIT_AND vyraz
+   43      | vyraz • BIT_OR vyraz
+   44      | vyraz • BIT_XOR vyraz
+   45      | vyraz • AND vyraz
+   46      | vyraz • OR vyraz
+   46      | vyraz OR vyraz •
+   59      | vyraz • COMMA vyraz
+
+    SHL      shift, and go to state 61
+    SHR      shift, and go to state 62
+    MOD      shift, and go to state 63
+    BIT_AND  shift, and go to state 76
+    BIT_OR   shift, and go to state 77
+    BIT_XOR  shift, and go to state 78
+    COMMA    shift, and go to state 79
+    '+'      shift, and go to state 81
+    '-'      shift, and go to state 82
+    '*'      shift, and go to state 83
+    '/'      shift, and go to state 84
+
+    $default  reduce using rule 46 (vyraz)
+
+
+State 99
+
+   24 vyraz: vyraz • '=' vyraz
+   25      | vyraz • ADD_ASSIGN vyraz
+   25      | vyraz ADD_ASSIGN vyraz •
+   26      | vyraz • SUB_ASSIGN vyraz
+   27      | vyraz • MUL_ASSIGN vyraz
+   28      | vyraz • DIV_ASSIGN vyraz
+   29      | vyraz • MOD_ASSIGN vyraz
+   30      | vyraz • SHL_ASSIGN vyraz
+   31      | vyraz • SHR_ASSIGN vyraz
+   32      | vyraz • AND_ASSIGN vyraz
+   33      | vyraz • XOR_ASSIGN vyraz
+   34      | vyraz • OR_ASSIGN vyraz
+   35      | vyraz • '+' vyraz
+   36      | vyraz • '-' vyraz
+   37      | vyraz • '*' vyraz
+   38      | vyraz • '/' vyraz
+   39      | vyraz • MOD vyraz
+   40      | vyraz • SHL vyraz
+   41      | vyraz • SHR vyraz
+   42      | vyraz • BIT_AND vyraz
+   43      | vyraz • BIT_OR vyraz
+   44      | vyraz • BIT_XOR vyraz
+   45      | vyraz • AND vyraz
+   46      | vyraz • OR vyraz
+   59      | vyraz • COMMA vyraz
+
+    SHL         shift, and go to state 61
+    SHR         shift, and go to state 62
+    MOD         shift, and go to state 63
+    AND         shift, and go to state 64
+    OR          shift, and go to state 65
+    ADD_ASSIGN  shift, and go to state 66
+    SUB_ASSIGN  shift, and go to state 67
+    MUL_ASSIGN  shift, and go to state 68
+    DIV_ASSIGN  shift, and go to state 69
+    MOD_ASSIGN  shift, and go to state 70
+    SHL_ASSIGN  shift, and go to state 71
+    SHR_ASSIGN  shift, and go to state 72
+    AND_ASSIGN  shift, and go to state 73
+    XOR_ASSIGN  shift, and go to state 74
+    OR_ASSIGN   shift, and go to state 75
+    BIT_AND     shift, and go to state 76
+    BIT_OR      shift, and go to state 77
+    BIT_XOR     shift, and go to state 78
+    COMMA       shift, and go to state 79
+    '='         shift, and go to state 80
+    '+'         shift, and go to state 81
+    '-'         shift, and go to state 82
+    '*'         shift, and go to state 83
+    '/'         shift, and go to state 84
+
+    $default  reduce using rule 25 (vyraz)
+
+
+State 100
+
+   24 vyraz: vyraz • '=' vyraz
+   25      | vyraz • ADD_ASSIGN vyraz
+   26      | vyraz • SUB_ASSIGN vyraz
+   26      | vyraz SUB_ASSIGN vyraz •
+   27      | vyraz • MUL_ASSIGN vyraz
+   28      | vyraz • DIV_ASSIGN vyraz
+   29      | vyraz • MOD_ASSIGN vyraz
+   30      | vyraz • SHL_ASSIGN vyraz
+   31      | vyraz • SHR_ASSIGN vyraz
+   32      | vyraz • AND_ASSIGN vyraz
+   33      | vyraz • XOR_ASSIGN vyraz
+   34      | vyraz • OR_ASSIGN vyraz
+   35      | vyraz • '+' vyraz
+   36      | vyraz • '-' vyraz
+   37      | vyraz • '*' vyraz
+   38      | vyraz • '/' vyraz
+   39      | vyraz • MOD vyraz
+   40      | vyraz • SHL vyraz
+   41      | vyraz • SHR vyraz
+   42      | vyraz • BIT_AND vyraz
+   43      | vyraz • BIT_OR vyraz
+   44      | vyraz • BIT_XOR vyraz
+   45      | vyraz • AND vyraz
+   46      | vyraz • OR vyraz
+   59      | vyraz • COMMA vyraz
+
+    SHL         shift, and go to state 61
+    SHR         shift, and go to state 62
+    MOD         shift, and go to state 63
+    AND         shift, and go to state 64
+    OR          shift, and go to state 65
+    ADD_ASSIGN  shift, and go to state 66
+    SUB_ASSIGN  shift, and go to state 67
+    MUL_ASSIGN  shift, and go to state 68
+    DIV_ASSIGN  shift, and go to state 69
+    MOD_ASSIGN  shift, and go to state 70
+    SHL_ASSIGN  shift, and go to state 71
+    SHR_ASSIGN  shift, and go to state 72
+    AND_ASSIGN  shift, and go to state 73
+    XOR_ASSIGN  shift, and go to state 74
+    OR_ASSIGN   shift, and go to state 75
+    BIT_AND     shift, and go to state 76
+    BIT_OR      shift, and go to state 77
+    BIT_XOR     shift, and go to state 78
+    COMMA       shift, and go to state 79
+    '='         shift, and go to state 80
+    '+'         shift, and go to state 81
+    '-'         shift, and go to state 82
+    '*'         shift, and go to state 83
+    '/'         shift, and go to state 84
+
+    $default  reduce using rule 26 (vyraz)
+
+
+State 101
+
+   24 vyraz: vyraz • '=' vyraz
+   25      | vyraz • ADD_ASSIGN vyraz
+   26      | vyraz • SUB_ASSIGN vyraz
+   27      | vyraz • MUL_ASSIGN vyraz
+   27      | vyraz MUL_ASSIGN vyraz •
+   28      | vyraz • DIV_ASSIGN vyraz
+   29      | vyraz • MOD_ASSIGN vyraz
+   30      | vyraz • SHL_ASSIGN vyraz
+   31      | vyraz • SHR_ASSIGN vyraz
+   32      | vyraz • AND_ASSIGN vyraz
+   33      | vyraz • XOR_ASSIGN vyraz
+   34      | vyraz • OR_ASSIGN vyraz
+   35      | vyraz • '+' vyraz
+   36      | vyraz • '-' vyraz
+   37      | vyraz • '*' vyraz
+   38      | vyraz • '/' vyraz
+   39      | vyraz • MOD vyraz
+   40      | vyraz • SHL vyraz
+   41      | vyraz • SHR vyraz
+   42      | vyraz • BIT_AND vyraz
+   43      | vyraz • BIT_OR vyraz
+   44      | vyraz • BIT_XOR vyraz
+   45      | vyraz • AND vyraz
+   46      | vyraz • OR vyraz
+   59      | vyraz • COMMA vyraz
+
+    SHL         shift, and go to state 61
+    SHR         shift, and go to state 62
+    MOD         shift, and go to state 63
+    AND         shift, and go to state 64
+    OR          shift, and go to state 65
+    ADD_ASSIGN  shift, and go to state 66
+    SUB_ASSIGN  shift, and go to state 67
+    MUL_ASSIGN  shift, and go to state 68
+    DIV_ASSIGN  shift, and go to state 69
+    MOD_ASSIGN  shift, and go to state 70
+    SHL_ASSIGN  shift, and go to state 71
+    SHR_ASSIGN  shift, and go to state 72
+    AND_ASSIGN  shift, and go to state 73
+    XOR_ASSIGN  shift, and go to state 74
+    OR_ASSIGN   shift, and go to state 75
+    BIT_AND     shift, and go to state 76
+    BIT_OR      shift, and go to state 77
+    BIT_XOR     shift, and go to state 78
+    COMMA       shift, and go to state 79
+    '='         shift, and go to state 80
+    '+'         shift, and go to state 81
+    '-'         shift, and go to state 82
+    '*'         shift, and go to state 83
+    '/'         shift, and go to state 84
+
+    $default  reduce using rule 27 (vyraz)
+
+
+State 102
+
+   24 vyraz: vyraz • '=' vyraz
+   25      | vyraz • ADD_ASSIGN vyraz
+   26      | vyraz • SUB_ASSIGN vyraz
+   27      | vyraz • MUL_ASSIGN vyraz
+   28      | vyraz • DIV_ASSIGN vyraz
+   28      | vyraz DIV_ASSIGN vyraz •
+   29      | vyraz • MOD_ASSIGN vyraz
+   30      | vyraz • SHL_ASSIGN vyraz
+   31      | vyraz • SHR_ASSIGN vyraz
+   32      | vyraz • AND_ASSIGN vyraz
+   33      | vyraz • XOR_ASSIGN vyraz
+   34      | vyraz • OR_ASSIGN vyraz
+   35      | vyraz • '+' vyraz
+   36      | vyraz • '-' vyraz
+   37      | vyraz • '*' vyraz
+   38      | vyraz • '/' vyraz
+   39      | vyraz • MOD vyraz
+   40      | vyraz • SHL vyraz
+   41      | vyraz • SHR vyraz
+   42      | vyraz • BIT_AND vyraz
+   43      | vyraz • BIT_OR vyraz
+   44      | vyraz • BIT_XOR vyraz
+   45      | vyraz • AND vyraz
+   46      | vyraz • OR vyraz
+   59      | vyraz • COMMA vyraz
+
+    SHL         shift, and go to state 61
+    SHR         shift, and go to state 62
+    MOD         shift, and go to state 63
+    AND         shift, and go to state 64
+    OR          shift, and go to state 65
+    ADD_ASSIGN  shift, and go to state 66
+    SUB_ASSIGN  shift, and go to state 67
+    MUL_ASSIGN  shift, and go to state 68
+    DIV_ASSIGN  shift, and go to state 69
+    MOD_ASSIGN  shift, and go to state 70
+    SHL_ASSIGN  shift, and go to state 71
+    SHR_ASSIGN  shift, and go to state 72
+    AND_ASSIGN  shift, and go to state 73
+    XOR_ASSIGN  shift, and go to state 74
+    OR_ASSIGN   shift, and go to state 75
+    BIT_AND     shift, and go to state 76
+    BIT_OR      shift, and go to state 77
+    BIT_XOR     shift, and go to state 78
+    COMMA       shift, and go to state 79
+    '='         shift, and go to state 80
+    '+'         shift, and go to state 81
+    '-'         shift, and go to state 82
+    '*'         shift, and go to state 83
+    '/'         shift, and go to state 84
+
+    $default  reduce using rule 28 (vyraz)
+
+
+State 103
+
+   24 vyraz: vyraz • '=' vyraz
+   25      | vyraz • ADD_ASSIGN vyraz
+   26      | vyraz • SUB_ASSIGN vyraz
+   27      | vyraz • MUL_ASSIGN vyraz
+   28      | vyraz • DIV_ASSIGN vyraz
+   29      | vyraz • MOD_ASSIGN vyraz
+   29      | vyraz MOD_ASSIGN vyraz •
+   30      | vyraz • SHL_ASSIGN vyraz
+   31      | vyraz • SHR_ASSIGN vyraz
+   32      | vyraz • AND_ASSIGN vyraz
+   33      | vyraz • XOR_ASSIGN vyraz
+   34      | vyraz • OR_ASSIGN vyraz
+   35      | vyraz • '+' vyraz
+   36      | vyraz • '-' vyraz
+   37      | vyraz • '*' vyraz
+   38      | vyraz • '/' vyraz
+   39      | vyraz • MOD vyraz
+   40      | vyraz • SHL vyraz
+   41      | vyraz • SHR vyraz
+   42      | vyraz • BIT_AND vyraz
+   43      | vyraz • BIT_OR vyraz
+   44      | vyraz • BIT_XOR vyraz
+   45      | vyraz • AND vyraz
+   46      | vyraz • OR vyraz
+   59      | vyraz • COMMA vyraz
+
+    SHL         shift, and go to state 61
+    SHR         shift, and go to state 62
+    MOD         shift, and go to state 63
+    AND         shift, and go to state 64
+    OR          shift, and go to state 65
+    ADD_ASSIGN  shift, and go to state 66
+    SUB_ASSIGN  shift, and go to state 67
+    MUL_ASSIGN  shift, and go to state 68
+    DIV_ASSIGN  shift, and go to state 69
+    MOD_ASSIGN  shift, and go to state 70
+    SHL_ASSIGN  shift, and go to state 71
+    SHR_ASSIGN  shift, and go to state 72
+    AND_ASSIGN  shift, and go to state 73
+    XOR_ASSIGN  shift, and go to state 74
+    OR_ASSIGN   shift, and go to state 75
+    BIT_AND     shift, and go to state 76
+    BIT_OR      shift, and go to state 77
+    BIT_XOR     shift, and go to state 78
+    COMMA       shift, and go to state 79
+    '='         shift, and go to state 80
+    '+'         shift, and go to state 81
+    '-'         shift, and go to state 82
+    '*'         shift, and go to state 83
+    '/'         shift, and go to state 84
+
+    $default  reduce using rule 29 (vyraz)
+
+
+State 104
+
+   24 vyraz: vyraz • '=' vyraz
+   25      | vyraz • ADD_ASSIGN vyraz
+   26      | vyraz • SUB_ASSIGN vyraz
+   27      | vyraz • MUL_ASSIGN vyraz
+   28      | vyraz • DIV_ASSIGN vyraz
+   29      | vyraz • MOD_ASSIGN vyraz
+   30      | vyraz • SHL_ASSIGN vyraz
+   30      | vyraz SHL_ASSIGN vyraz •
+   31      | vyraz • SHR_ASSIGN vyraz
+   32      | vyraz • AND_ASSIGN vyraz
+   33      | vyraz • XOR_ASSIGN vyraz
+   34      | vyraz • OR_ASSIGN vyraz
+   35      | vyraz • '+' vyraz
+   36      | vyraz • '-' vyraz
+   37      | vyraz • '*' vyraz
+   38      | vyraz • '/' vyraz
+   39      | vyraz • MOD vyraz
+   40      | vyraz • SHL vyraz
+   41      | vyraz • SHR vyraz
+   42      | vyraz • BIT_AND vyraz
+   43      | vyraz • BIT_OR vyraz
+   44      | vyraz • BIT_XOR vyraz
+   45      | vyraz • AND vyraz
+   46      | vyraz • OR vyraz
+   59      | vyraz • COMMA vyraz
+
+    SHL         shift, and go to state 61
+    SHR         shift, and go to state 62
+    MOD         shift, and go to state 63
+    AND         shift, and go to state 64
+    OR          shift, and go to state 65
+    SHL_ASSIGN  shift, and go to state 71
+    SHR_ASSIGN  shift, and go to state 72
+    AND_ASSIGN  shift, and go to state 73
+    XOR_ASSIGN  shift, and go to state 74
+    OR_ASSIGN   shift, and go to state 75
+    BIT_AND     shift, and go to state 76
+    BIT_OR      shift, and go to state 77
+    BIT_XOR     shift, and go to state 78
+    COMMA       shift, and go to state 79
+    '+'         shift, and go to state 81
+    '-'         shift, and go to state 82
+    '*'         shift, and go to state 83
+    '/'         shift, and go to state 84
+
+    $default  reduce using rule 30 (vyraz)
+
+
+State 105
+
+   24 vyraz: vyraz • '=' vyraz
+   25      | vyraz • ADD_ASSIGN vyraz
+   26      | vyraz • SUB_ASSIGN vyraz
+   27      | vyraz • MUL_ASSIGN vyraz
+   28      | vyraz • DIV_ASSIGN vyraz
+   29      | vyraz • MOD_ASSIGN vyraz
+   30      | vyraz • SHL_ASSIGN vyraz
+   31      | vyraz • SHR_ASSIGN vyraz
+   31      | vyraz SHR_ASSIGN vyraz •
+   32      | vyraz • AND_ASSIGN vyraz
+   33      | vyraz • XOR_ASSIGN vyraz
+   34      | vyraz • OR_ASSIGN vyraz
+   35      | vyraz • '+' vyraz
+   36      | vyraz • '-' vyraz
+   37      | vyraz • '*' vyraz
+   38      | vyraz • '/' vyraz
+   39      | vyraz • MOD vyraz
+   40      | vyraz • SHL vyraz
+   41      | vyraz • SHR vyraz
+   42      | vyraz • BIT_AND vyraz
+   43      | vyraz • BIT_OR vyraz
+   44      | vyraz • BIT_XOR vyraz
+   45      | vyraz • AND vyraz
+   46      | vyraz • OR vyraz
+   59      | vyraz • COMMA vyraz
+
+    SHL         shift, and go to state 61
+    SHR         shift, and go to state 62
+    MOD         shift, and go to state 63
+    AND         shift, and go to state 64
+    OR          shift, and go to state 65
+    SHL_ASSIGN  shift, and go to state 71
+    SHR_ASSIGN  shift, and go to state 72
+    AND_ASSIGN  shift, and go to state 73
+    XOR_ASSIGN  shift, and go to state 74
+    OR_ASSIGN   shift, and go to state 75
+    BIT_AND     shift, and go to state 76
+    BIT_OR      shift, and go to state 77
+    BIT_XOR     shift, and go to state 78
+    COMMA       shift, and go to state 79
+    '+'         shift, and go to state 81
+    '-'         shift, and go to state 82
+    '*'         shift, and go to state 83
+    '/'         shift, and go to state 84
+
+    $default  reduce using rule 31 (vyraz)
+
+
+State 106
+
+   24 vyraz: vyraz • '=' vyraz
+   25      | vyraz • ADD_ASSIGN vyraz
+   26      | vyraz • SUB_ASSIGN vyraz
+   27      | vyraz • MUL_ASSIGN vyraz
+   28      | vyraz • DIV_ASSIGN vyraz
+   29      | vyraz • MOD_ASSIGN vyraz
+   30      | vyraz • SHL_ASSIGN vyraz
+   31      | vyraz • SHR_ASSIGN vyraz
+   32      | vyraz • AND_ASSIGN vyraz
+   32      | vyraz AND_ASSIGN vyraz •
+   33      | vyraz • XOR_ASSIGN vyraz
+   34      | vyraz • OR_ASSIGN vyraz
+   35      | vyraz • '+' vyraz
+   36      | vyraz • '-' vyraz
+   37      | vyraz • '*' vyraz
+   38      | vyraz • '/' vyraz
+   39      | vyraz • MOD vyraz
+   40      | vyraz • SHL vyraz
+   41      | vyraz • SHR vyraz
+   42      | vyraz • BIT_AND vyraz
+   43      | vyraz • BIT_OR vyraz
+   44      | vyraz • BIT_XOR vyraz
+   45      | vyraz • AND vyraz
+   46      | vyraz • OR vyraz
+   59      | vyraz • COMMA vyraz
+
+    SHL         shift, and go to state 61
+    SHR         shift, and go to state 62
+    MOD         shift, and go to state 63
+    AND         shift, and go to state 64
+    OR          shift, and go to state 65
+    SHL_ASSIGN  shift, and go to state 71
+    SHR_ASSIGN  shift, and go to state 72
+    AND_ASSIGN  shift, and go to state 73
+    XOR_ASSIGN  shift, and go to state 74
+    OR_ASSIGN   shift, and go to state 75
+    BIT_AND     shift, and go to state 76
+    BIT_OR      shift, and go to state 77
+    BIT_XOR     shift, and go to state 78
+    COMMA       shift, and go to state 79
+    '+'         shift, and go to state 81
+    '-'         shift, and go to state 82
+    '*'         shift, and go to state 83
+    '/'         shift, and go to state 84
+
+    $default  reduce using rule 32 (vyraz)
+
+
+State 107
+
+   24 vyraz: vyraz • '=' vyraz
+   25      | vyraz • ADD_ASSIGN vyraz
+   26      | vyraz • SUB_ASSIGN vyraz
+   27      | vyraz • MUL_ASSIGN vyraz
+   28      | vyraz • DIV_ASSIGN vyraz
+   29      | vyraz • MOD_ASSIGN vyraz
+   30      | vyraz • SHL_ASSIGN vyraz
+   31      | vyraz • SHR_ASSIGN vyraz
+   32      | vyraz • AND_ASSIGN vyraz
+   33      | vyraz • XOR_ASSIGN vyraz
+   33      | vyraz XOR_ASSIGN vyraz •
+   34      | vyraz • OR_ASSIGN vyraz
+   35      | vyraz • '+' vyraz
+   36      | vyraz • '-' vyraz
+   37      | vyraz • '*' vyraz
+   38      | vyraz • '/' vyraz
+   39      | vyraz • MOD vyraz
+   40      | vyraz • SHL vyraz
+   41      | vyraz • SHR vyraz
+   42      | vyraz • BIT_AND vyraz
+   43      | vyraz • BIT_OR vyraz
+   44      | vyraz • BIT_XOR vyraz
+   45      | vyraz • AND vyraz
+   46      | vyraz • OR vyraz
+   59      | vyraz • COMMA vyraz
+
+    SHL         shift, and go to state 61
+    SHR         shift, and go to state 62
+    MOD         shift, and go to state 63
+    AND         shift, and go to state 64
+    OR          shift, and go to state 65
+    SHL_ASSIGN  shift, and go to state 71
+    SHR_ASSIGN  shift, and go to state 72
+    AND_ASSIGN  shift, and go to state 73
+    XOR_ASSIGN  shift, and go to state 74
+    OR_ASSIGN   shift, and go to state 75
+    BIT_AND     shift, and go to state 76
+    BIT_OR      shift, and go to state 77
+    BIT_XOR     shift, and go to state 78
+    COMMA       shift, and go to state 79
+    '+'         shift, and go to state 81
+    '-'         shift, and go to state 82
+    '*'         shift, and go to state 83
+    '/'         shift, and go to state 84
+
+    $default  reduce using rule 33 (vyraz)
+
+
+State 108
+
+   24 vyraz: vyraz • '=' vyraz
+   25      | vyraz • ADD_ASSIGN vyraz
+   26      | vyraz • SUB_ASSIGN vyraz
+   27      | vyraz • MUL_ASSIGN vyraz
+   28      | vyraz • DIV_ASSIGN vyraz
+   29      | vyraz • MOD_ASSIGN vyraz
+   30      | vyraz • SHL_ASSIGN vyraz
+   31      | vyraz • SHR_ASSIGN vyraz
+   32      | vyraz • AND_ASSIGN vyraz
+   33      | vyraz • XOR_ASSIGN vyraz
+   34      | vyraz • OR_ASSIGN vyraz
+   34      | vyraz OR_ASSIGN vyraz •
+   35      | vyraz • '+' vyraz
+   36      | vyraz • '-' vyraz
+   37      | vyraz • '*' vyraz
+   38      | vyraz • '/' vyraz
+   39      | vyraz • MOD vyraz
+   40      | vyraz • SHL vyraz
+   41      | vyraz • SHR vyraz
+   42      | vyraz • BIT_AND vyraz
+   43      | vyraz • BIT_OR vyraz
+   44      | vyraz • BIT_XOR vyraz
+   45      | vyraz • AND vyraz
+   46      | vyraz • OR vyraz
+   59      | vyraz • COMMA vyraz
+
+    SHL         shift, and go to state 61
+    SHR         shift, and go to state 62
+    MOD         shift, and go to state 63
+    AND         shift, and go to state 64
+    OR          shift, and go to state 65
+    SHL_ASSIGN  shift, and go to state 71
+    SHR_ASSIGN  shift, and go to state 72
+    AND_ASSIGN  shift, and go to state 73
+    XOR_ASSIGN  shift, and go to state 74
+    OR_ASSIGN   shift, and go to state 75
+    BIT_AND     shift, and go to state 76
+    BIT_OR      shift, and go to state 77
+    BIT_XOR     shift, and go to state 78
+    COMMA       shift, and go to state 79
+    '+'         shift, and go to state 81
+    '-'         shift, and go to state 82
+    '*'         shift, and go to state 83
+    '/'         shift, and go to state 84
+
+    $default  reduce using rule 34 (vyraz)
+
+
+State 109
+
+   24 vyraz: vyraz • '=' vyraz
+   25      | vyraz • ADD_ASSIGN vyraz
+   26      | vyraz • SUB_ASSIGN vyraz
+   27      | vyraz • MUL_ASSIGN vyraz
+   28      | vyraz • DIV_ASSIGN vyraz
+   29      | vyraz • MOD_ASSIGN vyraz
+   30      | vyraz • SHL_ASSIGN vyraz
+   31      | vyraz • SHR_ASSIGN vyraz
+   32      | vyraz • AND_ASSIGN vyraz
+   33      | vyraz • XOR_ASSIGN vyraz
+   34      | vyraz • OR_ASSIGN vyraz
+   35      | vyraz • '+' vyraz
+   36      | vyraz • '-' vyraz
+   37      | vyraz • '*' vyraz
+   38      | vyraz • '/' vyraz
+   39      | vyraz • MOD vyraz
+   40      | vyraz • SHL vyraz
+   41      | vyraz • SHR vyraz
+   42      | vyraz • BIT_AND vyraz
+   42      | vyraz BIT_AND vyraz •
+   43      | vyraz • BIT_OR vyraz
+   44      | vyraz • BIT_XOR vyraz
+   45      | vyraz • AND vyraz
+   46      | vyraz • OR vyraz
+   59      | vyraz • COMMA vyraz
+
+    SHL    shift, and go to state 61
+    SHR    shift, and go to state 62
+    MOD    shift, and go to state 63
+    COMMA  shift, and go to state 79
+    '+'    shift, and go to state 81
+    '-'    shift, and go to state 82
+    '*'    shift, and go to state 83
+    '/'    shift, and go to state 84
+
+    $default  reduce using rule 42 (vyraz)
+
+
+State 110
+
+   24 vyraz: vyraz • '=' vyraz
+   25      | vyraz • ADD_ASSIGN vyraz
+   26      | vyraz • SUB_ASSIGN vyraz
+   27      | vyraz • MUL_ASSIGN vyraz
+   28      | vyraz • DIV_ASSIGN vyraz
+   29      | vyraz • MOD_ASSIGN vyraz
+   30      | vyraz • SHL_ASSIGN vyraz
+   31      | vyraz • SHR_ASSIGN vyraz
+   32      | vyraz • AND_ASSIGN vyraz
+   33      | vyraz • XOR_ASSIGN vyraz
+   34      | vyraz • OR_ASSIGN vyraz
+   35      | vyraz • '+' vyraz
+   36      | vyraz • '-' vyraz
+   37      | vyraz • '*' vyraz
+   38      | vyraz • '/' vyraz
+   39      | vyraz • MOD vyraz
+   40      | vyraz • SHL vyraz
+   41      | vyraz • SHR vyraz
+   42      | vyraz • BIT_AND vyraz
+   43      | vyraz • BIT_OR vyraz
+   43      | vyraz BIT_OR vyraz •
+   44      | vyraz • BIT_XOR vyraz
+   45      | vyraz • AND vyraz
+   46      | vyraz • OR vyraz
+   59      | vyraz • COMMA vyraz
+
+    SHL      shift, and go to state 61
+    SHR      shift, and go to state 62
+    MOD      shift, and go to state 63
+    BIT_AND  shift, and go to state 76
+    COMMA    shift, and go to state 79
+    '+'      shift, and go to state 81
+    '-'      shift, and go to state 82
+    '*'      shift, and go to state 83
+    '/'      shift, and go to state 84
+
+    $default  reduce using rule 43 (vyraz)
+
+
+State 111
+
+   24 vyraz: vyraz • '=' vyraz
+   25      | vyraz • ADD_ASSIGN vyraz
+   26      | vyraz • SUB_ASSIGN vyraz
+   27      | vyraz • MUL_ASSIGN vyraz
+   28      | vyraz • DIV_ASSIGN vyraz
+   29      | vyraz • MOD_ASSIGN vyraz
+   30      | vyraz • SHL_ASSIGN vyraz
+   31      | vyraz • SHR_ASSIGN vyraz
+   32      | vyraz • AND_ASSIGN vyraz
+   33      | vyraz • XOR_ASSIGN vyraz
+   34      | vyraz • OR_ASSIGN vyraz
+   35      | vyraz • '+' vyraz
+   36      | vyraz • '-' vyraz
+   37      | vyraz • '*' vyraz
+   38      | vyraz • '/' vyraz
+   39      | vyraz • MOD vyraz
+   40      | vyraz • SHL vyraz
+   41      | vyraz • SHR vyraz
+   42      | vyraz • BIT_AND vyraz
+   43      | vyraz • BIT_OR vyraz
+   44      | vyraz • BIT_XOR vyraz
+   44      | vyraz BIT_XOR vyraz •
+   45      | vyraz • AND vyraz
+   46      | vyraz • OR vyraz
+   59      | vyraz • COMMA vyraz
+
+    SHL      shift, and go to state 61
+    SHR      shift, and go to state 62
+    MOD      shift, and go to state 63
+    BIT_AND  shift, and go to state 76
+    COMMA    shift, and go to state 79
+    '+'      shift, and go to state 81
+    '-'      shift, and go to state 82
+    '*'      shift, and go to state 83
+    '/'      shift, and go to state 84
+
+    $default  reduce using rule 44 (vyraz)
+
+
+State 112
+
+   24 vyraz: vyraz • '=' vyraz
+   25      | vyraz • ADD_ASSIGN vyraz
+   26      | vyraz • SUB_ASSIGN vyraz
+   27      | vyraz • MUL_ASSIGN vyraz
+   28      | vyraz • DIV_ASSIGN vyraz
+   29      | vyraz • MOD_ASSIGN vyraz
+   30      | vyraz • SHL_ASSIGN vyraz
+   31      | vyraz • SHR_ASSIGN vyraz
+   32      | vyraz • AND_ASSIGN vyraz
+   33      | vyraz • XOR_ASSIGN vyraz
+   34      | vyraz • OR_ASSIGN vyraz
+   35      | vyraz • '+' vyraz
+   36      | vyraz • '-' vyraz
+   37      | vyraz • '*' vyraz
+   38      | vyraz • '/' vyraz
+   39      | vyraz • MOD vyraz
+   40      | vyraz • SHL vyraz
+   41      | vyraz • SHR vyraz
+   42      | vyraz • BIT_AND vyraz
+   43      | vyraz • BIT_OR vyraz
+   44      | vyraz • BIT_XOR vyraz
+   45      | vyraz • AND vyraz
+   46      | vyraz • OR vyraz
+   59      | vyraz • COMMA vyraz
+   59      | vyraz COMMA vyraz •
+
+    $default  reduce using rule 59 (vyraz)
+
+
+State 113
+
+   24 vyraz: vyraz • '=' vyraz
+   24      | vyraz '=' vyraz •
+   25      | vyraz • ADD_ASSIGN vyraz
+   26      | vyraz • SUB_ASSIGN vyraz
+   27      | vyraz • MUL_ASSIGN vyraz
+   28      | vyraz • DIV_ASSIGN vyraz
+   29      | vyraz • MOD_ASSIGN vyraz
+   30      | vyraz • SHL_ASSIGN vyraz
+   31      | vyraz • SHR_ASSIGN vyraz
+   32      | vyraz • AND_ASSIGN vyraz
+   33      | vyraz • XOR_ASSIGN vyraz
+   34      | vyraz • OR_ASSIGN vyraz
+   35      | vyraz • '+' vyraz
+   36      | vyraz • '-' vyraz
+   37      | vyraz • '*' vyraz
+   38      | vyraz • '/' vyraz
+   39      | vyraz • MOD vyraz
+   40      | vyraz • SHL vyraz
+   41      | vyraz • SHR vyraz
+   42      | vyraz • BIT_AND vyraz
+   43      | vyraz • BIT_OR vyraz
+   44      | vyraz • BIT_XOR vyraz
+   45      | vyraz • AND vyraz
+   46      | vyraz • OR vyraz
+   59      | vyraz • COMMA vyraz
+
+    SHL         shift, and go to state 61
+    SHR         shift, and go to state 62
+    MOD         shift, and go to state 63
+    AND         shift, and go to state 64
+    OR          shift, and go to state 65
+    ADD_ASSIGN  shift, and go to state 66
+    SUB_ASSIGN  shift, and go to state 67
+    MUL_ASSIGN  shift, and go to state 68
+    DIV_ASSIGN  shift, and go to state 69
+    MOD_ASSIGN  shift, and go to state 70
+    SHL_ASSIGN  shift, and go to state 71
+    SHR_ASSIGN  shift, and go to state 72
+    AND_ASSIGN  shift, and go to state 73
+    XOR_ASSIGN  shift, and go to state 74
+    OR_ASSIGN   shift, and go to state 75
+    BIT_AND     shift, and go to state 76
+    BIT_OR      shift, and go to state 77
+    BIT_XOR     shift, and go to state 78
+    COMMA       shift, and go to state 79
+    '='         shift, and go to state 80
+    '+'         shift, and go to state 81
+    '-'         shift, and go to state 82
+    '*'         shift, and go to state 83
+    '/'         shift, and go to state 84
+
+    $default  reduce using rule 24 (vyraz)
+
+
+State 114
+
+   24 vyraz: vyraz • '=' vyraz
+   25      | vyraz • ADD_ASSIGN vyraz
+   26      | vyraz • SUB_ASSIGN vyraz
+   27      | vyraz • MUL_ASSIGN vyraz
+   28      | vyraz • DIV_ASSIGN vyraz
+   29      | vyraz • MOD_ASSIGN vyraz
+   30      | vyraz • SHL_ASSIGN vyraz
+   31      | vyraz • SHR_ASSIGN vyraz
+   32      | vyraz • AND_ASSIGN vyraz
+   33      | vyraz • XOR_ASSIGN vyraz
+   34      | vyraz • OR_ASSIGN vyraz
+   35      | vyraz • '+' vyraz
+   35      | vyraz '+' vyraz •
+   36      | vyraz • '-' vyraz
+   37      | vyraz • '*' vyraz
+   38      | vyraz • '/' vyraz
+   39      | vyraz • MOD vyraz
+   40      | vyraz • SHL vyraz
+   41      | vyraz • SHR vyraz
+   42      | vyraz • BIT_AND vyraz
+   43      | vyraz • BIT_OR vyraz
+   44      | vyraz • BIT_XOR vyraz
+   45      | vyraz • AND vyraz
+   46      | vyraz • OR vyraz
+   59      | vyraz • COMMA vyraz
+
+    SHL    shift, and go to state 61
+    SHR    shift, and go to state 62
+    MOD    shift, and go to state 63
+    COMMA  shift, and go to state 79
+    '*'    shift, and go to state 83
+    '/'    shift, and go to state 84
+
+    $default  reduce using rule 35 (vyraz)
+
+
+State 115
+
+   24 vyraz: vyraz • '=' vyraz
+   25      | vyraz • ADD_ASSIGN vyraz
+   26      | vyraz • SUB_ASSIGN vyraz
+   27      | vyraz • MUL_ASSIGN vyraz
+   28      | vyraz • DIV_ASSIGN vyraz
+   29      | vyraz • MOD_ASSIGN vyraz
+   30      | vyraz • SHL_ASSIGN vyraz
+   31      | vyraz • SHR_ASSIGN vyraz
+   32      | vyraz • AND_ASSIGN vyraz
+   33      | vyraz • XOR_ASSIGN vyraz
+   34      | vyraz • OR_ASSIGN vyraz
+   35      | vyraz • '+' vyraz
+   36      | vyraz • '-' vyraz
+   36      | vyraz '-' vyraz •
+   37      | vyraz • '*' vyraz
+   38      | vyraz • '/' vyraz
+   39      | vyraz • MOD vyraz
+   40      | vyraz • SHL vyraz
+   41      | vyraz • SHR vyraz
+   42      | vyraz • BIT_AND vyraz
+   43      | vyraz • BIT_OR vyraz
+   44      | vyraz • BIT_XOR vyraz
+   45      | vyraz • AND vyraz
+   46      | vyraz • OR vyraz
+   59      | vyraz • COMMA vyraz
+
+    SHL    shift, and go to state 61
+    SHR    shift, and go to state 62
+    MOD    shift, and go to state 63
+    COMMA  shift, and go to state 79
+    '*'    shift, and go to state 83
+    '/'    shift, and go to state 84
+
+    $default  reduce using rule 36 (vyraz)
+
+
+State 116
+
+   24 vyraz: vyraz • '=' vyraz
+   25      | vyraz • ADD_ASSIGN vyraz
+   26      | vyraz • SUB_ASSIGN vyraz
+   27      | vyraz • MUL_ASSIGN vyraz
+   28      | vyraz • DIV_ASSIGN vyraz
+   29      | vyraz • MOD_ASSIGN vyraz
+   30      | vyraz • SHL_ASSIGN vyraz
+   31      | vyraz • SHR_ASSIGN vyraz
+   32      | vyraz • AND_ASSIGN vyraz
+   33      | vyraz • XOR_ASSIGN vyraz
+   34      | vyraz • OR_ASSIGN vyraz
+   35      | vyraz • '+' vyraz
+   36      | vyraz • '-' vyraz
+   37      | vyraz • '*' vyraz
+   37      | vyraz '*' vyraz •
+   38      | vyraz • '/' vyraz
+   39      | vyraz • MOD vyraz
+   40      | vyraz • SHL vyraz
+   41      | vyraz • SHR vyraz
+   42      | vyraz • BIT_AND vyraz
+   43      | vyraz • BIT_OR vyraz
+   44      | vyraz • BIT_XOR vyraz
+   45      | vyraz • AND vyraz
+   46      | vyraz • OR vyraz
+   59      | vyraz • COMMA vyraz
+
+    SHL    shift, and go to state 61
+    SHR    shift, and go to state 62
+    COMMA  shift, and go to state 79
+
+    $default  reduce using rule 37 (vyraz)
+
+
+State 117
+
+   24 vyraz: vyraz • '=' vyraz
+   25      | vyraz • ADD_ASSIGN vyraz
+   26      | vyraz • SUB_ASSIGN vyraz
+   27      | vyraz • MUL_ASSIGN vyraz
+   28      | vyraz • DIV_ASSIGN vyraz
+   29      | vyraz • MOD_ASSIGN vyraz
+   30      | vyraz • SHL_ASSIGN vyraz
+   31      | vyraz • SHR_ASSIGN vyraz
+   32      | vyraz • AND_ASSIGN vyraz
+   33      | vyraz • XOR_ASSIGN vyraz
+   34      | vyraz • OR_ASSIGN vyraz
+   35      | vyraz • '+' vyraz
+   36      | vyraz • '-' vyraz
+   37      | vyraz • '*' vyraz
+   38      | vyraz • '/' vyraz
+   38      | vyraz '/' vyraz •
+   39      | vyraz • MOD vyraz
+   40      | vyraz • SHL vyraz
+   41      | vyraz • SHR vyraz
+   42      | vyraz • BIT_AND vyraz
+   43      | vyraz • BIT_OR vyraz
+   44      | vyraz • BIT_XOR vyraz
+   45      | vyraz • AND vyraz
+   46      | vyraz • OR vyraz
+   59      | vyraz • COMMA vyraz
+
+    SHL    shift, and go to state 61
+    SHR    shift, and go to state 62
+    COMMA  shift, and go to state 79
+
+    $default  reduce using rule 38 (vyraz)
+
+
+State 118
+
+    7 prikaz: PRINT '(' vyraz ')' ';' •
+
+    $default  reduce using rule 7 (prikaz)
+
+
+State 119
+
+    8 prikaz: SCAN '(' PROMENNA ')' ';' •
+
+    $default  reduce using rule 8 (prikaz)
+
+
+State 120
+
+    3 prikaz: prikaz •
+    4       | prikaz • prikaz_list
+   10       | IF '(' vyraz ')' prikaz •
+   11       | IF '(' vyraz ')' prikaz • ELSE prikaz
+
+    error  shift, and go to state 1
+    PRINT  shift, and go to state 2
+    SCAN   shift, and go to state 3
+    IF     shift, and go to state 4
+    ELSE   shift, and go to state 125
+    FOR    shift, and go to state 5
+    WHILE  shift, and go to state 6
+    DO     shift, and go to state 7
+    ';'    shift, and go to state 8
+    '{'    shift, and go to state 9
+
+    $end   reduce using rule 2 (prikaz)
+    $end   [reduce using rule 3 (prikaz)]
+    $end   [reduce using rule 10 (prikaz)]
+    $end   [reduce using rule 19 (prikaz_list)]
+    error  [reduce using rule 2 (prikaz)]
+    error  [reduce using rule 3 (prikaz)]
+    error  [reduce using rule 10 (prikaz)]
+    error  [reduce using rule 19 (prikaz_list)]
+    PRINT  [reduce using rule 2 (prikaz)]
+    PRINT  [reduce using rule 3 (prikaz)]
+    PRINT  [reduce using rule 10 (prikaz)]
+    PRINT  [reduce using rule 19 (prikaz_list)]
+    SCAN   [reduce using rule 2 (prikaz)]
+    SCAN   [reduce using rule 3 (prikaz)]
+    SCAN   [reduce using rule 10 (prikaz)]
+    SCAN   [reduce using rule 19 (prikaz_list)]
+    IF     [reduce using rule 2 (prikaz)]
+    IF     [reduce using rule 3 (prikaz)]
+    IF     [reduce using rule 10 (prikaz)]
+    IF     [reduce using rule 19 (prikaz_list)]
+    ELSE   [reduce using rule 2 (prikaz)]
+    ELSE   [reduce using rule 3 (prikaz)]
+    ELSE   [reduce using rule 10 (prikaz)]
+    ELSE   [reduce using rule 19 (prikaz_list)]
+    FOR    [reduce using rule 2 (prikaz)]
+    FOR    [reduce using rule 3 (prikaz)]
+    FOR    [reduce using rule 10 (prikaz)]
+    FOR    [reduce using rule 19 (prikaz_list)]
+    WHILE  [reduce using rule 2 (prikaz)]
+    WHILE  [reduce using rule 3 (prikaz)]
+    WHILE  [reduce using rule 10 (prikaz)]
+    WHILE  [reduce using rule 19 (prikaz_list)]
+    DO     [reduce using rule 2 (prikaz)]
+    DO     [reduce using rule 3 (prikaz)]
+    DO     [reduce using rule 10 (prikaz)]
+    DO     [reduce using rule 19 (prikaz_list)]
+    ';'    [reduce using rule 2 (prikaz)]
+    ';'    [reduce using rule 3 (prikaz)]
+    ';'    [reduce using rule 10 (prikaz)]
+    ';'    [reduce using rule 19 (prikaz_list)]
+    '{'    [reduce using rule 2 (prikaz)]
+    '{'    [reduce using rule 3 (prikaz)]
+    '{'    [reduce using rule 10 (prikaz)]
+    '{'    [reduce using rule 19 (prikaz_list)]
+    '}'    reduce using rule 2 (prikaz)
+    '}'    [reduce using rule 3 (prikaz)]
+    '}'    [reduce using rule 10 (prikaz)]
+    '}'    [reduce using rule 19 (prikaz_list)]
+
+    prikaz       go to state 21
+    prikaz_list  go to state 24
+
+
+State 121
+
+   12 prikaz: FOR '(' vyraz ';' vyraz • ';' vyraz ')' prikaz
+   24 vyraz: vyraz • '=' vyraz
+   25      | vyraz • ADD_ASSIGN vyraz
+   26      | vyraz • SUB_ASSIGN vyraz
+   27      | vyraz • MUL_ASSIGN vyraz
+   28      | vyraz • DIV_ASSIGN vyraz
+   29      | vyraz • MOD_ASSIGN vyraz
+   30      | vyraz • SHL_ASSIGN vyraz
+   31      | vyraz • SHR_ASSIGN vyraz
+   32      | vyraz • AND_ASSIGN vyraz
+   33      | vyraz • XOR_ASSIGN vyraz
+   34      | vyraz • OR_ASSIGN vyraz
+   35      | vyraz • '+' vyraz
+   36      | vyraz • '-' vyraz
+   37      | vyraz • '*' vyraz
+   38      | vyraz • '/' vyraz
+   39      | vyraz • MOD vyraz
+   40      | vyraz • SHL vyraz
+   41      | vyraz • SHR vyraz
+   42      | vyraz • BIT_AND vyraz
+   43      | vyraz • BIT_OR vyraz
+   44      | vyraz • BIT_XOR vyraz
+   45      | vyraz • AND vyraz
+   46      | vyraz • OR vyraz
+   59      | vyraz • COMMA vyraz
+
+    SHL         shift, and go to state 61
+    SHR         shift, and go to state 62
+    MOD         shift, and go to state 63
+    AND         shift, and go to state 64
+    OR          shift, and go to state 65
+    ADD_ASSIGN  shift, and go to state 66
+    SUB_ASSIGN  shift, and go to state 67
+    MUL_ASSIGN  shift, and go to state 68
+    DIV_ASSIGN  shift, and go to state 69
+    MOD_ASSIGN  shift, and go to state 70
+    SHL_ASSIGN  shift, and go to state 71
+    SHR_ASSIGN  shift, and go to state 72
+    AND_ASSIGN  shift, and go to state 73
+    XOR_ASSIGN  shift, and go to state 74
+    OR_ASSIGN   shift, and go to state 75
+    BIT_AND     shift, and go to state 76
+    BIT_OR      shift, and go to state 77
+    BIT_XOR     shift, and go to state 78
+    COMMA       shift, and go to state 79
+    '='         shift, and go to state 80
+    '+'         shift, and go to state 81
+    '-'         shift, and go to state 82
+    '*'         shift, and go to state 83
+    '/'         shift, and go to state 84
+    ';'         shift, and go to state 126
+
+
+State 122
+
+    3 prikaz: prikaz •
+    4       | prikaz • prikaz_list
+   13       | WHILE '(' vyraz ')' prikaz •
+
+    error  shift, and go to state 1
+    PRINT  shift, and go to state 2
+    SCAN   shift, and go to state 3
+    IF     shift, and go to state 4
+    FOR    shift, and go to state 5
+    WHILE  shift, and go to state 6
+    DO     shift, and go to state 7
+    ';'    shift, and go to state 8
+    '{'    shift, and go to state 9
+
+    $end   reduce using rule 2 (prikaz)
+    $end   [reduce using rule 3 (prikaz)]
+    $end   [reduce using rule 13 (prikaz)]
+    $end   [reduce using rule 19 (prikaz_list)]
+    error  [reduce using rule 2 (prikaz)]
+    error  [reduce using rule 3 (prikaz)]
+    error  [reduce using rule 13 (prikaz)]
+    error  [reduce using rule 19 (prikaz_list)]
+    PRINT  [reduce using rule 2 (prikaz)]
+    PRINT  [reduce using rule 3 (prikaz)]
+    PRINT  [reduce using rule 13 (prikaz)]
+    PRINT  [reduce using rule 19 (prikaz_list)]
+    SCAN   [reduce using rule 2 (prikaz)]
+    SCAN   [reduce using rule 3 (prikaz)]
+    SCAN   [reduce using rule 13 (prikaz)]
+    SCAN   [reduce using rule 19 (prikaz_list)]
+    IF     [reduce using rule 2 (prikaz)]
+    IF     [reduce using rule 3 (prikaz)]
+    IF     [reduce using rule 13 (prikaz)]
+    IF     [reduce using rule 19 (prikaz_list)]
+    ELSE   reduce using rule 2 (prikaz)
+    ELSE   [reduce using rule 3 (prikaz)]
+    ELSE   [reduce using rule 13 (prikaz)]
+    ELSE   [reduce using rule 19 (prikaz_list)]
+    FOR    [reduce using rule 2 (prikaz)]
+    FOR    [reduce using rule 3 (prikaz)]
+    FOR    [reduce using rule 13 (prikaz)]
+    FOR    [reduce using rule 19 (prikaz_list)]
+    WHILE  [reduce using rule 2 (prikaz)]
+    WHILE  [reduce using rule 3 (prikaz)]
+    WHILE  [reduce using rule 13 (prikaz)]
+    WHILE  [reduce using rule 19 (prikaz_list)]
+    DO     [reduce using rule 2 (prikaz)]
+    DO     [reduce using rule 3 (prikaz)]
+    DO     [reduce using rule 13 (prikaz)]
+    DO     [reduce using rule 19 (prikaz_list)]
+    ';'    [reduce using rule 2 (prikaz)]
+    ';'    [reduce using rule 3 (prikaz)]
+    ';'    [reduce using rule 13 (prikaz)]
+    ';'    [reduce using rule 19 (prikaz_list)]
+    '{'    [reduce using rule 2 (prikaz)]
+    '{'    [reduce using rule 3 (prikaz)]
+    '{'    [reduce using rule 13 (prikaz)]
+    '{'    [reduce using rule 19 (prikaz_list)]
+    '}'    reduce using rule 2 (prikaz)
+    '}'    [reduce using rule 3 (prikaz)]
+    '}'    [reduce using rule 13 (prikaz)]
+    '}'    [reduce using rule 19 (prikaz_list)]
+
+    prikaz       go to state 21
+    prikaz_list  go to state 24
+
+
+State 123
+
+   13 prikaz: WHILE '(' vyraz • ')' prikaz
+   14       | DO prikaz WHILE '(' vyraz • ')' ';'
+   24 vyraz: vyraz • '=' vyraz
+   25      | vyraz • ADD_ASSIGN vyraz
+   26      | vyraz • SUB_ASSIGN vyraz
+   27      | vyraz • MUL_ASSIGN vyraz
+   28      | vyraz • DIV_ASSIGN vyraz
+   29      | vyraz • MOD_ASSIGN vyraz
+   30      | vyraz • SHL_ASSIGN vyraz
+   31      | vyraz • SHR_ASSIGN vyraz
+   32      | vyraz • AND_ASSIGN vyraz
+   33      | vyraz • XOR_ASSIGN vyraz
+   34      | vyraz • OR_ASSIGN vyraz
+   35      | vyraz • '+' vyraz
+   36      | vyraz • '-' vyraz
+   37      | vyraz • '*' vyraz
+   38      | vyraz • '/' vyraz
+   39      | vyraz • MOD vyraz
+   40      | vyraz • SHL vyraz
+   41      | vyraz • SHR vyraz
+   42      | vyraz • BIT_AND vyraz
+   43      | vyraz • BIT_OR vyraz
+   44      | vyraz • BIT_XOR vyraz
+   45      | vyraz • AND vyraz
+   46      | vyraz • OR vyraz
+   59      | vyraz • COMMA vyraz
+
+    SHL         shift, and go to state 61
+    SHR         shift, and go to state 62
+    MOD         shift, and go to state 63
+    AND         shift, and go to state 64
+    OR          shift, and go to state 65
+    ADD_ASSIGN  shift, and go to state 66
+    SUB_ASSIGN  shift, and go to state 67
+    MUL_ASSIGN  shift, and go to state 68
+    DIV_ASSIGN  shift, and go to state 69
+    MOD_ASSIGN  shift, and go to state 70
+    SHL_ASSIGN  shift, and go to state 71
+    SHR_ASSIGN  shift, and go to state 72
+    AND_ASSIGN  shift, and go to state 73
+    XOR_ASSIGN  shift, and go to state 74
+    OR_ASSIGN   shift, and go to state 75
+    BIT_AND     shift, and go to state 76
+    BIT_OR      shift, and go to state 77
+    BIT_XOR     shift, and go to state 78
+    COMMA       shift, and go to state 79
+    '='         shift, and go to state 80
+    '+'         shift, and go to state 81
+    '-'         shift, and go to state 82
+    '*'         shift, and go to state 83
+    '/'         shift, and go to state 84
+    ')'         shift, and go to state 127
+
+
+State 124
+
+    6 prikaz: PRINT '(' RETEZ ',' vyraz ')' • ';'
+
+    ';'  shift, and go to state 128
+
+
+State 125
+
+   11 prikaz: IF '(' vyraz ')' prikaz ELSE • prikaz
+
+    error  shift, and go to state 1
+    PRINT  shift, and go to state 2
+    SCAN   shift, and go to state 3
+    IF     shift, and go to state 4
+    FOR    shift, and go to state 5
+    WHILE  shift, and go to state 6
+    DO     shift, and go to state 7
+    ';'    shift, and go to state 8
+    '{'    shift, and go to state 9
+
+    $end   reduce using rule 2 (prikaz)
+    error  [reduce using rule 2 (prikaz)]
+    PRINT  [reduce using rule 2 (prikaz)]
+    SCAN   [reduce using rule 2 (prikaz)]
+    IF     [reduce using rule 2 (prikaz)]
+    ELSE   reduce using rule 2 (prikaz)
+    FOR    [reduce using rule 2 (prikaz)]
+    WHILE  [reduce using rule 2 (prikaz)]
+    DO     [reduce using rule 2 (prikaz)]
+    ';'    [reduce using rule 2 (prikaz)]
+    '{'    [reduce using rule 2 (prikaz)]
+    '}'    reduce using rule 2 (prikaz)
+
+    prikaz  go to state 129
+
+
+State 126
+
+   12 prikaz: FOR '(' vyraz ';' vyraz ';' • vyraz ')' prikaz
+
+    CISLO       shift, and go to state 25
+    PROMENNA    shift, and go to state 26
+    BIT_NOT     shift, and go to state 28
+    POROVNANI   shift, and go to state 29
+    NENIROVNO   shift, and go to state 30
+    MENSIROVNO  shift, and go to state 31
+    VETSIROVNO  shift, and go to state 32
+    INKREM      shift, and go to state 33
+    '<'         shift, and go to state 34
+    '>'         shift, and go to state 35
+    '-'         shift, and go to state 36
+    '('         shift, and go to state 37
+
+    vyraz  go to state 130
+
+
+State 127
+
+   13 prikaz: WHILE '(' vyraz ')' • prikaz
+   14       | DO prikaz WHILE '(' vyraz ')' • ';'
+
+    error  shift, and go to state 1
+    PRINT  shift, and go to state 2
+    SCAN   shift, and go to state 3
+    IF     shift, and go to state 4
+    FOR    shift, and go to state 5
+    WHILE  shift, and go to state 6
+    DO     shift, and go to state 7
+    ';'    shift, and go to state 131
+    '{'    shift, and go to state 9
+
+    error  [reduce using rule 2 (prikaz)]
+    PRINT  [reduce using rule 2 (prikaz)]
+    SCAN   [reduce using rule 2 (prikaz)]
+    IF     [reduce using rule 2 (prikaz)]
+    FOR    [reduce using rule 2 (prikaz)]
+    WHILE  [reduce using rule 2 (prikaz)]
+    DO     [reduce using rule 2 (prikaz)]
+    ';'    [reduce using rule 2 (prikaz)]
+    '{'    [reduce using rule 2 (prikaz)]
+
+    prikaz  go to state 122
+
+
+State 128
+
+    6 prikaz: PRINT '(' RETEZ ',' vyraz ')' ';' •
+
+    $default  reduce using rule 6 (prikaz)
+
+
+State 129
+
+    3 prikaz: prikaz •
+    4       | prikaz • prikaz_list
+   11       | IF '(' vyraz ')' prikaz ELSE prikaz •
+
+    error  shift, and go to state 1
+    PRINT  shift, and go to state 2
+    SCAN   shift, and go to state 3
+    IF     shift, and go to state 4
+    FOR    shift, and go to state 5
+    WHILE  shift, and go to state 6
+    DO     shift, and go to state 7
+    ';'    shift, and go to state 8
+    '{'    shift, and go to state 9
+
+    $end   reduce using rule 2 (prikaz)
+    $end   [reduce using rule 3 (prikaz)]
+    $end   [reduce using rule 11 (prikaz)]
+    $end   [reduce using rule 19 (prikaz_list)]
+    error  [reduce using rule 2 (prikaz)]
+    error  [reduce using rule 3 (prikaz)]
+    error  [reduce using rule 11 (prikaz)]
+    error  [reduce using rule 19 (prikaz_list)]
+    PRINT  [reduce using rule 2 (prikaz)]
+    PRINT  [reduce using rule 3 (prikaz)]
+    PRINT  [reduce using rule 11 (prikaz)]
+    PRINT  [reduce using rule 19 (prikaz_list)]
+    SCAN   [reduce using rule 2 (prikaz)]
+    SCAN   [reduce using rule 3 (prikaz)]
+    SCAN   [reduce using rule 11 (prikaz)]
+    SCAN   [reduce using rule 19 (prikaz_list)]
+    IF     [reduce using rule 2 (prikaz)]
+    IF     [reduce using rule 3 (prikaz)]
+    IF     [reduce using rule 11 (prikaz)]
+    IF     [reduce using rule 19 (prikaz_list)]
+    ELSE   reduce using rule 2 (prikaz)
+    ELSE   [reduce using rule 3 (prikaz)]
+    ELSE   [reduce using rule 11 (prikaz)]
+    ELSE   [reduce using rule 19 (prikaz_list)]
+    FOR    [reduce using rule 2 (prikaz)]
+    FOR    [reduce using rule 3 (prikaz)]
+    FOR    [reduce using rule 11 (prikaz)]
+    FOR    [reduce using rule 19 (prikaz_list)]
+    WHILE  [reduce using rule 2 (prikaz)]
+    WHILE  [reduce using rule 3 (prikaz)]
+    WHILE  [reduce using rule 11 (prikaz)]
+    WHILE  [reduce using rule 19 (prikaz_list)]
+    DO     [reduce using rule 2 (prikaz)]
+    DO     [reduce using rule 3 (prikaz)]
+    DO     [reduce using rule 11 (prikaz)]
+    DO     [reduce using rule 19 (prikaz_list)]
+    ';'    [reduce using rule 2 (prikaz)]
+    ';'    [reduce using rule 3 (prikaz)]
+    ';'    [reduce using rule 11 (prikaz)]
+    ';'    [reduce using rule 19 (prikaz_list)]
+    '{'    [reduce using rule 2 (prikaz)]
+    '{'    [reduce using rule 3 (prikaz)]
+    '{'    [reduce using rule 11 (prikaz)]
+    '{'    [reduce using rule 19 (prikaz_list)]
+    '}'    reduce using rule 2 (prikaz)
+    '}'    [reduce using rule 3 (prikaz)]
+    '}'    [reduce using rule 11 (prikaz)]
+    '}'    [reduce using rule 19 (prikaz_list)]
+
+    prikaz       go to state 21
+    prikaz_list  go to state 24
+
+
+State 130
+
+   12 prikaz: FOR '(' vyraz ';' vyraz ';' vyraz • ')' prikaz
+   24 vyraz: vyraz • '=' vyraz
+   25      | vyraz • ADD_ASSIGN vyraz
+   26      | vyraz • SUB_ASSIGN vyraz
+   27      | vyraz • MUL_ASSIGN vyraz
+   28      | vyraz • DIV_ASSIGN vyraz
+   29      | vyraz • MOD_ASSIGN vyraz
+   30      | vyraz • SHL_ASSIGN vyraz
+   31      | vyraz • SHR_ASSIGN vyraz
+   32      | vyraz • AND_ASSIGN vyraz
+   33      | vyraz • XOR_ASSIGN vyraz
+   34      | vyraz • OR_ASSIGN vyraz
+   35      | vyraz • '+' vyraz
+   36      | vyraz • '-' vyraz
+   37      | vyraz • '*' vyraz
+   38      | vyraz • '/' vyraz
+   39      | vyraz • MOD vyraz
+   40      | vyraz • SHL vyraz
+   41      | vyraz • SHR vyraz
+   42      | vyraz • BIT_AND vyraz
+   43      | vyraz • BIT_OR vyraz
+   44      | vyraz • BIT_XOR vyraz
+   45      | vyraz • AND vyraz
+   46      | vyraz • OR vyraz
+   59      | vyraz • COMMA vyraz
+
+    SHL         shift, and go to state 61
+    SHR         shift, and go to state 62
+    MOD         shift, and go to state 63
+    AND         shift, and go to state 64
+    OR          shift, and go to state 65
+    ADD_ASSIGN  shift, and go to state 66
+    SUB_ASSIGN  shift, and go to state 67
+    MUL_ASSIGN  shift, and go to state 68
+    DIV_ASSIGN  shift, and go to state 69
+    MOD_ASSIGN  shift, and go to state 70
+    SHL_ASSIGN  shift, and go to state 71
+    SHR_ASSIGN  shift, and go to state 72
+    AND_ASSIGN  shift, and go to state 73
+    XOR_ASSIGN  shift, and go to state 74
+    OR_ASSIGN   shift, and go to state 75
+    BIT_AND     shift, and go to state 76
+    BIT_OR      shift, and go to state 77
+    BIT_XOR     shift, and go to state 78
+    COMMA       shift, and go to state 79
+    '='         shift, and go to state 80
+    '+'         shift, and go to state 81
+    '-'         shift, and go to state 82
+    '*'         shift, and go to state 83
+    '/'         shift, and go to state 84
+    ')'         shift, and go to state 132
+
+
+State 131
+
+   14 prikaz: DO prikaz WHILE '(' vyraz ')' ';' •
+   18       | ';' •
+
+    error     reduce using rule 14 (prikaz)
+    error     [reduce using rule 18 (prikaz)]
+    PRINT     reduce using rule 14 (prikaz)
+    PRINT     [reduce using rule 18 (prikaz)]
+    SCAN      reduce using rule 14 (prikaz)
+    SCAN      [reduce using rule 18 (prikaz)]
+    IF        reduce using rule 14 (prikaz)
+    IF        [reduce using rule 18 (prikaz)]
+    FOR       reduce using rule 14 (prikaz)
+    FOR       [reduce using rule 18 (prikaz)]
+    WHILE     reduce using rule 14 (prikaz)
+    WHILE     [reduce using rule 18 (prikaz)]
+    DO        reduce using rule 14 (prikaz)
+    DO        [reduce using rule 18 (prikaz)]
+    ';'       reduce using rule 14 (prikaz)
+    ';'       [reduce using rule 18 (prikaz)]
+    '{'       reduce using rule 14 (prikaz)
+    '{'       [reduce using rule 18 (prikaz)]
+    $default  reduce using rule 14 (prikaz)
+
+
+State 132
+
+   12 prikaz: FOR '(' vyraz ';' vyraz ';' vyraz ')' • prikaz
+
+    error  shift, and go to state 1
+    PRINT  shift, and go to state 2
+    SCAN   shift, and go to state 3
+    IF     shift, and go to state 4
+    FOR    shift, and go to state 5
+    WHILE  shift, and go to state 6
+    DO     shift, and go to state 7
+    ';'    shift, and go to state 8
+    '{'    shift, and go to state 9
+
+    $end   reduce using rule 2 (prikaz)
+    error  [reduce using rule 2 (prikaz)]
+    PRINT  [reduce using rule 2 (prikaz)]
+    SCAN   [reduce using rule 2 (prikaz)]
+    IF     [reduce using rule 2 (prikaz)]
+    ELSE   reduce using rule 2 (prikaz)
+    FOR    [reduce using rule 2 (prikaz)]
+    WHILE  [reduce using rule 2 (prikaz)]
+    DO     [reduce using rule 2 (prikaz)]
+    ';'    [reduce using rule 2 (prikaz)]
+    '{'    [reduce using rule 2 (prikaz)]
+    '}'    reduce using rule 2 (prikaz)
+
+    prikaz  go to state 133
+
+
+State 133
+
+    3 prikaz: prikaz •
+    4       | prikaz • prikaz_list
+   12       | FOR '(' vyraz ';' vyraz ';' vyraz ')' prikaz •
+
+    error  shift, and go to state 1
+    PRINT  shift, and go to state 2
+    SCAN   shift, and go to state 3
+    IF     shift, and go to state 4
+    FOR    shift, and go to state 5
+    WHILE  shift, and go to state 6
+    DO     shift, and go to state 7
+    ';'    shift, and go to state 8
+    '{'    shift, and go to state 9
+
+    $end   reduce using rule 2 (prikaz)
+    $end   [reduce using rule 3 (prikaz)]
+    $end   [reduce using rule 12 (prikaz)]
+    $end   [reduce using rule 19 (prikaz_list)]
+    error  [reduce using rule 2 (prikaz)]
+    error  [reduce using rule 3 (prikaz)]
+    error  [reduce using rule 12 (prikaz)]
+    error  [reduce using rule 19 (prikaz_list)]
+    PRINT  [reduce using rule 2 (prikaz)]
+    PRINT  [reduce using rule 3 (prikaz)]
+    PRINT  [reduce using rule 12 (prikaz)]
+    PRINT  [reduce using rule 19 (prikaz_list)]
+    SCAN   [reduce using rule 2 (prikaz)]
+    SCAN   [reduce using rule 3 (prikaz)]
+    SCAN   [reduce using rule 12 (prikaz)]
+    SCAN   [reduce using rule 19 (prikaz_list)]
+    IF     [reduce using rule 2 (prikaz)]
+    IF     [reduce using rule 3 (prikaz)]
+    IF     [reduce using rule 12 (prikaz)]
+    IF     [reduce using rule 19 (prikaz_list)]
+    ELSE   reduce using rule 2 (prikaz)
+    ELSE   [reduce using rule 3 (prikaz)]
+    ELSE   [reduce using rule 12 (prikaz)]
+    ELSE   [reduce using rule 19 (prikaz_list)]
+    FOR    [reduce using rule 2 (prikaz)]
+    FOR    [reduce using rule 3 (prikaz)]
+    FOR    [reduce using rule 12 (prikaz)]
+    FOR    [reduce using rule 19 (prikaz_list)]
+    WHILE  [reduce using rule 2 (prikaz)]
+    WHILE  [reduce using rule 3 (prikaz)]
+    WHILE  [reduce using rule 12 (prikaz)]
+    WHILE  [reduce using rule 19 (prikaz_list)]
+    DO     [reduce using rule 2 (prikaz)]
+    DO     [reduce using rule 3 (prikaz)]
+    DO     [reduce using rule 12 (prikaz)]
+    DO     [reduce using rule 19 (prikaz_list)]
+    ';'    [reduce using rule 2 (prikaz)]
+    ';'    [reduce using rule 3 (prikaz)]
+    ';'    [reduce using rule 12 (prikaz)]
+    ';'    [reduce using rule 19 (prikaz_list)]
+    '{'    [reduce using rule 2 (prikaz)]
+    '{'    [reduce using rule 3 (prikaz)]
+    '{'    [reduce using rule 12 (prikaz)]
+    '{'    [reduce using rule 19 (prikaz_list)]
+    '}'    reduce using rule 2 (prikaz)
+    '}'    [reduce using rule 3 (prikaz)]
+    '}'    [reduce using rule 12 (prikaz)]
+    '}'    [reduce using rule 19 (prikaz_list)]
+
+    prikaz       go to state 21
+    prikaz_list  go to state 24

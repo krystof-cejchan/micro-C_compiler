@@ -1,5 +1,5 @@
 %code requires {
-    typedef struct Uzel Uzel;  // Forward declaration for Bison
+    typedef struct Uzel Uzel;
 }
 
 %{
@@ -57,13 +57,17 @@ prikaz:
   | FOR '(' vyraz ';' vyraz ';' vyraz ')' prikaz { $$ = GenUzel(FOR, $3, $5, $7, $9); }
   | WHILE '(' vyraz ')' prikaz      { $$ = GenUzel(WHILE, $3, $5, NULL, NULL); }
   | DO prikaz WHILE '(' vyraz ')' ';' { $$ = GenUzel(DO, $2, $5, NULL, NULL); }
+  | error ';'       { yyclearin; yyerrok; $$ = NULL; }
+  | error '}'       { yyclearin; yyerrok; $$ = NULL; }
+  | '{' error '}'               { $$ = NULL; }  // Zpracování chybných bloků
   | ';'                            { $$ = NULL; }  // Prázdný příkaz
 
   ;
 
 prikaz_list:
     /* empty */                     { $$ = NULL; }
-  | prikaz prikaz_list              { $$ = GenUzel(0, $1, $2, NULL, NULL); }
+  | prikaz                         { $$ = $1; }
+  | prikaz_list prikaz             { $$ = GenUzel(0, $1, $2, NULL, NULL); }
   ;
 
 vyraz:
