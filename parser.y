@@ -1,3 +1,7 @@
+%code requires {
+    typedef struct Uzel Uzel;  // Forward declaration for Bison
+}
+
 %{
 #include "ast.h"
 #include <stdio.h>
@@ -11,7 +15,7 @@ void yyerror(const char *s);
 
 %token <u> CISLO PROMENNA RETEZ
 %token PRINT SCAN IF ELSE FOR WHILE DO
-%token INKREM DEKREM SHL SHR MOD AND OR NOT BIT_NOT
+%token SHL SHR MOD AND OR NOT BIT_NOT
 %token POROVNANI NENIROVNO MENSIROVNO VETSIROVNO
 %token ADD_ASSIGN SUB_ASSIGN MUL_ASSIGN DIV_ASSIGN MOD_ASSIGN
 %token SHL_ASSIGN SHR_ASSIGN AND_ASSIGN XOR_ASSIGN OR_ASSIGN
@@ -40,9 +44,12 @@ void yyerror(const char *s);
 program: prikaz { Koren = $1; }
 
 prikaz:
-    vyraz ';'                       { $$ = $1; }
-  | PRINT '(' vyraz ')' ';'         { $$ = GenUzel(PRINT, $3, NULL, NULL, NULL); }
-  | PRINT '(' RETEZ ',' vyraz ')' ';' { $$ = GenUzel(PRINT, $3, $5, NULL, NULL); }
+    /* empty */                     { $$ = NULL; }
+  | prikaz                         { $$ = $1; }  // Povolit jednotlivý příkaz
+  | prikaz prikaz_list             { $$ = GenUzel(0, $1, $2, NULL, NULL); }
+  | PRINT '(' RETEZ ')' ';'         { $$ = GenUzel(PRINT, $3, NULL, NULL, NULL); }  // New rule for strings without arguments
+  | PRINT '(' RETEZ ',' vyraz ')' ';' { $$ = GenUzel(PRINT, $3, $5, NULL, NULL); }  // Existing formatted print
+  | PRINT '(' vyraz ')' ';'         { $$ = GenUzel(PRINT, $3, NULL, NULL, NULL); }  // For numbers/variables
   | SCAN '(' PROMENNA ')' ';'       { $$ = GenUzel(SCAN, $3, NULL, NULL, NULL); }
   | '{' prikaz_list '}'             { $$ = $2; }
   | IF '(' vyraz ')' prikaz         %prec IF { $$ = GenUzel(IF, $3, $5, NULL, NULL); }
@@ -50,6 +57,8 @@ prikaz:
   | FOR '(' vyraz ';' vyraz ';' vyraz ')' prikaz { $$ = GenUzel(FOR, $3, $5, $7, $9); }
   | WHILE '(' vyraz ')' prikaz      { $$ = GenUzel(WHILE, $3, $5, NULL, NULL); }
   | DO prikaz WHILE '(' vyraz ')' ';' { $$ = GenUzel(DO, $2, $5, NULL, NULL); }
+  | ';'                            { $$ = NULL; }  // Prázdný příkaz
+
   ;
 
 prikaz_list:
@@ -95,7 +104,7 @@ vyraz:
   | PROMENNA INKREM                 { $$ = GenUzel(INKREM, NULL, $1, NULL, NULL); }
   | PROMENNA DEKREM                 { $$ = GenUzel(DEKREM, NULL, $1, NULL, NULL); }
   | '(' vyraz ')'                   { $$ = $2; }
-  | vyraz TERNARY_QUEST vyraz TERNARY_COLON vyraz { $$ = GenUzel(TERNARY, $1, $3, $5, NULL); }
+ // | vyraz TERNARY_QUEST vyraz TERNARY_COLON vyraz { $$ = GenUzel(TERNARY, $1, $3, $5, NULL); }
   | vyraz COMMA vyraz               { $$ = GenUzel(COMMA, $1, $3, NULL, NULL); }
   ;
 

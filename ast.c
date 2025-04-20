@@ -3,6 +3,7 @@
 #include <string.h>
 #include "uthash.h"
 
+
 typedef struct {
     char *jmeno;
     int *adresa;

@@ -12,13 +12,12 @@ BIN         (0b)[01]+
 HEX         \$[0-9a-fA-F]+
 CISLO       [0-9]+
 ID          [a-zA-Z_][a-zA-Z0-9_]*
-MEZERY      [ \t]
-RADEK       \n
 KOMENTAR    "/*"([^*]|"*"+[^*/])*"*/"|"//".*
-
+MEZERY      [ \t]+
+RADEK       \n
 %%
 
-{MEZERY}    { Sloupec++; }
+{MEZERY}    { Sloupec += yyleng; }  // Správně počítat mezery
 {RADEK}     { Radek++; Sloupec=1; }
 {KOMENTAR}  /* Ignorovat */
 

@@ -10,10 +10,10 @@ void Abort() {
 int Interpr(Uzel *u) {
     if (!u) return 0;
 
-    #define prvni u->z.z.prvni
-    #define druhy u->z.z.druhy
-    #define treti u->z.z.treti
-    #define ctvrty u->z.z.ctvrty
+    #define prvni u->z.prvni
+    #define druhy u->z.druhy
+    #define treti u->z.treti
+    #define ctvrty u->z.ctvrty
 
     switch (u->Typ) {
         case '=': return *prvni->Adresa = Interpr(druhy);
@@ -81,8 +81,8 @@ int Interpr(Uzel *u) {
             return 0;
         case INKREM:
             return (prvni) ? ++(*prvni->Adresa) : (*druhy->Adresa)++;
-        case TERNARY:
-            return Interpr(Interpr(prvni) ? druhy : treti);
+      //  case TERNARY:
+        //    return Interpr(Interpr(prvni) ? druhy : treti);
         case COMMA:
             Interpr(prvni);
             return Interpr(druhy);

@@ -1,6 +1,7 @@
 #include "ast.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 Uzel *Koren = NULL;
 unsigned Radek = 1, Sloupec = 1;
