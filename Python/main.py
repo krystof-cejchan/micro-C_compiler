@@ -1,8 +1,7 @@
 import sys
-
-from uPascal_lex import uP_lexer
-from uPascal_par import *
 from uzel import *
+from microC_lexer import *
+from microC_parser import *
 
 
 def interpret(node: Uzel):
@@ -26,7 +25,7 @@ if __name__ == "__main__":
     with open(test_file, "r") as f:
         code = f.read()
 
-    AST = parser.parse(code, lexer=uP_lexer)
+    AST = parser.parse(code, lexer=lexer)
 
     try:
         interpret(AST)

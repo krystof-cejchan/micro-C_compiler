@@ -1,6 +1,6 @@
 import sys
 
-from uPascal_lex import uP_lexer, tokens
+from microC_lexer import *
 import ply.yacc as yacc
 from uzel import *
 

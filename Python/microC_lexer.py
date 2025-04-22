@@ -149,4 +149,4 @@ def t_COMMENT_LINE(t):
     pass
 
 
-uP_lexer = lex.lex()
+lexer = lex.lex()

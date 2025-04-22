@@ -1,18 +1,3 @@
-# typedef struct uzel_s {
-#
-#     int Typ;
-#
-#     union {
-#         struct { struct uzel_s *prvni,*druhy,*treti,*ctvrty; } z;
-#         int Cislo;
-#         const char *Retez;
-#         int *Adresa;
-#     } z;
-#
-# } Uzel;
-
-
-# Types:
 CISLO = 'CISLO'
 RETEZ = 'RETEZ'
 PROMENNA = 'PROMENNA'
