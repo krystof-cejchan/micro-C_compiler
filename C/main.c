@@ -1,12 +1,14 @@
-#include "ast.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include "MikroC.h"
 
 Uzel *Koren = NULL;
 unsigned Radek = 1, Sloupec = 1;
 bool Chyby = false;
 extern FILE *yyin;
+
+int Interpr(Uzel *u);
 
 int main(int argc, char **argv) {
     if (argc != 2) {
@@ -23,6 +25,8 @@ int main(int argc, char **argv) {
     yyparse();
     fclose(yyin);
 
-    if (!Chyby && Koren) Interpr(Koren);
+    if (!Chyby && Koren) {
+        Interpr(Koren);
+    }
     return 0;
 }
