@@ -1,0 +1,644 @@
+import sys
+import ply.lex as lex
+import ply.yacc as yacc
+
+# =====================
+# Lexer for mikroC
+# =====================
+
+reserved = {
+    "if": "IF",
+    "else": "ELSE",
+    "while": "WHILE",
+    "do": "DO",
+    "for": "FOR",
+    "print": "PRINT",
+    "scan": "SCAN",
+}
+
+tokens = [
+    "NUMBER",
+    "ID",
+    "STRING",
+    "PLUSPLUS",
+    "MINUSMINUS",
+    "EQ",
+    "NE",
+    "LE",
+    "GE",
+    "AND",
+    "OR",
+    "LSHIFT",
+    "RSHIFT",
+    "PLUSEQ",
+    "MINUSEQ",
+    "TIMESEQ",
+    "DIVEQ",
+    "MODEQ",
+    "LSHIFTEQ",
+    "RSHIFTEQ",
+    "ANDEQ",
+    "XOREQ",
+    "OREQ",
+] + list(reserved.values())
+
+literals = [
+    "=",
+    "+",
+    "-",
+    "*",
+    "/",
+    "%",
+    "<",
+    ">",
+    "!",
+    "~",
+    "&",
+    "^",
+    "|",
+    "(",
+    ")",
+    "{",
+    "}",
+    ";",
+    ",",
+]
+
+t_ignore = " \t\r"
+
+
+def t_COMMENT(t):
+    r"//.*|/\*(.|\n)*?\*/"
+    pass
+
+
+def t_TRUE(t):
+    r"\b(true|false)\b"
+    t.type = "NUMBER"
+    t.value = 1 if t.value == "true" else 0
+    return t
+
+
+def t_ID(t):
+    r"[a-zA-Z_][a-zA-Z_0-9]*"
+    t.type = reserved.get(t.value, "ID")
+    return t
+
+
+def t_NUMBER(t):
+    r"0b[01]+|0x[0-9A-Fa-f]+|[0-9]+"
+    s = t.value.lower()
+    if s.startswith("0b"):
+        t.value = int(s[2:], 2)
+    elif s.startswith("0x"):
+        t.value = int(s[2:], 16)
+    else:
+        t.value = int(s)
+    return t
+
+
+def t_STRING(t):
+    r"\"([^\\\n]|(\\.)*?)*?\" "
+    t.value = t.value[1:-1]
+    return t
+
+
+assign_map = {
+    "+=": "PLUSEQ",
+    "-=": "MINUSEQ",
+    "*=": "TIMESEQ",
+    "/=": "DIVEQ",
+    "%=": "MODEQ",
+    "<<=": "LSHIFTEQ",
+    ">>=": "RSHIFTEQ",
+    "&=": "ANDEQ",
+    "^=": "XOREQ",
+    "|=": "OREQ",
+}
+
+
+def t_ASSIGN_OP(t):
+    r"\+=|-=|\*=|/=|%=|<<=|>>=|&=|\^=|\|="
+    t.type = assign_map[t.value]
+    return t
+
+
+op_map = {
+    "++": "PLUSPLUS",
+    "--": "MINUSMINUS",
+    "==": "EQ",
+    "!=": "NE",
+    "<=": "LE",
+    ">=": "GE",
+    "&&": "AND",
+    "||": "OR",
+    "<<": "LSHIFT",
+    ">>": "RSHIFT",
+}
+
+
+def t_OP_MULTI(t):
+    r"\+\+|--|==|!=|<=|>=|&&|\|\||<<|>>"
+    t.type = op_map[t.value]
+    return t
+
+
+def t_newline(t):
+    r"\n+"
+    t.lexer.lineno += len(t.value)
+
+
+def t_error(t):
+    print(f"Illegal character '{t.value[0]}' at line {t.lineno}")
+    t.lexer.skip(1)
+
+
+lexer = lex.lex()
+
+# =====================
+# AST node definitions
+# =====================
+
+
+class Node:
+    pass
+
+
+class Number(Node):
+    def __init__(self, value):
+        self.value = value
+
+
+class String(Node):
+    def __init__(self, value):
+        self.value = value
+
+
+class Var(Node):
+    def __init__(self, name):
+        self.name = name
+
+
+class BinOp(Node):
+    def __init__(self, op, left, right):
+        self.op = op
+        self.left = left
+        self.right = right
+
+
+class UnOp(Node):
+    def __init__(self, op, expr):
+        self.op = op
+        self.expr = expr
+
+
+class Assign(Node):
+    def __init__(self, target, op, expr):
+        self.target = target
+        self.op = op
+        self.expr = expr
+
+
+class Print(Node):
+    def __init__(self, fmt, expr=None):
+        self.fmt = fmt
+        self.expr = expr
+
+
+class Scan(Node):
+    def __init__(self, var):
+        self.var = var
+
+
+class Compound(Node):
+    def __init__(self, stmt_list):
+        self.stmt_list = stmt_list
+
+
+class If(Node):
+    def __init__(self, cond, then, otherwise=None):
+        self.cond = cond
+        self.then = then
+        self.otherwise = otherwise
+
+
+class While(Node):
+    def __init__(self, cond, body):
+        self.cond = cond
+        self.body = body
+
+
+class DoWhile(Node):
+    def __init__(self, body, cond):
+        self.body = body
+        self.cond = cond
+
+
+class For(Node):
+    def __init__(self, init, cond, incr, body):
+        self.init = init
+        self.cond = cond
+        self.incr = incr
+        self.body = body
+
+
+class PreInc(Node):
+    def __init__(self, var):
+        self.var = var
+
+
+# =====================
+# Parser for mikroC
+# =====================
+
+precedence = (
+    (
+        "right",
+        "=",
+        "PLUSEQ",
+        "MINUSEQ",
+        "TIMESEQ",
+        "DIVEQ",
+        "MODEQ",
+        "LSHIFTEQ",
+        "RSHIFTEQ",
+        "ANDEQ",
+        "XOREQ",
+        "OREQ",
+    ),
+    ("left", "OR"),
+    ("left", "AND"),
+    ("left", "EQ", "NE"),
+    ("left", "<", ">", "LE", "GE"),
+    ("left", "LSHIFT", "RSHIFT"),
+    ("left", "+", "-"),
+    ("left", "*", "/", "%"),
+    ("right", "UPLUS", "UMINUS"),
+)
+
+
+def p_program(p):
+    "program : compound_statement"
+    p[0] = p[1]
+
+
+def p_compound(p):
+    "compound_statement : '{' stmt_list '}'"
+    p[0] = Compound(p[2])
+
+
+def p_stmt_list(p):
+    "stmt_list : stmt_list statement"
+    p[0] = p[1] + [p[2]]
+
+
+def p_stmt_list_empty(p):
+    "stmt_list :"
+    p[0] = []
+
+
+def p_statement_expr(p):
+    "statement : expression ';'"
+    p[0] = p[1]
+
+
+def p_statement_compound(p):
+    "statement : compound_statement"
+    p[0] = p[1]
+
+
+def p_statement_if(p):
+    "statement : IF '(' expression ')' statement"
+    p[0] = If(p[3], p[5])
+
+
+def p_statement_if_else(p):
+    "statement : IF '(' expression ')' statement ELSE statement"
+    p[0] = If(p[3], p[5], p[7])
+
+
+def p_statement_while(p):
+    "statement : WHILE '(' expression ')' statement"
+    p[0] = While(p[3], p[5])
+
+
+def p_statement_do(p):
+    "statement : DO statement WHILE '(' expression ')' ';'"
+    p[0] = DoWhile(p[2], p[5])
+
+
+def p_statement_for(p):
+    "statement : FOR '(' opt_expr ';' opt_expr ';' opt_expr ')' statement"
+    p[0] = For(p[3], p[5], p[7], p[9])
+
+
+def p_opt_expr(p):
+    "opt_expr : expression"
+    p[0] = p[1]
+
+
+def p_opt_expr_empty(p):
+    "opt_expr :"
+    p[0] = None
+
+
+def p_statement_print(p):
+    "statement : PRINT '(' print_args ')' ';'"
+    p[0] = Print(*p[3])
+
+
+def p_print_args_fmt(p):
+    "print_args : STRING ',' expression"
+    p[0] = (p[1], p[3])
+
+
+def p_print_args_str(p):
+    "print_args : STRING"
+    p[0] = (p[1], None)
+
+
+def p_statement_scan(p):
+    "statement : SCAN '(' ID ')' ';'"
+    p[0] = Scan(p[3])
+
+
+# assign operators
+def p_assign_op_eq(p):
+    "assign_op : '='"
+    p[0] = p[1]
+
+
+def p_assign_op_pluseq(p):
+    "assign_op : PLUSEQ"
+    p[0] = p[1]
+
+
+def p_assign_op_minuseq(p):
+    "assign_op : MINUSEQ"
+    p[0] = p[1]
+
+
+def p_assign_op_timeseq(p):
+    "assign_op : TIMESEQ"
+    p[0] = p[1]
+
+
+def p_assign_op_diveq(p):
+    "assign_op : DIVEQ"
+    p[0] = p[1]
+
+
+def p_assign_op_modeq(p):
+    "assign_op : MODEQ"
+    p[0] = p[1]
+
+
+def p_assign_op_lshifteq(p):
+    "assign_op : LSHIFTEQ"
+    p[0] = p[1]
+
+
+def p_assign_op_rshifteq(p):
+    "assign_op : RSHIFTEQ"
+    p[0] = p[1]
+
+
+def p_assign_op_andeq(p):
+    "assign_op : ANDEQ"
+    p[0] = p[1]
+
+
+def p_assign_op_xoreq(p):
+    "assign_op : XOREQ"
+    p[0] = p[1]
+
+
+def p_assign_op_oreq(p):
+    "assign_op : OREQ"
+    p[0] = p[1]
+
+
+# expression assignment
+def p_expression_assign(p):
+    "expression : ID assign_op expression"
+    p[0] = Assign(Var(p[1]), p[2], p[3])
+
+
+# arithmetic operations
+def p_expression_arith(p):
+    """expression : expression '+' expression
+    | expression '-' expression
+    | expression '*' expression
+    | expression '/' expression
+    | expression '%' expression"""
+    p[0] = BinOp(p[2], p[1], p[3])
+
+
+# comparisons
+def p_expression_cmp(p):
+    """expression : expression '<' expression
+    | expression '>' expression
+    | expression LE expression
+    | expression GE expression"""
+    p[0] = BinOp(p[2], p[1], p[3])
+
+
+# equality
+def p_expression_eq(p):
+    """expression : expression EQ expression
+    | expression NE expression"""
+    p[0] = BinOp(p[2], p[1], p[3])
+
+
+# unary operations
+def p_expression_unop_plus(p):
+    "expression : '+' expression %prec UPLUS"
+    p[0] = UnOp("+", p[2])
+
+
+def p_expression_unop_minus(p):
+    "expression : '-' expression %prec UMINUS"
+    p[0] = UnOp("-", p[2])
+
+
+def p_expression_unop_bitwise_not(p):
+    "expression : '~' expression"
+    p[0] = UnOp("~", p[2])
+
+
+def p_expression_unop_logic_not(p):
+    "expression : '!' expression"
+    p[0] = UnOp("!", p[2])
+
+
+# prefix increment/decrement
+def p_expression_unop_inc(p):
+    "expression : PLUSPLUS ID"
+    p[0] = PreInc(Var(p[2]))
+
+
+def p_expression_unop_dec(p):
+    "expression : MINUSMINUS ID"
+    p[0] = PreInc(Var(p[2]))
+
+
+# grouping, literals, variables
+def p_expression_group(p):
+    "expression : '(' expression ')'"
+    p[0] = p[2]
+
+
+def p_expression_number(p):
+    "expression : NUMBER"
+    p[0] = Number(p[1])
+
+
+def p_expression_string(p):
+    "expression : STRING"
+    p[0] = String(p[1])
+
+
+def p_expression_var(p):
+    "expression : ID"
+    p[0] = Var(p[1])
+
+
+# syntax error handler
+def p_error(p):
+    if p:
+        print(f"Syntax error at '{p.value}' (line {p.lineno})")
+    else:
+        print("Syntax error at EOF")
+
+
+# build parser
+yacc.yacc()
+
+# =====================
+# Code generation
+# =====================
+
+
+class CodeGen:
+    def __init__(self):
+        self.indent = 0
+        self.lines = []
+
+    def emit(self, line):
+        self.lines.append("    " * self.indent + line)
+
+    def get_code(self):
+        return "\n".join(self.lines)
+
+    def gen(self, node):
+        if isinstance(node, Compound):
+            self.emit("")
+            for s in node.stmt_list:
+                self.gen(s)
+        elif isinstance(node, Number):
+            self.emit(str(node.value))
+        elif isinstance(node, Var):
+            self.emit(node.name)
+        elif isinstance(node, Assign):
+            self.emit(f"{node.target.name} = {self.expr(node.expr)}")
+        elif isinstance(node, BinOp):
+            self.emit(self.expr(node))
+        elif isinstance(node, UnOp):
+            self.emit(self.expr(node))
+        elif isinstance(node, Print):
+            # suppress auto-newline, C-style printf semantics
+            if node.expr is not None:
+                self.emit(f'print(f"{node.fmt}" % ({self.expr(node.expr)}), end="")')
+            else:
+                self.emit(f'print(f"{node.fmt}", end="")')
+        elif isinstance(node, String):
+            # standalone string literal stmt: print raw string
+            self.emit(f'print({repr(node.value)}, end="")')
+        elif isinstance(node, Scan):
+            self.emit(f"{node.var} = int(input())")
+        elif isinstance(node, If):
+            self.emit(f"if {self.expr(node.cond)}:")
+            self.indent += 1
+            self.gen(node.then)
+            self.indent -= 1
+            if node.otherwise:
+                self.emit("else:")
+                self.indent += 1
+                self.gen(node.otherwise)
+                self.indent -= 1
+        elif isinstance(node, While):
+            self.emit(f"while {self.expr(node.cond)}:")
+            self.indent += 1
+            self.gen(node.body)
+            self.indent -= 1
+        elif isinstance(node, DoWhile):
+            self.emit("while True:")
+            self.indent += 1
+            self.gen(node.body)
+            cond = node.cond
+            if isinstance(cond, BinOp) and isinstance(cond.left, PreInc):
+                var = cond.left.var.name
+                self.emit(f"{var} += 1")
+                self.emit(f"if not ({var} {cond.op} {self.expr(cond.right)}): break")
+            elif isinstance(cond, PreInc):
+                var = cond.var.name
+                self.emit(f"{var} += 1")
+                self.emit(f"if not {var}: break")
+            else:
+                self.emit(f"if not {self.expr(cond)}: break")
+            self.indent -= 1
+        elif isinstance(node, For):
+            if node.init:
+                self.gen(node.init)
+            self.emit(f"while {self.expr(node.cond) if node.cond else 'True'}:")
+            self.indent += 1
+            self.gen(node.body)
+            incr = node.incr
+            if isinstance(incr, PreInc):
+                var = incr.var.name
+                self.emit(f"{var} += 1")
+            elif isinstance(incr, Assign):
+                var = incr.target.name
+                self.emit(f"{var} {incr.op} {self.expr(incr.expr)}")
+            else:
+                self.emit(self.expr(incr))
+            self.indent -= 1
+        else:
+            raise Exception(f"Unrecognized node type: {type(node)}")
+
+    def expr(self, node):
+        if isinstance(node, Number):
+            return str(node.value)
+        if isinstance(node, Var):
+            return node.name
+        if isinstance(node, BinOp):
+            return f"({self.expr(node.left)} {node.op} {self.expr(node.right)})"
+        if isinstance(node, UnOp):
+            return f"({node.op}{self.expr(node.expr)})"
+        if isinstance(node, Assign):
+            return f"({node.target.name} {node.op} {self.expr(node.expr)})"
+        raise Exception(f"Unrecognized expr: {type(node)}")
+
+
+def main():
+    if len(sys.argv) < 2:
+        print("Usage: python ai.py <source.mC>")
+        sys.exit(1)
+    data = open(sys.argv[1]).read()
+    ast = yacc.parse(data)
+    codegen = CodeGen()
+    codegen.emit("def __mikroc_main():")
+    codegen.indent += 1
+    codegen.gen(ast)
+    codegen.indent -= 1
+    codegen.emit("")
+    codegen.emit("if __name__ == '__main__':")
+    codegen.indent += 1
+    codegen.emit("__mikroc_main()")
+
+    python_code = codegen.get_code()
+    exec(python_code, globals(), globals())
+
+
+if __name__ == "__main__":
+    main()

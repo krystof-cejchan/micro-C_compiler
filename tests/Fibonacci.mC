@@ -7,7 +7,7 @@
     c=a+b; b=a; a=c;
     if (n%10==0) print("\n"); 
     print("%10i",a); 
-  } while (++n<40);  // Středník ZDE nesmí být!
+  } while (++n<40);
 
   print("\n\n"); 
 }
