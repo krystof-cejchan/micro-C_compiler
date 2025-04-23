@@ -578,26 +578,25 @@ class CodeGen:
     def gen(self, node):
         if isinstance(node, Compound):
             self.emit("")
-            [self.gen(s) for s in node.stmt_list]
+            for s in node.stmt_list:
+                self.gen(s)
         elif isinstance(node, Number):
             self.emit(str(node.value))
         elif isinstance(node, Var):
             self.emit(node.name)
         elif isinstance(node, Assign):
-            # handle plain vs compound assignments explicitly
             op = node.op
             expr_code = self.expr(node.expr)
             if op == "=":
                 self.emit(f"{node.target.name} = {expr_code}")
             elif op in ("+=", "-=", "*=", "%=", "<<=", ">>=", "&=", "^=", "|=", "/="):
-                # properly handle integer division assignment
-                if op == "/=":
-                    pyop = "//="
-                else:
-                    pyop = op
+                pyop = "//=" if op == "/=" else op
                 self.emit(f"{node.target.name} {pyop} {expr_code}")
             else:
                 self.emit(f"{node.target.name} {op} {expr_code}")
+        elif isinstance(node, PreInc):
+            var = node.var.name
+            self.emit(f"{var} += 1")
         elif isinstance(node, BinOp):
             self.emit(self.expr(node))
         elif isinstance(node, UnOp):
@@ -610,7 +609,7 @@ class CodeGen:
         elif isinstance(node, String):
             self.emit(f'print({repr(node.value)}, end="")')
         elif isinstance(node, Scan):
-            self.emit(f"{node.var}=int(input())")
+            self.emit(f"{node.var} = int(input())")
         elif isinstance(node, If):
             self.emit(f"if {self.expr(node.cond)}:")
             self.indent += 1
@@ -631,29 +630,20 @@ class CodeGen:
             self.indent += 1
             self.gen(node.body)
             cond = node.cond
-            # handle prefix increment condition (++n < limit)
-            if isinstance(cond, BinOp) and isinstance(cond.left, PreInc):
+            if isinstance(cond, BinOp) and isinstance(cond.left, Assign):
+                var = cond.left.target.name
+                op = cond.left.op
+                expr_code = self.expr(cond.left.expr)
+                pyop = "//=" if op == "/=" else op
+                self.emit(f"{var} {pyop} {expr_code}")
+                self.emit(f"if not ({var} {cond.op} {self.expr(cond.right)}): break")
+            elif isinstance(cond, BinOp) and isinstance(cond.left, PreInc):
                 var = cond.left.var.name
                 self.emit(f"{var} += 1")
                 self.emit(f"if not ({var} {cond.op} {self.expr(cond.right)}): break")
-            # handle standalone pre-inc condition (while (++n))
             elif isinstance(cond, PreInc):
                 var = cond.var.name
                 self.emit(f"{var} += 1")
-                self.emit(f"if not {var}: break")
-            # handle compound assignment in condition, especially shifts
-            elif isinstance(cond, Assign):
-                var = cond.target.name
-                expr_code = self.expr(cond.expr)
-                if cond.op == "<<=":
-                    # simulate 32-bit overflow
-                    self.emit(f"{var} = (({var} << {expr_code}) & 0xFFFFFFFF)")
-                elif cond.op == ">>=":
-                    self.emit(f"{var} = ({var} >> {expr_code})")
-                else:
-                    # map C assignment operators to Python
-                    pyop = "//=" if cond.op == "/=" else cond.op
-                    self.emit(f"{var} {pyop} {expr_code}")
                 self.emit(f"if not {var}: break")
             else:
                 self.emit(f"if not {self.expr(cond)}: break")
@@ -668,7 +658,11 @@ class CodeGen:
             if isinstance(incr, PreInc):
                 self.emit(f"{incr.var.name} += 1")
             elif isinstance(incr, Assign):
-                self.emit(f"{incr.target.name} {incr.op} {self.expr(incr.expr)}")
+                var = incr.target.name
+                op = incr.op
+                expr_code = self.expr(incr.expr)
+                pyop = "//=" if op == "/=" else op
+                self.emit(f"{var} {pyop} {expr_code}")
             else:
                 self.emit(self.expr(incr))
             self.indent -= 1
@@ -680,6 +674,8 @@ class CodeGen:
             return str(node.value)
         if isinstance(node, Var):
             return node.name
+        if isinstance(node, PreInc):
+            return node.var.name
         if isinstance(node, BinOp):
             op = node.op
             pyop = (
@@ -691,7 +687,8 @@ class CodeGen:
         if isinstance(node, UnOp):
             return f"({node.op}{self.expr(node.expr)})"
         if isinstance(node, Assign):
-            pyop = "//=" if node.op == "/=" else node.op
+            op = node.op
+            pyop = "//=" if op == "/=" else op
             return f"({node.target.name} {pyop} {self.expr(node.expr)})"
         raise Exception(f"Unrecognized expr: {type(node)}")
 

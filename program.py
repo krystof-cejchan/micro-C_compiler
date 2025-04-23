@@ -1,19 +1,28 @@
 def __mikroc_main():
     
-    print(f"Zadej 2 prirozena cisla: ", end="")
-    a=int(input())
-    b=int(input())
-    if ((a < 1) or (b < 1)):
-        print(f"\n\nChybna cisla", end="")
-    else:
+    print(f"\n    Prvocisla do 1000\n\n", end="")
+    cislo = 2
+    print(f"%5i" % (cislo), end="")
+    pocet = 1
+    cislo += 1
+    while True:
         
-        while True:
+        prvocislo = 1
+        delitel = 3
+        while ((delitel * delitel) <= cislo):
             
-            zbytek = (a % b)
-            a = b
-            b = zbytek
-            if not (zbytek != 0): break
-        print(f"\nNejvetsi spolecny delitel: %i" % (a), end="")
+            if ((cislo % delitel) == 0):
+                
+                prvocislo = 0
+                break
+            delitel += 2
+        if prvocislo:
+            
+            print(f"%5i" % (cislo), end="")
+            if ((pocet % 10) == 0):
+                print(f"\n", end="")
+        cislo += 2
+        if not (cislo <= 1000): break
     print(f"\n\n", end="")
 
 if __name__=='__main__':
