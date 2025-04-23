@@ -1,0 +1,2815 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Grammar
+
+Rule 0     S' -> program
+Rule 1     program -> compound_statement
+Rule 2     compound_statement -> { stmt_list }
+Rule 3     stmt_list -> stmt_list statement
+Rule 4     stmt_list -> <empty>
+Rule 5     statement -> expression ;
+Rule 6     statement -> compound_statement
+Rule 7     statement -> IF ( expression ) statement
+Rule 8     statement -> IF ( expression ) statement ELSE statement
+Rule 9     statement -> WHILE ( expression ) statement
+Rule 10    statement -> DO statement WHILE ( expression ) ;
+Rule 11    statement -> FOR ( opt_expr ; opt_expr ; opt_expr ) statement
+Rule 12    opt_expr -> expression
+Rule 13    opt_expr -> <empty>
+Rule 14    statement -> PRINT ( print_args ) ;
+Rule 15    print_args -> STRING , expression
+Rule 16    print_args -> STRING
+Rule 17    statement -> SCAN ( ID ) ;
+Rule 18    assign_op -> =
+Rule 19    assign_op -> PLUSEQ
+Rule 20    assign_op -> MINUSEQ
+Rule 21    assign_op -> TIMESEQ
+Rule 22    assign_op -> DIVEQ
+Rule 23    assign_op -> MODEQ
+Rule 24    assign_op -> LSHIFTEQ
+Rule 25    assign_op -> RSHIFTEQ
+Rule 26    assign_op -> ANDEQ
+Rule 27    assign_op -> XOREQ
+Rule 28    assign_op -> OREQ
+Rule 29    expression -> ID assign_op expression
+Rule 30    binop -> +
+Rule 31    binop -> -
+Rule 32    binop -> *
+Rule 33    binop -> /
+Rule 34    binop -> %
+Rule 35    binop -> LSHIFT
+Rule 36    binop -> RSHIFT
+Rule 37    binop -> BITOR
+Rule 38    binop -> &
+Rule 39    binop -> ^
+Rule 40    binop -> AND
+Rule 41    binop -> OR
+Rule 42    binop -> EQ
+Rule 43    binop -> NE
+Rule 44    binop -> <
+Rule 45    binop -> >
+Rule 46    binop -> LE
+Rule 47    binop -> GE
+Rule 48    expression -> expression binop expression
+Rule 49    expression -> + expression
+Rule 50    expression -> - expression
+Rule 51    expression -> ~ expression
+Rule 52    expression -> ! expression
+Rule 53    expression -> PLUSPLUS ID
+Rule 54    expression -> MINUSMINUS ID
+Rule 55    expression -> ( expression )
+Rule 56    expression -> NUMBER
+Rule 57    expression -> STRING
+Rule 58    expression -> ID
+
+Terminals, with rules where they appear
+
+!                    : 52
+%                    : 34
+&                    : 38
+(                    : 7 8 9 10 11 14 17 55
+)                    : 7 8 9 10 11 14 17 55
+*                    : 32
++                    : 30 49
+,                    : 15
+-                    : 31 50
+/                    : 33
+;                    : 5 10 11 11 14 17
+<                    : 44
+=                    : 18
+>                    : 45
+AND                  : 40
+ANDEQ                : 26
+BITOR                : 37
+DIVEQ                : 22
+DO                   : 10
+ELSE                 : 8
+EQ                   : 42
+FOR                  : 11
+GE                   : 47
+ID                   : 17 29 53 54 58
+IF                   : 7 8
+LE                   : 46
+LSHIFT               : 35
+LSHIFTEQ             : 24
+MINUSEQ              : 20
+MINUSMINUS           : 54
+MODEQ                : 23
+NE                   : 43
+NUMBER               : 56
+OR                   : 41
+OREQ                 : 28
+PLUSEQ               : 19
+PLUSPLUS             : 53
+PRINT                : 14
+RSHIFT               : 36
+RSHIFTEQ             : 25
+SCAN                 : 17
+STRING               : 15 16 57
+TIMESEQ              : 21
+WHILE                : 9 10
+XOREQ                : 27
+^                    : 39
+error                : 
+{                    : 2
+}                    : 2
+~                    : 51
+
+Nonterminals, with rules where they appear
+
+assign_op            : 29
+binop                : 48
+compound_statement   : 1 6
+expression           : 5 7 8 9 10 12 15 29 48 48 49 50 51 52 55
+opt_expr             : 11 11 11
+print_args           : 14
+program              : 0
+statement            : 3 7 8 8 9 10 11
+stmt_list            : 2 3
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . program
+    (1) program -> . compound_statement
+    (2) compound_statement -> . { stmt_list }
+
+    {               shift and go to state 3
+
+    program                        shift and go to state 1
+    compound_statement             shift and go to state 2
+
+state 1
+
+    (0) S' -> program .
+
+
+
+state 2
+
+    (1) program -> compound_statement .
+
+    $end            reduce using rule 1 (program -> compound_statement .)
+
+
+state 3
+
+    (2) compound_statement -> { . stmt_list }
+    (3) stmt_list -> . stmt_list statement
+    (4) stmt_list -> .
+
+    }               reduce using rule 4 (stmt_list -> .)
+    IF              reduce using rule 4 (stmt_list -> .)
+    WHILE           reduce using rule 4 (stmt_list -> .)
+    DO              reduce using rule 4 (stmt_list -> .)
+    FOR             reduce using rule 4 (stmt_list -> .)
+    PRINT           reduce using rule 4 (stmt_list -> .)
+    SCAN            reduce using rule 4 (stmt_list -> .)
+    ID              reduce using rule 4 (stmt_list -> .)
+    +               reduce using rule 4 (stmt_list -> .)
+    -               reduce using rule 4 (stmt_list -> .)
+    ~               reduce using rule 4 (stmt_list -> .)
+    !               reduce using rule 4 (stmt_list -> .)
+    PLUSPLUS        reduce using rule 4 (stmt_list -> .)
+    MINUSMINUS      reduce using rule 4 (stmt_list -> .)
+    (               reduce using rule 4 (stmt_list -> .)
+    NUMBER          reduce using rule 4 (stmt_list -> .)
+    STRING          reduce using rule 4 (stmt_list -> .)
+    {               reduce using rule 4 (stmt_list -> .)
+
+    stmt_list                      shift and go to state 4
+
+state 4
+
+    (2) compound_statement -> { stmt_list . }
+    (3) stmt_list -> stmt_list . statement
+    (5) statement -> . expression ;
+    (6) statement -> . compound_statement
+    (7) statement -> . IF ( expression ) statement
+    (8) statement -> . IF ( expression ) statement ELSE statement
+    (9) statement -> . WHILE ( expression ) statement
+    (10) statement -> . DO statement WHILE ( expression ) ;
+    (11) statement -> . FOR ( opt_expr ; opt_expr ; opt_expr ) statement
+    (14) statement -> . PRINT ( print_args ) ;
+    (17) statement -> . SCAN ( ID ) ;
+    (29) expression -> . ID assign_op expression
+    (48) expression -> . expression binop expression
+    (49) expression -> . + expression
+    (50) expression -> . - expression
+    (51) expression -> . ~ expression
+    (52) expression -> . ! expression
+    (53) expression -> . PLUSPLUS ID
+    (54) expression -> . MINUSMINUS ID
+    (55) expression -> . ( expression )
+    (56) expression -> . NUMBER
+    (57) expression -> . STRING
+    (58) expression -> . ID
+    (2) compound_statement -> . { stmt_list }
+
+    }               shift and go to state 5
+    IF              shift and go to state 9
+    WHILE           shift and go to state 11
+    DO              shift and go to state 12
+    FOR             shift and go to state 13
+    PRINT           shift and go to state 14
+    SCAN            shift and go to state 15
+    ID              shift and go to state 16
+    +               shift and go to state 17
+    -               shift and go to state 18
+    ~               shift and go to state 19
+    !               shift and go to state 20
+    PLUSPLUS        shift and go to state 21
+    MINUSMINUS      shift and go to state 22
+    (               shift and go to state 10
+    NUMBER          shift and go to state 23
+    STRING          shift and go to state 24
+    {               shift and go to state 3
+
+    statement                      shift and go to state 6
+    expression                     shift and go to state 7
+    compound_statement             shift and go to state 8
+
+state 5
+
+    (2) compound_statement -> { stmt_list } .
+
+    $end            reduce using rule 2 (compound_statement -> { stmt_list } .)
+    }               reduce using rule 2 (compound_statement -> { stmt_list } .)
+    IF              reduce using rule 2 (compound_statement -> { stmt_list } .)
+    WHILE           reduce using rule 2 (compound_statement -> { stmt_list } .)
+    DO              reduce using rule 2 (compound_statement -> { stmt_list } .)
+    FOR             reduce using rule 2 (compound_statement -> { stmt_list } .)
+    PRINT           reduce using rule 2 (compound_statement -> { stmt_list } .)
+    SCAN            reduce using rule 2 (compound_statement -> { stmt_list } .)
+    ID              reduce using rule 2 (compound_statement -> { stmt_list } .)
+    +               reduce using rule 2 (compound_statement -> { stmt_list } .)
+    -               reduce using rule 2 (compound_statement -> { stmt_list } .)
+    ~               reduce using rule 2 (compound_statement -> { stmt_list } .)
+    !               reduce using rule 2 (compound_statement -> { stmt_list } .)
+    PLUSPLUS        reduce using rule 2 (compound_statement -> { stmt_list } .)
+    MINUSMINUS      reduce using rule 2 (compound_statement -> { stmt_list } .)
+    (               reduce using rule 2 (compound_statement -> { stmt_list } .)
+    NUMBER          reduce using rule 2 (compound_statement -> { stmt_list } .)
+    STRING          reduce using rule 2 (compound_statement -> { stmt_list } .)
+    {               reduce using rule 2 (compound_statement -> { stmt_list } .)
+    ELSE            reduce using rule 2 (compound_statement -> { stmt_list } .)
+
+
+state 6
+
+    (3) stmt_list -> stmt_list statement .
+
+    }               reduce using rule 3 (stmt_list -> stmt_list statement .)
+    IF              reduce using rule 3 (stmt_list -> stmt_list statement .)
+    WHILE           reduce using rule 3 (stmt_list -> stmt_list statement .)
+    DO              reduce using rule 3 (stmt_list -> stmt_list statement .)
+    FOR             reduce using rule 3 (stmt_list -> stmt_list statement .)
+    PRINT           reduce using rule 3 (stmt_list -> stmt_list statement .)
+    SCAN            reduce using rule 3 (stmt_list -> stmt_list statement .)
+    ID              reduce using rule 3 (stmt_list -> stmt_list statement .)
+    +               reduce using rule 3 (stmt_list -> stmt_list statement .)
+    -               reduce using rule 3 (stmt_list -> stmt_list statement .)
+    ~               reduce using rule 3 (stmt_list -> stmt_list statement .)
+    !               reduce using rule 3 (stmt_list -> stmt_list statement .)
+    PLUSPLUS        reduce using rule 3 (stmt_list -> stmt_list statement .)
+    MINUSMINUS      reduce using rule 3 (stmt_list -> stmt_list statement .)
+    (               reduce using rule 3 (stmt_list -> stmt_list statement .)
+    NUMBER          reduce using rule 3 (stmt_list -> stmt_list statement .)
+    STRING          reduce using rule 3 (stmt_list -> stmt_list statement .)
+    {               reduce using rule 3 (stmt_list -> stmt_list statement .)
+
+
+state 7
+
+    (5) statement -> expression . ;
+    (48) expression -> expression . binop expression
+    (30) binop -> . +
+    (31) binop -> . -
+    (32) binop -> . *
+    (33) binop -> . /
+    (34) binop -> . %
+    (35) binop -> . LSHIFT
+    (36) binop -> . RSHIFT
+    (37) binop -> . BITOR
+    (38) binop -> . &
+    (39) binop -> . ^
+    (40) binop -> . AND
+    (41) binop -> . OR
+    (42) binop -> . EQ
+    (43) binop -> . NE
+    (44) binop -> . <
+    (45) binop -> . >
+    (46) binop -> . LE
+    (47) binop -> . GE
+
+    ;               shift and go to state 25
+    +               shift and go to state 27
+    -               shift and go to state 28
+    *               shift and go to state 29
+    /               shift and go to state 30
+    %               shift and go to state 31
+    LSHIFT          shift and go to state 32
+    RSHIFT          shift and go to state 33
+    BITOR           shift and go to state 34
+    &               shift and go to state 35
+    ^               shift and go to state 36
+    AND             shift and go to state 37
+    OR              shift and go to state 38
+    EQ              shift and go to state 39
+    NE              shift and go to state 40
+    <               shift and go to state 41
+    >               shift and go to state 42
+    LE              shift and go to state 43
+    GE              shift and go to state 44
+
+    binop                          shift and go to state 26
+
+state 8
+
+    (6) statement -> compound_statement .
+
+    }               reduce using rule 6 (statement -> compound_statement .)
+    IF              reduce using rule 6 (statement -> compound_statement .)
+    WHILE           reduce using rule 6 (statement -> compound_statement .)
+    DO              reduce using rule 6 (statement -> compound_statement .)
+    FOR             reduce using rule 6 (statement -> compound_statement .)
+    PRINT           reduce using rule 6 (statement -> compound_statement .)
+    SCAN            reduce using rule 6 (statement -> compound_statement .)
+    ID              reduce using rule 6 (statement -> compound_statement .)
+    +               reduce using rule 6 (statement -> compound_statement .)
+    -               reduce using rule 6 (statement -> compound_statement .)
+    ~               reduce using rule 6 (statement -> compound_statement .)
+    !               reduce using rule 6 (statement -> compound_statement .)
+    PLUSPLUS        reduce using rule 6 (statement -> compound_statement .)
+    MINUSMINUS      reduce using rule 6 (statement -> compound_statement .)
+    (               reduce using rule 6 (statement -> compound_statement .)
+    NUMBER          reduce using rule 6 (statement -> compound_statement .)
+    STRING          reduce using rule 6 (statement -> compound_statement .)
+    {               reduce using rule 6 (statement -> compound_statement .)
+    ELSE            reduce using rule 6 (statement -> compound_statement .)
+
+
+state 9
+
+    (7) statement -> IF . ( expression ) statement
+    (8) statement -> IF . ( expression ) statement ELSE statement
+
+    (               shift and go to state 45
+
+
+state 10
+
+    (55) expression -> ( . expression )
+    (29) expression -> . ID assign_op expression
+    (48) expression -> . expression binop expression
+    (49) expression -> . + expression
+    (50) expression -> . - expression
+    (51) expression -> . ~ expression
+    (52) expression -> . ! expression
+    (53) expression -> . PLUSPLUS ID
+    (54) expression -> . MINUSMINUS ID
+    (55) expression -> . ( expression )
+    (56) expression -> . NUMBER
+    (57) expression -> . STRING
+    (58) expression -> . ID
+
+    ID              shift and go to state 16
+    +               shift and go to state 17
+    -               shift and go to state 18
+    ~               shift and go to state 19
+    !               shift and go to state 20
+    PLUSPLUS        shift and go to state 21
+    MINUSMINUS      shift and go to state 22
+    (               shift and go to state 10
+    NUMBER          shift and go to state 23
+    STRING          shift and go to state 24
+
+    expression                     shift and go to state 46
+
+state 11
+
+    (9) statement -> WHILE . ( expression ) statement
+
+    (               shift and go to state 47
+
+
+state 12
+
+    (10) statement -> DO . statement WHILE ( expression ) ;
+    (5) statement -> . expression ;
+    (6) statement -> . compound_statement
+    (7) statement -> . IF ( expression ) statement
+    (8) statement -> . IF ( expression ) statement ELSE statement
+    (9) statement -> . WHILE ( expression ) statement
+    (10) statement -> . DO statement WHILE ( expression ) ;
+    (11) statement -> . FOR ( opt_expr ; opt_expr ; opt_expr ) statement
+    (14) statement -> . PRINT ( print_args ) ;
+    (17) statement -> . SCAN ( ID ) ;
+    (29) expression -> . ID assign_op expression
+    (48) expression -> . expression binop expression
+    (49) expression -> . + expression
+    (50) expression -> . - expression
+    (51) expression -> . ~ expression
+    (52) expression -> . ! expression
+    (53) expression -> . PLUSPLUS ID
+    (54) expression -> . MINUSMINUS ID
+    (55) expression -> . ( expression )
+    (56) expression -> . NUMBER
+    (57) expression -> . STRING
+    (58) expression -> . ID
+    (2) compound_statement -> . { stmt_list }
+
+    IF              shift and go to state 9
+    WHILE           shift and go to state 11
+    DO              shift and go to state 12
+    FOR             shift and go to state 13
+    PRINT           shift and go to state 14
+    SCAN            shift and go to state 15
+    ID              shift and go to state 16
+    +               shift and go to state 17
+    -               shift and go to state 18
+    ~               shift and go to state 19
+    !               shift and go to state 20
+    PLUSPLUS        shift and go to state 21
+    MINUSMINUS      shift and go to state 22
+    (               shift and go to state 10
+    NUMBER          shift and go to state 23
+    STRING          shift and go to state 24
+    {               shift and go to state 3
+
+    statement                      shift and go to state 48
+    expression                     shift and go to state 7
+    compound_statement             shift and go to state 8
+
+state 13
+
+    (11) statement -> FOR . ( opt_expr ; opt_expr ; opt_expr ) statement
+
+    (               shift and go to state 49
+
+
+state 14
+
+    (14) statement -> PRINT . ( print_args ) ;
+
+    (               shift and go to state 50
+
+
+state 15
+
+    (17) statement -> SCAN . ( ID ) ;
+
+    (               shift and go to state 51
+
+
+state 16
+
+    (29) expression -> ID . assign_op expression
+    (58) expression -> ID .
+    (18) assign_op -> . =
+    (19) assign_op -> . PLUSEQ
+    (20) assign_op -> . MINUSEQ
+    (21) assign_op -> . TIMESEQ
+    (22) assign_op -> . DIVEQ
+    (23) assign_op -> . MODEQ
+    (24) assign_op -> . LSHIFTEQ
+    (25) assign_op -> . RSHIFTEQ
+    (26) assign_op -> . ANDEQ
+    (27) assign_op -> . XOREQ
+    (28) assign_op -> . OREQ
+
+    ;               reduce using rule 58 (expression -> ID .)
+    +               reduce using rule 58 (expression -> ID .)
+    -               reduce using rule 58 (expression -> ID .)
+    *               reduce using rule 58 (expression -> ID .)
+    /               reduce using rule 58 (expression -> ID .)
+    %               reduce using rule 58 (expression -> ID .)
+    LSHIFT          reduce using rule 58 (expression -> ID .)
+    RSHIFT          reduce using rule 58 (expression -> ID .)
+    BITOR           reduce using rule 58 (expression -> ID .)
+    &               reduce using rule 58 (expression -> ID .)
+    ^               reduce using rule 58 (expression -> ID .)
+    AND             reduce using rule 58 (expression -> ID .)
+    OR              reduce using rule 58 (expression -> ID .)
+    EQ              reduce using rule 58 (expression -> ID .)
+    NE              reduce using rule 58 (expression -> ID .)
+    <               reduce using rule 58 (expression -> ID .)
+    >               reduce using rule 58 (expression -> ID .)
+    LE              reduce using rule 58 (expression -> ID .)
+    GE              reduce using rule 58 (expression -> ID .)
+    )               reduce using rule 58 (expression -> ID .)
+    =               shift and go to state 53
+    PLUSEQ          shift and go to state 54
+    MINUSEQ         shift and go to state 55
+    TIMESEQ         shift and go to state 56
+    DIVEQ           shift and go to state 57
+    MODEQ           shift and go to state 58
+    LSHIFTEQ        shift and go to state 59
+    RSHIFTEQ        shift and go to state 60
+    ANDEQ           shift and go to state 61
+    XOREQ           shift and go to state 62
+    OREQ            shift and go to state 63
+
+    assign_op                      shift and go to state 52
+
+state 17
+
+    (49) expression -> + . expression
+    (29) expression -> . ID assign_op expression
+    (48) expression -> . expression binop expression
+    (49) expression -> . + expression
+    (50) expression -> . - expression
+    (51) expression -> . ~ expression
+    (52) expression -> . ! expression
+    (53) expression -> . PLUSPLUS ID
+    (54) expression -> . MINUSMINUS ID
+    (55) expression -> . ( expression )
+    (56) expression -> . NUMBER
+    (57) expression -> . STRING
+    (58) expression -> . ID
+
+    ID              shift and go to state 16
+    +               shift and go to state 17
+    -               shift and go to state 18
+    ~               shift and go to state 19
+    !               shift and go to state 20
+    PLUSPLUS        shift and go to state 21
+    MINUSMINUS      shift and go to state 22
+    (               shift and go to state 10
+    NUMBER          shift and go to state 23
+    STRING          shift and go to state 24
+
+    expression                     shift and go to state 64
+
+state 18
+
+    (50) expression -> - . expression
+    (29) expression -> . ID assign_op expression
+    (48) expression -> . expression binop expression
+    (49) expression -> . + expression
+    (50) expression -> . - expression
+    (51) expression -> . ~ expression
+    (52) expression -> . ! expression
+    (53) expression -> . PLUSPLUS ID
+    (54) expression -> . MINUSMINUS ID
+    (55) expression -> . ( expression )
+    (56) expression -> . NUMBER
+    (57) expression -> . STRING
+    (58) expression -> . ID
+
+    ID              shift and go to state 16
+    +               shift and go to state 17
+    -               shift and go to state 18
+    ~               shift and go to state 19
+    !               shift and go to state 20
+    PLUSPLUS        shift and go to state 21
+    MINUSMINUS      shift and go to state 22
+    (               shift and go to state 10
+    NUMBER          shift and go to state 23
+    STRING          shift and go to state 24
+
+    expression                     shift and go to state 65
+
+state 19
+
+    (51) expression -> ~ . expression
+    (29) expression -> . ID assign_op expression
+    (48) expression -> . expression binop expression
+    (49) expression -> . + expression
+    (50) expression -> . - expression
+    (51) expression -> . ~ expression
+    (52) expression -> . ! expression
+    (53) expression -> . PLUSPLUS ID
+    (54) expression -> . MINUSMINUS ID
+    (55) expression -> . ( expression )
+    (56) expression -> . NUMBER
+    (57) expression -> . STRING
+    (58) expression -> . ID
+
+    ID              shift and go to state 16
+    +               shift and go to state 17
+    -               shift and go to state 18
+    ~               shift and go to state 19
+    !               shift and go to state 20
+    PLUSPLUS        shift and go to state 21
+    MINUSMINUS      shift and go to state 22
+    (               shift and go to state 10
+    NUMBER          shift and go to state 23
+    STRING          shift and go to state 24
+
+    expression                     shift and go to state 66
+
+state 20
+
+    (52) expression -> ! . expression
+    (29) expression -> . ID assign_op expression
+    (48) expression -> . expression binop expression
+    (49) expression -> . + expression
+    (50) expression -> . - expression
+    (51) expression -> . ~ expression
+    (52) expression -> . ! expression
+    (53) expression -> . PLUSPLUS ID
+    (54) expression -> . MINUSMINUS ID
+    (55) expression -> . ( expression )
+    (56) expression -> . NUMBER
+    (57) expression -> . STRING
+    (58) expression -> . ID
+
+    ID              shift and go to state 16
+    +               shift and go to state 17
+    -               shift and go to state 18
+    ~               shift and go to state 19
+    !               shift and go to state 20
+    PLUSPLUS        shift and go to state 21
+    MINUSMINUS      shift and go to state 22
+    (               shift and go to state 10
+    NUMBER          shift and go to state 23
+    STRING          shift and go to state 24
+
+    expression                     shift and go to state 67
+
+state 21
+
+    (53) expression -> PLUSPLUS . ID
+
+    ID              shift and go to state 68
+
+
+state 22
+
+    (54) expression -> MINUSMINUS . ID
+
+    ID              shift and go to state 69
+
+
+state 23
+
+    (56) expression -> NUMBER .
+
+    ;               reduce using rule 56 (expression -> NUMBER .)
+    +               reduce using rule 56 (expression -> NUMBER .)
+    -               reduce using rule 56 (expression -> NUMBER .)
+    *               reduce using rule 56 (expression -> NUMBER .)
+    /               reduce using rule 56 (expression -> NUMBER .)
+    %               reduce using rule 56 (expression -> NUMBER .)
+    LSHIFT          reduce using rule 56 (expression -> NUMBER .)
+    RSHIFT          reduce using rule 56 (expression -> NUMBER .)
+    BITOR           reduce using rule 56 (expression -> NUMBER .)
+    &               reduce using rule 56 (expression -> NUMBER .)
+    ^               reduce using rule 56 (expression -> NUMBER .)
+    AND             reduce using rule 56 (expression -> NUMBER .)
+    OR              reduce using rule 56 (expression -> NUMBER .)
+    EQ              reduce using rule 56 (expression -> NUMBER .)
+    NE              reduce using rule 56 (expression -> NUMBER .)
+    <               reduce using rule 56 (expression -> NUMBER .)
+    >               reduce using rule 56 (expression -> NUMBER .)
+    LE              reduce using rule 56 (expression -> NUMBER .)
+    GE              reduce using rule 56 (expression -> NUMBER .)
+    )               reduce using rule 56 (expression -> NUMBER .)
+
+
+state 24
+
+    (57) expression -> STRING .
+
+    ;               reduce using rule 57 (expression -> STRING .)
+    +               reduce using rule 57 (expression -> STRING .)
+    -               reduce using rule 57 (expression -> STRING .)
+    *               reduce using rule 57 (expression -> STRING .)
+    /               reduce using rule 57 (expression -> STRING .)
+    %               reduce using rule 57 (expression -> STRING .)
+    LSHIFT          reduce using rule 57 (expression -> STRING .)
+    RSHIFT          reduce using rule 57 (expression -> STRING .)
+    BITOR           reduce using rule 57 (expression -> STRING .)
+    &               reduce using rule 57 (expression -> STRING .)
+    ^               reduce using rule 57 (expression -> STRING .)
+    AND             reduce using rule 57 (expression -> STRING .)
+    OR              reduce using rule 57 (expression -> STRING .)
+    EQ              reduce using rule 57 (expression -> STRING .)
+    NE              reduce using rule 57 (expression -> STRING .)
+    <               reduce using rule 57 (expression -> STRING .)
+    >               reduce using rule 57 (expression -> STRING .)
+    LE              reduce using rule 57 (expression -> STRING .)
+    GE              reduce using rule 57 (expression -> STRING .)
+    )               reduce using rule 57 (expression -> STRING .)
+
+
+state 25
+
+    (5) statement -> expression ; .
+
+    }               reduce using rule 5 (statement -> expression ; .)
+    IF              reduce using rule 5 (statement -> expression ; .)
+    WHILE           reduce using rule 5 (statement -> expression ; .)
+    DO              reduce using rule 5 (statement -> expression ; .)
+    FOR             reduce using rule 5 (statement -> expression ; .)
+    PRINT           reduce using rule 5 (statement -> expression ; .)
+    SCAN            reduce using rule 5 (statement -> expression ; .)
+    ID              reduce using rule 5 (statement -> expression ; .)
+    +               reduce using rule 5 (statement -> expression ; .)
+    -               reduce using rule 5 (statement -> expression ; .)
+    ~               reduce using rule 5 (statement -> expression ; .)
+    !               reduce using rule 5 (statement -> expression ; .)
+    PLUSPLUS        reduce using rule 5 (statement -> expression ; .)
+    MINUSMINUS      reduce using rule 5 (statement -> expression ; .)
+    (               reduce using rule 5 (statement -> expression ; .)
+    NUMBER          reduce using rule 5 (statement -> expression ; .)
+    STRING          reduce using rule 5 (statement -> expression ; .)
+    {               reduce using rule 5 (statement -> expression ; .)
+    ELSE            reduce using rule 5 (statement -> expression ; .)
+
+
+state 26
+
+    (48) expression -> expression binop . expression
+    (29) expression -> . ID assign_op expression
+    (48) expression -> . expression binop expression
+    (49) expression -> . + expression
+    (50) expression -> . - expression
+    (51) expression -> . ~ expression
+    (52) expression -> . ! expression
+    (53) expression -> . PLUSPLUS ID
+    (54) expression -> . MINUSMINUS ID
+    (55) expression -> . ( expression )
+    (56) expression -> . NUMBER
+    (57) expression -> . STRING
+    (58) expression -> . ID
+
+    ID              shift and go to state 16
+    +               shift and go to state 17
+    -               shift and go to state 18
+    ~               shift and go to state 19
+    !               shift and go to state 20
+    PLUSPLUS        shift and go to state 21
+    MINUSMINUS      shift and go to state 22
+    (               shift and go to state 10
+    NUMBER          shift and go to state 23
+    STRING          shift and go to state 24
+
+    expression                     shift and go to state 70
+
+state 27
+
+    (30) binop -> + .
+
+    ID              reduce using rule 30 (binop -> + .)
+    +               reduce using rule 30 (binop -> + .)
+    -               reduce using rule 30 (binop -> + .)
+    ~               reduce using rule 30 (binop -> + .)
+    !               reduce using rule 30 (binop -> + .)
+    PLUSPLUS        reduce using rule 30 (binop -> + .)
+    MINUSMINUS      reduce using rule 30 (binop -> + .)
+    (               reduce using rule 30 (binop -> + .)
+    NUMBER          reduce using rule 30 (binop -> + .)
+    STRING          reduce using rule 30 (binop -> + .)
+
+
+state 28
+
+    (31) binop -> - .
+
+    ID              reduce using rule 31 (binop -> - .)
+    +               reduce using rule 31 (binop -> - .)
+    -               reduce using rule 31 (binop -> - .)
+    ~               reduce using rule 31 (binop -> - .)
+    !               reduce using rule 31 (binop -> - .)
+    PLUSPLUS        reduce using rule 31 (binop -> - .)
+    MINUSMINUS      reduce using rule 31 (binop -> - .)
+    (               reduce using rule 31 (binop -> - .)
+    NUMBER          reduce using rule 31 (binop -> - .)
+    STRING          reduce using rule 31 (binop -> - .)
+
+
+state 29
+
+    (32) binop -> * .
+
+    ID              reduce using rule 32 (binop -> * .)
+    +               reduce using rule 32 (binop -> * .)
+    -               reduce using rule 32 (binop -> * .)
+    ~               reduce using rule 32 (binop -> * .)
+    !               reduce using rule 32 (binop -> * .)
+    PLUSPLUS        reduce using rule 32 (binop -> * .)
+    MINUSMINUS      reduce using rule 32 (binop -> * .)
+    (               reduce using rule 32 (binop -> * .)
+    NUMBER          reduce using rule 32 (binop -> * .)
+    STRING          reduce using rule 32 (binop -> * .)
+
+
+state 30
+
+    (33) binop -> / .
+
+    ID              reduce using rule 33 (binop -> / .)
+    +               reduce using rule 33 (binop -> / .)
+    -               reduce using rule 33 (binop -> / .)
+    ~               reduce using rule 33 (binop -> / .)
+    !               reduce using rule 33 (binop -> / .)
+    PLUSPLUS        reduce using rule 33 (binop -> / .)
+    MINUSMINUS      reduce using rule 33 (binop -> / .)
+    (               reduce using rule 33 (binop -> / .)
+    NUMBER          reduce using rule 33 (binop -> / .)
+    STRING          reduce using rule 33 (binop -> / .)
+
+
+state 31
+
+    (34) binop -> % .
+
+    ID              reduce using rule 34 (binop -> % .)
+    +               reduce using rule 34 (binop -> % .)
+    -               reduce using rule 34 (binop -> % .)
+    ~               reduce using rule 34 (binop -> % .)
+    !               reduce using rule 34 (binop -> % .)
+    PLUSPLUS        reduce using rule 34 (binop -> % .)
+    MINUSMINUS      reduce using rule 34 (binop -> % .)
+    (               reduce using rule 34 (binop -> % .)
+    NUMBER          reduce using rule 34 (binop -> % .)
+    STRING          reduce using rule 34 (binop -> % .)
+
+
+state 32
+
+    (35) binop -> LSHIFT .
+
+    ID              reduce using rule 35 (binop -> LSHIFT .)
+    +               reduce using rule 35 (binop -> LSHIFT .)
+    -               reduce using rule 35 (binop -> LSHIFT .)
+    ~               reduce using rule 35 (binop -> LSHIFT .)
+    !               reduce using rule 35 (binop -> LSHIFT .)
+    PLUSPLUS        reduce using rule 35 (binop -> LSHIFT .)
+    MINUSMINUS      reduce using rule 35 (binop -> LSHIFT .)
+    (               reduce using rule 35 (binop -> LSHIFT .)
+    NUMBER          reduce using rule 35 (binop -> LSHIFT .)
+    STRING          reduce using rule 35 (binop -> LSHIFT .)
+
+
+state 33
+
+    (36) binop -> RSHIFT .
+
+    ID              reduce using rule 36 (binop -> RSHIFT .)
+    +               reduce using rule 36 (binop -> RSHIFT .)
+    -               reduce using rule 36 (binop -> RSHIFT .)
+    ~               reduce using rule 36 (binop -> RSHIFT .)
+    !               reduce using rule 36 (binop -> RSHIFT .)
+    PLUSPLUS        reduce using rule 36 (binop -> RSHIFT .)
+    MINUSMINUS      reduce using rule 36 (binop -> RSHIFT .)
+    (               reduce using rule 36 (binop -> RSHIFT .)
+    NUMBER          reduce using rule 36 (binop -> RSHIFT .)
+    STRING          reduce using rule 36 (binop -> RSHIFT .)
+
+
+state 34
+
+    (37) binop -> BITOR .
+
+    ID              reduce using rule 37 (binop -> BITOR .)
+    +               reduce using rule 37 (binop -> BITOR .)
+    -               reduce using rule 37 (binop -> BITOR .)
+    ~               reduce using rule 37 (binop -> BITOR .)
+    !               reduce using rule 37 (binop -> BITOR .)
+    PLUSPLUS        reduce using rule 37 (binop -> BITOR .)
+    MINUSMINUS      reduce using rule 37 (binop -> BITOR .)
+    (               reduce using rule 37 (binop -> BITOR .)
+    NUMBER          reduce using rule 37 (binop -> BITOR .)
+    STRING          reduce using rule 37 (binop -> BITOR .)
+
+
+state 35
+
+    (38) binop -> & .
+
+    ID              reduce using rule 38 (binop -> & .)
+    +               reduce using rule 38 (binop -> & .)
+    -               reduce using rule 38 (binop -> & .)
+    ~               reduce using rule 38 (binop -> & .)
+    !               reduce using rule 38 (binop -> & .)
+    PLUSPLUS        reduce using rule 38 (binop -> & .)
+    MINUSMINUS      reduce using rule 38 (binop -> & .)
+    (               reduce using rule 38 (binop -> & .)
+    NUMBER          reduce using rule 38 (binop -> & .)
+    STRING          reduce using rule 38 (binop -> & .)
+
+
+state 36
+
+    (39) binop -> ^ .
+
+    ID              reduce using rule 39 (binop -> ^ .)
+    +               reduce using rule 39 (binop -> ^ .)
+    -               reduce using rule 39 (binop -> ^ .)
+    ~               reduce using rule 39 (binop -> ^ .)
+    !               reduce using rule 39 (binop -> ^ .)
+    PLUSPLUS        reduce using rule 39 (binop -> ^ .)
+    MINUSMINUS      reduce using rule 39 (binop -> ^ .)
+    (               reduce using rule 39 (binop -> ^ .)
+    NUMBER          reduce using rule 39 (binop -> ^ .)
+    STRING          reduce using rule 39 (binop -> ^ .)
+
+
+state 37
+
+    (40) binop -> AND .
+
+    ID              reduce using rule 40 (binop -> AND .)
+    +               reduce using rule 40 (binop -> AND .)
+    -               reduce using rule 40 (binop -> AND .)
+    ~               reduce using rule 40 (binop -> AND .)
+    !               reduce using rule 40 (binop -> AND .)
+    PLUSPLUS        reduce using rule 40 (binop -> AND .)
+    MINUSMINUS      reduce using rule 40 (binop -> AND .)
+    (               reduce using rule 40 (binop -> AND .)
+    NUMBER          reduce using rule 40 (binop -> AND .)
+    STRING          reduce using rule 40 (binop -> AND .)
+
+
+state 38
+
+    (41) binop -> OR .
+
+    ID              reduce using rule 41 (binop -> OR .)
+    +               reduce using rule 41 (binop -> OR .)
+    -               reduce using rule 41 (binop -> OR .)
+    ~               reduce using rule 41 (binop -> OR .)
+    !               reduce using rule 41 (binop -> OR .)
+    PLUSPLUS        reduce using rule 41 (binop -> OR .)
+    MINUSMINUS      reduce using rule 41 (binop -> OR .)
+    (               reduce using rule 41 (binop -> OR .)
+    NUMBER          reduce using rule 41 (binop -> OR .)
+    STRING          reduce using rule 41 (binop -> OR .)
+
+
+state 39
+
+    (42) binop -> EQ .
+
+    ID              reduce using rule 42 (binop -> EQ .)
+    +               reduce using rule 42 (binop -> EQ .)
+    -               reduce using rule 42 (binop -> EQ .)
+    ~               reduce using rule 42 (binop -> EQ .)
+    !               reduce using rule 42 (binop -> EQ .)
+    PLUSPLUS        reduce using rule 42 (binop -> EQ .)
+    MINUSMINUS      reduce using rule 42 (binop -> EQ .)
+    (               reduce using rule 42 (binop -> EQ .)
+    NUMBER          reduce using rule 42 (binop -> EQ .)
+    STRING          reduce using rule 42 (binop -> EQ .)
+
+
+state 40
+
+    (43) binop -> NE .
+
+    ID              reduce using rule 43 (binop -> NE .)
+    +               reduce using rule 43 (binop -> NE .)
+    -               reduce using rule 43 (binop -> NE .)
+    ~               reduce using rule 43 (binop -> NE .)
+    !               reduce using rule 43 (binop -> NE .)
+    PLUSPLUS        reduce using rule 43 (binop -> NE .)
+    MINUSMINUS      reduce using rule 43 (binop -> NE .)
+    (               reduce using rule 43 (binop -> NE .)
+    NUMBER          reduce using rule 43 (binop -> NE .)
+    STRING          reduce using rule 43 (binop -> NE .)
+
+
+state 41
+
+    (44) binop -> < .
+
+    ID              reduce using rule 44 (binop -> < .)
+    +               reduce using rule 44 (binop -> < .)
+    -               reduce using rule 44 (binop -> < .)
+    ~               reduce using rule 44 (binop -> < .)
+    !               reduce using rule 44 (binop -> < .)
+    PLUSPLUS        reduce using rule 44 (binop -> < .)
+    MINUSMINUS      reduce using rule 44 (binop -> < .)
+    (               reduce using rule 44 (binop -> < .)
+    NUMBER          reduce using rule 44 (binop -> < .)
+    STRING          reduce using rule 44 (binop -> < .)
+
+
+state 42
+
+    (45) binop -> > .
+
+    ID              reduce using rule 45 (binop -> > .)
+    +               reduce using rule 45 (binop -> > .)
+    -               reduce using rule 45 (binop -> > .)
+    ~               reduce using rule 45 (binop -> > .)
+    !               reduce using rule 45 (binop -> > .)
+    PLUSPLUS        reduce using rule 45 (binop -> > .)
+    MINUSMINUS      reduce using rule 45 (binop -> > .)
+    (               reduce using rule 45 (binop -> > .)
+    NUMBER          reduce using rule 45 (binop -> > .)
+    STRING          reduce using rule 45 (binop -> > .)
+
+
+state 43
+
+    (46) binop -> LE .
+
+    ID              reduce using rule 46 (binop -> LE .)
+    +               reduce using rule 46 (binop -> LE .)
+    -               reduce using rule 46 (binop -> LE .)
+    ~               reduce using rule 46 (binop -> LE .)
+    !               reduce using rule 46 (binop -> LE .)
+    PLUSPLUS        reduce using rule 46 (binop -> LE .)
+    MINUSMINUS      reduce using rule 46 (binop -> LE .)
+    (               reduce using rule 46 (binop -> LE .)
+    NUMBER          reduce using rule 46 (binop -> LE .)
+    STRING          reduce using rule 46 (binop -> LE .)
+
+
+state 44
+
+    (47) binop -> GE .
+
+    ID              reduce using rule 47 (binop -> GE .)
+    +               reduce using rule 47 (binop -> GE .)
+    -               reduce using rule 47 (binop -> GE .)
+    ~               reduce using rule 47 (binop -> GE .)
+    !               reduce using rule 47 (binop -> GE .)
+    PLUSPLUS        reduce using rule 47 (binop -> GE .)
+    MINUSMINUS      reduce using rule 47 (binop -> GE .)
+    (               reduce using rule 47 (binop -> GE .)
+    NUMBER          reduce using rule 47 (binop -> GE .)
+    STRING          reduce using rule 47 (binop -> GE .)
+
+
+state 45
+
+    (7) statement -> IF ( . expression ) statement
+    (8) statement -> IF ( . expression ) statement ELSE statement
+    (29) expression -> . ID assign_op expression
+    (48) expression -> . expression binop expression
+    (49) expression -> . + expression
+    (50) expression -> . - expression
+    (51) expression -> . ~ expression
+    (52) expression -> . ! expression
+    (53) expression -> . PLUSPLUS ID
+    (54) expression -> . MINUSMINUS ID
+    (55) expression -> . ( expression )
+    (56) expression -> . NUMBER
+    (57) expression -> . STRING
+    (58) expression -> . ID
+
+    ID              shift and go to state 16
+    +               shift and go to state 17
+    -               shift and go to state 18
+    ~               shift and go to state 19
+    !               shift and go to state 20
+    PLUSPLUS        shift and go to state 21
+    MINUSMINUS      shift and go to state 22
+    (               shift and go to state 10
+    NUMBER          shift and go to state 23
+    STRING          shift and go to state 24
+
+    expression                     shift and go to state 71
+
+state 46
+
+    (55) expression -> ( expression . )
+    (48) expression -> expression . binop expression
+    (30) binop -> . +
+    (31) binop -> . -
+    (32) binop -> . *
+    (33) binop -> . /
+    (34) binop -> . %
+    (35) binop -> . LSHIFT
+    (36) binop -> . RSHIFT
+    (37) binop -> . BITOR
+    (38) binop -> . &
+    (39) binop -> . ^
+    (40) binop -> . AND
+    (41) binop -> . OR
+    (42) binop -> . EQ
+    (43) binop -> . NE
+    (44) binop -> . <
+    (45) binop -> . >
+    (46) binop -> . LE
+    (47) binop -> . GE
+
+    )               shift and go to state 72
+    +               shift and go to state 27
+    -               shift and go to state 28
+    *               shift and go to state 29
+    /               shift and go to state 30
+    %               shift and go to state 31
+    LSHIFT          shift and go to state 32
+    RSHIFT          shift and go to state 33
+    BITOR           shift and go to state 34
+    &               shift and go to state 35
+    ^               shift and go to state 36
+    AND             shift and go to state 37
+    OR              shift and go to state 38
+    EQ              shift and go to state 39
+    NE              shift and go to state 40
+    <               shift and go to state 41
+    >               shift and go to state 42
+    LE              shift and go to state 43
+    GE              shift and go to state 44
+
+    binop                          shift and go to state 26
+
+state 47
+
+    (9) statement -> WHILE ( . expression ) statement
+    (29) expression -> . ID assign_op expression
+    (48) expression -> . expression binop expression
+    (49) expression -> . + expression
+    (50) expression -> . - expression
+    (51) expression -> . ~ expression
+    (52) expression -> . ! expression
+    (53) expression -> . PLUSPLUS ID
+    (54) expression -> . MINUSMINUS ID
+    (55) expression -> . ( expression )
+    (56) expression -> . NUMBER
+    (57) expression -> . STRING
+    (58) expression -> . ID
+
+    ID              shift and go to state 16
+    +               shift and go to state 17
+    -               shift and go to state 18
+    ~               shift and go to state 19
+    !               shift and go to state 20
+    PLUSPLUS        shift and go to state 21
+    MINUSMINUS      shift and go to state 22
+    (               shift and go to state 10
+    NUMBER          shift and go to state 23
+    STRING          shift and go to state 24
+
+    expression                     shift and go to state 73
+
+state 48
+
+    (10) statement -> DO statement . WHILE ( expression ) ;
+
+    WHILE           shift and go to state 74
+
+
+state 49
+
+    (11) statement -> FOR ( . opt_expr ; opt_expr ; opt_expr ) statement
+    (12) opt_expr -> . expression
+    (13) opt_expr -> .
+    (29) expression -> . ID assign_op expression
+    (48) expression -> . expression binop expression
+    (49) expression -> . + expression
+    (50) expression -> . - expression
+    (51) expression -> . ~ expression
+    (52) expression -> . ! expression
+    (53) expression -> . PLUSPLUS ID
+    (54) expression -> . MINUSMINUS ID
+    (55) expression -> . ( expression )
+    (56) expression -> . NUMBER
+    (57) expression -> . STRING
+    (58) expression -> . ID
+
+    ;               reduce using rule 13 (opt_expr -> .)
+    ID              shift and go to state 16
+    +               shift and go to state 17
+    -               shift and go to state 18
+    ~               shift and go to state 19
+    !               shift and go to state 20
+    PLUSPLUS        shift and go to state 21
+    MINUSMINUS      shift and go to state 22
+    (               shift and go to state 10
+    NUMBER          shift and go to state 23
+    STRING          shift and go to state 24
+
+    opt_expr                       shift and go to state 75
+    expression                     shift and go to state 76
+
+state 50
+
+    (14) statement -> PRINT ( . print_args ) ;
+    (15) print_args -> . STRING , expression
+    (16) print_args -> . STRING
+
+    STRING          shift and go to state 78
+
+    print_args                     shift and go to state 77
+
+state 51
+
+    (17) statement -> SCAN ( . ID ) ;
+
+    ID              shift and go to state 79
+
+
+state 52
+
+    (29) expression -> ID assign_op . expression
+    (29) expression -> . ID assign_op expression
+    (48) expression -> . expression binop expression
+    (49) expression -> . + expression
+    (50) expression -> . - expression
+    (51) expression -> . ~ expression
+    (52) expression -> . ! expression
+    (53) expression -> . PLUSPLUS ID
+    (54) expression -> . MINUSMINUS ID
+    (55) expression -> . ( expression )
+    (56) expression -> . NUMBER
+    (57) expression -> . STRING
+    (58) expression -> . ID
+
+    ID              shift and go to state 16
+    +               shift and go to state 17
+    -               shift and go to state 18
+    ~               shift and go to state 19
+    !               shift and go to state 20
+    PLUSPLUS        shift and go to state 21
+    MINUSMINUS      shift and go to state 22
+    (               shift and go to state 10
+    NUMBER          shift and go to state 23
+    STRING          shift and go to state 24
+
+    expression                     shift and go to state 80
+
+state 53
+
+    (18) assign_op -> = .
+
+    ID              reduce using rule 18 (assign_op -> = .)
+    +               reduce using rule 18 (assign_op -> = .)
+    -               reduce using rule 18 (assign_op -> = .)
+    ~               reduce using rule 18 (assign_op -> = .)
+    !               reduce using rule 18 (assign_op -> = .)
+    PLUSPLUS        reduce using rule 18 (assign_op -> = .)
+    MINUSMINUS      reduce using rule 18 (assign_op -> = .)
+    (               reduce using rule 18 (assign_op -> = .)
+    NUMBER          reduce using rule 18 (assign_op -> = .)
+    STRING          reduce using rule 18 (assign_op -> = .)
+
+
+state 54
+
+    (19) assign_op -> PLUSEQ .
+
+    ID              reduce using rule 19 (assign_op -> PLUSEQ .)
+    +               reduce using rule 19 (assign_op -> PLUSEQ .)
+    -               reduce using rule 19 (assign_op -> PLUSEQ .)
+    ~               reduce using rule 19 (assign_op -> PLUSEQ .)
+    !               reduce using rule 19 (assign_op -> PLUSEQ .)
+    PLUSPLUS        reduce using rule 19 (assign_op -> PLUSEQ .)
+    MINUSMINUS      reduce using rule 19 (assign_op -> PLUSEQ .)
+    (               reduce using rule 19 (assign_op -> PLUSEQ .)
+    NUMBER          reduce using rule 19 (assign_op -> PLUSEQ .)
+    STRING          reduce using rule 19 (assign_op -> PLUSEQ .)
+
+
+state 55
+
+    (20) assign_op -> MINUSEQ .
+
+    ID              reduce using rule 20 (assign_op -> MINUSEQ .)
+    +               reduce using rule 20 (assign_op -> MINUSEQ .)
+    -               reduce using rule 20 (assign_op -> MINUSEQ .)
+    ~               reduce using rule 20 (assign_op -> MINUSEQ .)
+    !               reduce using rule 20 (assign_op -> MINUSEQ .)
+    PLUSPLUS        reduce using rule 20 (assign_op -> MINUSEQ .)
+    MINUSMINUS      reduce using rule 20 (assign_op -> MINUSEQ .)
+    (               reduce using rule 20 (assign_op -> MINUSEQ .)
+    NUMBER          reduce using rule 20 (assign_op -> MINUSEQ .)
+    STRING          reduce using rule 20 (assign_op -> MINUSEQ .)
+
+
+state 56
+
+    (21) assign_op -> TIMESEQ .
+
+    ID              reduce using rule 21 (assign_op -> TIMESEQ .)
+    +               reduce using rule 21 (assign_op -> TIMESEQ .)
+    -               reduce using rule 21 (assign_op -> TIMESEQ .)
+    ~               reduce using rule 21 (assign_op -> TIMESEQ .)
+    !               reduce using rule 21 (assign_op -> TIMESEQ .)
+    PLUSPLUS        reduce using rule 21 (assign_op -> TIMESEQ .)
+    MINUSMINUS      reduce using rule 21 (assign_op -> TIMESEQ .)
+    (               reduce using rule 21 (assign_op -> TIMESEQ .)
+    NUMBER          reduce using rule 21 (assign_op -> TIMESEQ .)
+    STRING          reduce using rule 21 (assign_op -> TIMESEQ .)
+
+
+state 57
+
+    (22) assign_op -> DIVEQ .
+
+    ID              reduce using rule 22 (assign_op -> DIVEQ .)
+    +               reduce using rule 22 (assign_op -> DIVEQ .)
+    -               reduce using rule 22 (assign_op -> DIVEQ .)
+    ~               reduce using rule 22 (assign_op -> DIVEQ .)
+    !               reduce using rule 22 (assign_op -> DIVEQ .)
+    PLUSPLUS        reduce using rule 22 (assign_op -> DIVEQ .)
+    MINUSMINUS      reduce using rule 22 (assign_op -> DIVEQ .)
+    (               reduce using rule 22 (assign_op -> DIVEQ .)
+    NUMBER          reduce using rule 22 (assign_op -> DIVEQ .)
+    STRING          reduce using rule 22 (assign_op -> DIVEQ .)
+
+
+state 58
+
+    (23) assign_op -> MODEQ .
+
+    ID              reduce using rule 23 (assign_op -> MODEQ .)
+    +               reduce using rule 23 (assign_op -> MODEQ .)
+    -               reduce using rule 23 (assign_op -> MODEQ .)
+    ~               reduce using rule 23 (assign_op -> MODEQ .)
+    !               reduce using rule 23 (assign_op -> MODEQ .)
+    PLUSPLUS        reduce using rule 23 (assign_op -> MODEQ .)
+    MINUSMINUS      reduce using rule 23 (assign_op -> MODEQ .)
+    (               reduce using rule 23 (assign_op -> MODEQ .)
+    NUMBER          reduce using rule 23 (assign_op -> MODEQ .)
+    STRING          reduce using rule 23 (assign_op -> MODEQ .)
+
+
+state 59
+
+    (24) assign_op -> LSHIFTEQ .
+
+    ID              reduce using rule 24 (assign_op -> LSHIFTEQ .)
+    +               reduce using rule 24 (assign_op -> LSHIFTEQ .)
+    -               reduce using rule 24 (assign_op -> LSHIFTEQ .)
+    ~               reduce using rule 24 (assign_op -> LSHIFTEQ .)
+    !               reduce using rule 24 (assign_op -> LSHIFTEQ .)
+    PLUSPLUS        reduce using rule 24 (assign_op -> LSHIFTEQ .)
+    MINUSMINUS      reduce using rule 24 (assign_op -> LSHIFTEQ .)
+    (               reduce using rule 24 (assign_op -> LSHIFTEQ .)
+    NUMBER          reduce using rule 24 (assign_op -> LSHIFTEQ .)
+    STRING          reduce using rule 24 (assign_op -> LSHIFTEQ .)
+
+
+state 60
+
+    (25) assign_op -> RSHIFTEQ .
+
+    ID              reduce using rule 25 (assign_op -> RSHIFTEQ .)
+    +               reduce using rule 25 (assign_op -> RSHIFTEQ .)
+    -               reduce using rule 25 (assign_op -> RSHIFTEQ .)
+    ~               reduce using rule 25 (assign_op -> RSHIFTEQ .)
+    !               reduce using rule 25 (assign_op -> RSHIFTEQ .)
+    PLUSPLUS        reduce using rule 25 (assign_op -> RSHIFTEQ .)
+    MINUSMINUS      reduce using rule 25 (assign_op -> RSHIFTEQ .)
+    (               reduce using rule 25 (assign_op -> RSHIFTEQ .)
+    NUMBER          reduce using rule 25 (assign_op -> RSHIFTEQ .)
+    STRING          reduce using rule 25 (assign_op -> RSHIFTEQ .)
+
+
+state 61
+
+    (26) assign_op -> ANDEQ .
+
+    ID              reduce using rule 26 (assign_op -> ANDEQ .)
+    +               reduce using rule 26 (assign_op -> ANDEQ .)
+    -               reduce using rule 26 (assign_op -> ANDEQ .)
+    ~               reduce using rule 26 (assign_op -> ANDEQ .)
+    !               reduce using rule 26 (assign_op -> ANDEQ .)
+    PLUSPLUS        reduce using rule 26 (assign_op -> ANDEQ .)
+    MINUSMINUS      reduce using rule 26 (assign_op -> ANDEQ .)
+    (               reduce using rule 26 (assign_op -> ANDEQ .)
+    NUMBER          reduce using rule 26 (assign_op -> ANDEQ .)
+    STRING          reduce using rule 26 (assign_op -> ANDEQ .)
+
+
+state 62
+
+    (27) assign_op -> XOREQ .
+
+    ID              reduce using rule 27 (assign_op -> XOREQ .)
+    +               reduce using rule 27 (assign_op -> XOREQ .)
+    -               reduce using rule 27 (assign_op -> XOREQ .)
+    ~               reduce using rule 27 (assign_op -> XOREQ .)
+    !               reduce using rule 27 (assign_op -> XOREQ .)
+    PLUSPLUS        reduce using rule 27 (assign_op -> XOREQ .)
+    MINUSMINUS      reduce using rule 27 (assign_op -> XOREQ .)
+    (               reduce using rule 27 (assign_op -> XOREQ .)
+    NUMBER          reduce using rule 27 (assign_op -> XOREQ .)
+    STRING          reduce using rule 27 (assign_op -> XOREQ .)
+
+
+state 63
+
+    (28) assign_op -> OREQ .
+
+    ID              reduce using rule 28 (assign_op -> OREQ .)
+    +               reduce using rule 28 (assign_op -> OREQ .)
+    -               reduce using rule 28 (assign_op -> OREQ .)
+    ~               reduce using rule 28 (assign_op -> OREQ .)
+    !               reduce using rule 28 (assign_op -> OREQ .)
+    PLUSPLUS        reduce using rule 28 (assign_op -> OREQ .)
+    MINUSMINUS      reduce using rule 28 (assign_op -> OREQ .)
+    (               reduce using rule 28 (assign_op -> OREQ .)
+    NUMBER          reduce using rule 28 (assign_op -> OREQ .)
+    STRING          reduce using rule 28 (assign_op -> OREQ .)
+
+
+state 64
+
+    (49) expression -> + expression .
+    (48) expression -> expression . binop expression
+    (30) binop -> . +
+    (31) binop -> . -
+    (32) binop -> . *
+    (33) binop -> . /
+    (34) binop -> . %
+    (35) binop -> . LSHIFT
+    (36) binop -> . RSHIFT
+    (37) binop -> . BITOR
+    (38) binop -> . &
+    (39) binop -> . ^
+    (40) binop -> . AND
+    (41) binop -> . OR
+    (42) binop -> . EQ
+    (43) binop -> . NE
+    (44) binop -> . <
+    (45) binop -> . >
+    (46) binop -> . LE
+    (47) binop -> . GE
+
+    ;               reduce using rule 49 (expression -> + expression .)
+    +               reduce using rule 49 (expression -> + expression .)
+    -               reduce using rule 49 (expression -> + expression .)
+    *               reduce using rule 49 (expression -> + expression .)
+    /               reduce using rule 49 (expression -> + expression .)
+    %               reduce using rule 49 (expression -> + expression .)
+    LSHIFT          reduce using rule 49 (expression -> + expression .)
+    RSHIFT          reduce using rule 49 (expression -> + expression .)
+    BITOR           reduce using rule 49 (expression -> + expression .)
+    &               reduce using rule 49 (expression -> + expression .)
+    ^               reduce using rule 49 (expression -> + expression .)
+    AND             reduce using rule 49 (expression -> + expression .)
+    OR              reduce using rule 49 (expression -> + expression .)
+    EQ              reduce using rule 49 (expression -> + expression .)
+    NE              reduce using rule 49 (expression -> + expression .)
+    <               reduce using rule 49 (expression -> + expression .)
+    >               reduce using rule 49 (expression -> + expression .)
+    LE              reduce using rule 49 (expression -> + expression .)
+    GE              reduce using rule 49 (expression -> + expression .)
+    )               reduce using rule 49 (expression -> + expression .)
+
+  ! +               [ shift and go to state 27 ]
+  ! -               [ shift and go to state 28 ]
+  ! *               [ shift and go to state 29 ]
+  ! /               [ shift and go to state 30 ]
+  ! %               [ shift and go to state 31 ]
+  ! LSHIFT          [ shift and go to state 32 ]
+  ! RSHIFT          [ shift and go to state 33 ]
+  ! BITOR           [ shift and go to state 34 ]
+  ! &               [ shift and go to state 35 ]
+  ! ^               [ shift and go to state 36 ]
+  ! AND             [ shift and go to state 37 ]
+  ! OR              [ shift and go to state 38 ]
+  ! EQ              [ shift and go to state 39 ]
+  ! NE              [ shift and go to state 40 ]
+  ! <               [ shift and go to state 41 ]
+  ! >               [ shift and go to state 42 ]
+  ! LE              [ shift and go to state 43 ]
+  ! GE              [ shift and go to state 44 ]
+
+    binop                          shift and go to state 26
+
+state 65
+
+    (50) expression -> - expression .
+    (48) expression -> expression . binop expression
+    (30) binop -> . +
+    (31) binop -> . -
+    (32) binop -> . *
+    (33) binop -> . /
+    (34) binop -> . %
+    (35) binop -> . LSHIFT
+    (36) binop -> . RSHIFT
+    (37) binop -> . BITOR
+    (38) binop -> . &
+    (39) binop -> . ^
+    (40) binop -> . AND
+    (41) binop -> . OR
+    (42) binop -> . EQ
+    (43) binop -> . NE
+    (44) binop -> . <
+    (45) binop -> . >
+    (46) binop -> . LE
+    (47) binop -> . GE
+
+    ;               reduce using rule 50 (expression -> - expression .)
+    +               reduce using rule 50 (expression -> - expression .)
+    -               reduce using rule 50 (expression -> - expression .)
+    *               reduce using rule 50 (expression -> - expression .)
+    /               reduce using rule 50 (expression -> - expression .)
+    %               reduce using rule 50 (expression -> - expression .)
+    LSHIFT          reduce using rule 50 (expression -> - expression .)
+    RSHIFT          reduce using rule 50 (expression -> - expression .)
+    BITOR           reduce using rule 50 (expression -> - expression .)
+    &               reduce using rule 50 (expression -> - expression .)
+    ^               reduce using rule 50 (expression -> - expression .)
+    AND             reduce using rule 50 (expression -> - expression .)
+    OR              reduce using rule 50 (expression -> - expression .)
+    EQ              reduce using rule 50 (expression -> - expression .)
+    NE              reduce using rule 50 (expression -> - expression .)
+    <               reduce using rule 50 (expression -> - expression .)
+    >               reduce using rule 50 (expression -> - expression .)
+    LE              reduce using rule 50 (expression -> - expression .)
+    GE              reduce using rule 50 (expression -> - expression .)
+    )               reduce using rule 50 (expression -> - expression .)
+
+  ! +               [ shift and go to state 27 ]
+  ! -               [ shift and go to state 28 ]
+  ! *               [ shift and go to state 29 ]
+  ! /               [ shift and go to state 30 ]
+  ! %               [ shift and go to state 31 ]
+  ! LSHIFT          [ shift and go to state 32 ]
+  ! RSHIFT          [ shift and go to state 33 ]
+  ! BITOR           [ shift and go to state 34 ]
+  ! &               [ shift and go to state 35 ]
+  ! ^               [ shift and go to state 36 ]
+  ! AND             [ shift and go to state 37 ]
+  ! OR              [ shift and go to state 38 ]
+  ! EQ              [ shift and go to state 39 ]
+  ! NE              [ shift and go to state 40 ]
+  ! <               [ shift and go to state 41 ]
+  ! >               [ shift and go to state 42 ]
+  ! LE              [ shift and go to state 43 ]
+  ! GE              [ shift and go to state 44 ]
+
+    binop                          shift and go to state 26
+
+state 66
+
+    (51) expression -> ~ expression .
+    (48) expression -> expression . binop expression
+    (30) binop -> . +
+    (31) binop -> . -
+    (32) binop -> . *
+    (33) binop -> . /
+    (34) binop -> . %
+    (35) binop -> . LSHIFT
+    (36) binop -> . RSHIFT
+    (37) binop -> . BITOR
+    (38) binop -> . &
+    (39) binop -> . ^
+    (40) binop -> . AND
+    (41) binop -> . OR
+    (42) binop -> . EQ
+    (43) binop -> . NE
+    (44) binop -> . <
+    (45) binop -> . >
+    (46) binop -> . LE
+    (47) binop -> . GE
+
+  ! shift/reduce conflict for + resolved as shift
+  ! shift/reduce conflict for - resolved as shift
+  ! shift/reduce conflict for * resolved as shift
+  ! shift/reduce conflict for / resolved as shift
+  ! shift/reduce conflict for % resolved as shift
+  ! shift/reduce conflict for LSHIFT resolved as shift
+  ! shift/reduce conflict for RSHIFT resolved as shift
+  ! shift/reduce conflict for BITOR resolved as shift
+  ! shift/reduce conflict for & resolved as shift
+  ! shift/reduce conflict for ^ resolved as shift
+  ! shift/reduce conflict for AND resolved as shift
+  ! shift/reduce conflict for OR resolved as shift
+  ! shift/reduce conflict for EQ resolved as shift
+  ! shift/reduce conflict for NE resolved as shift
+  ! shift/reduce conflict for < resolved as shift
+  ! shift/reduce conflict for > resolved as shift
+  ! shift/reduce conflict for LE resolved as shift
+  ! shift/reduce conflict for GE resolved as shift
+    ;               reduce using rule 51 (expression -> ~ expression .)
+    )               reduce using rule 51 (expression -> ~ expression .)
+    +               shift and go to state 27
+    -               shift and go to state 28
+    *               shift and go to state 29
+    /               shift and go to state 30
+    %               shift and go to state 31
+    LSHIFT          shift and go to state 32
+    RSHIFT          shift and go to state 33
+    BITOR           shift and go to state 34
+    &               shift and go to state 35
+    ^               shift and go to state 36
+    AND             shift and go to state 37
+    OR              shift and go to state 38
+    EQ              shift and go to state 39
+    NE              shift and go to state 40
+    <               shift and go to state 41
+    >               shift and go to state 42
+    LE              shift and go to state 43
+    GE              shift and go to state 44
+
+  ! +               [ reduce using rule 51 (expression -> ~ expression .) ]
+  ! -               [ reduce using rule 51 (expression -> ~ expression .) ]
+  ! *               [ reduce using rule 51 (expression -> ~ expression .) ]
+  ! /               [ reduce using rule 51 (expression -> ~ expression .) ]
+  ! %               [ reduce using rule 51 (expression -> ~ expression .) ]
+  ! LSHIFT          [ reduce using rule 51 (expression -> ~ expression .) ]
+  ! RSHIFT          [ reduce using rule 51 (expression -> ~ expression .) ]
+  ! BITOR           [ reduce using rule 51 (expression -> ~ expression .) ]
+  ! &               [ reduce using rule 51 (expression -> ~ expression .) ]
+  ! ^               [ reduce using rule 51 (expression -> ~ expression .) ]
+  ! AND             [ reduce using rule 51 (expression -> ~ expression .) ]
+  ! OR              [ reduce using rule 51 (expression -> ~ expression .) ]
+  ! EQ              [ reduce using rule 51 (expression -> ~ expression .) ]
+  ! NE              [ reduce using rule 51 (expression -> ~ expression .) ]
+  ! <               [ reduce using rule 51 (expression -> ~ expression .) ]
+  ! >               [ reduce using rule 51 (expression -> ~ expression .) ]
+  ! LE              [ reduce using rule 51 (expression -> ~ expression .) ]
+  ! GE              [ reduce using rule 51 (expression -> ~ expression .) ]
+
+    binop                          shift and go to state 26
+
+state 67
+
+    (52) expression -> ! expression .
+    (48) expression -> expression . binop expression
+    (30) binop -> . +
+    (31) binop -> . -
+    (32) binop -> . *
+    (33) binop -> . /
+    (34) binop -> . %
+    (35) binop -> . LSHIFT
+    (36) binop -> . RSHIFT
+    (37) binop -> . BITOR
+    (38) binop -> . &
+    (39) binop -> . ^
+    (40) binop -> . AND
+    (41) binop -> . OR
+    (42) binop -> . EQ
+    (43) binop -> . NE
+    (44) binop -> . <
+    (45) binop -> . >
+    (46) binop -> . LE
+    (47) binop -> . GE
+
+  ! shift/reduce conflict for + resolved as shift
+  ! shift/reduce conflict for - resolved as shift
+  ! shift/reduce conflict for * resolved as shift
+  ! shift/reduce conflict for / resolved as shift
+  ! shift/reduce conflict for % resolved as shift
+  ! shift/reduce conflict for LSHIFT resolved as shift
+  ! shift/reduce conflict for RSHIFT resolved as shift
+  ! shift/reduce conflict for BITOR resolved as shift
+  ! shift/reduce conflict for & resolved as shift
+  ! shift/reduce conflict for ^ resolved as shift
+  ! shift/reduce conflict for AND resolved as shift
+  ! shift/reduce conflict for OR resolved as shift
+  ! shift/reduce conflict for EQ resolved as shift
+  ! shift/reduce conflict for NE resolved as shift
+  ! shift/reduce conflict for < resolved as shift
+  ! shift/reduce conflict for > resolved as shift
+  ! shift/reduce conflict for LE resolved as shift
+  ! shift/reduce conflict for GE resolved as shift
+    ;               reduce using rule 52 (expression -> ! expression .)
+    )               reduce using rule 52 (expression -> ! expression .)
+    +               shift and go to state 27
+    -               shift and go to state 28
+    *               shift and go to state 29
+    /               shift and go to state 30
+    %               shift and go to state 31
+    LSHIFT          shift and go to state 32
+    RSHIFT          shift and go to state 33
+    BITOR           shift and go to state 34
+    &               shift and go to state 35
+    ^               shift and go to state 36
+    AND             shift and go to state 37
+    OR              shift and go to state 38
+    EQ              shift and go to state 39
+    NE              shift and go to state 40
+    <               shift and go to state 41
+    >               shift and go to state 42
+    LE              shift and go to state 43
+    GE              shift and go to state 44
+
+  ! +               [ reduce using rule 52 (expression -> ! expression .) ]
+  ! -               [ reduce using rule 52 (expression -> ! expression .) ]
+  ! *               [ reduce using rule 52 (expression -> ! expression .) ]
+  ! /               [ reduce using rule 52 (expression -> ! expression .) ]
+  ! %               [ reduce using rule 52 (expression -> ! expression .) ]
+  ! LSHIFT          [ reduce using rule 52 (expression -> ! expression .) ]
+  ! RSHIFT          [ reduce using rule 52 (expression -> ! expression .) ]
+  ! BITOR           [ reduce using rule 52 (expression -> ! expression .) ]
+  ! &               [ reduce using rule 52 (expression -> ! expression .) ]
+  ! ^               [ reduce using rule 52 (expression -> ! expression .) ]
+  ! AND             [ reduce using rule 52 (expression -> ! expression .) ]
+  ! OR              [ reduce using rule 52 (expression -> ! expression .) ]
+  ! EQ              [ reduce using rule 52 (expression -> ! expression .) ]
+  ! NE              [ reduce using rule 52 (expression -> ! expression .) ]
+  ! <               [ reduce using rule 52 (expression -> ! expression .) ]
+  ! >               [ reduce using rule 52 (expression -> ! expression .) ]
+  ! LE              [ reduce using rule 52 (expression -> ! expression .) ]
+  ! GE              [ reduce using rule 52 (expression -> ! expression .) ]
+
+    binop                          shift and go to state 26
+
+state 68
+
+    (53) expression -> PLUSPLUS ID .
+
+    ;               reduce using rule 53 (expression -> PLUSPLUS ID .)
+    +               reduce using rule 53 (expression -> PLUSPLUS ID .)
+    -               reduce using rule 53 (expression -> PLUSPLUS ID .)
+    *               reduce using rule 53 (expression -> PLUSPLUS ID .)
+    /               reduce using rule 53 (expression -> PLUSPLUS ID .)
+    %               reduce using rule 53 (expression -> PLUSPLUS ID .)
+    LSHIFT          reduce using rule 53 (expression -> PLUSPLUS ID .)
+    RSHIFT          reduce using rule 53 (expression -> PLUSPLUS ID .)
+    BITOR           reduce using rule 53 (expression -> PLUSPLUS ID .)
+    &               reduce using rule 53 (expression -> PLUSPLUS ID .)
+    ^               reduce using rule 53 (expression -> PLUSPLUS ID .)
+    AND             reduce using rule 53 (expression -> PLUSPLUS ID .)
+    OR              reduce using rule 53 (expression -> PLUSPLUS ID .)
+    EQ              reduce using rule 53 (expression -> PLUSPLUS ID .)
+    NE              reduce using rule 53 (expression -> PLUSPLUS ID .)
+    <               reduce using rule 53 (expression -> PLUSPLUS ID .)
+    >               reduce using rule 53 (expression -> PLUSPLUS ID .)
+    LE              reduce using rule 53 (expression -> PLUSPLUS ID .)
+    GE              reduce using rule 53 (expression -> PLUSPLUS ID .)
+    )               reduce using rule 53 (expression -> PLUSPLUS ID .)
+
+
+state 69
+
+    (54) expression -> MINUSMINUS ID .
+
+    ;               reduce using rule 54 (expression -> MINUSMINUS ID .)
+    +               reduce using rule 54 (expression -> MINUSMINUS ID .)
+    -               reduce using rule 54 (expression -> MINUSMINUS ID .)
+    *               reduce using rule 54 (expression -> MINUSMINUS ID .)
+    /               reduce using rule 54 (expression -> MINUSMINUS ID .)
+    %               reduce using rule 54 (expression -> MINUSMINUS ID .)
+    LSHIFT          reduce using rule 54 (expression -> MINUSMINUS ID .)
+    RSHIFT          reduce using rule 54 (expression -> MINUSMINUS ID .)
+    BITOR           reduce using rule 54 (expression -> MINUSMINUS ID .)
+    &               reduce using rule 54 (expression -> MINUSMINUS ID .)
+    ^               reduce using rule 54 (expression -> MINUSMINUS ID .)
+    AND             reduce using rule 54 (expression -> MINUSMINUS ID .)
+    OR              reduce using rule 54 (expression -> MINUSMINUS ID .)
+    EQ              reduce using rule 54 (expression -> MINUSMINUS ID .)
+    NE              reduce using rule 54 (expression -> MINUSMINUS ID .)
+    <               reduce using rule 54 (expression -> MINUSMINUS ID .)
+    >               reduce using rule 54 (expression -> MINUSMINUS ID .)
+    LE              reduce using rule 54 (expression -> MINUSMINUS ID .)
+    GE              reduce using rule 54 (expression -> MINUSMINUS ID .)
+    )               reduce using rule 54 (expression -> MINUSMINUS ID .)
+
+
+state 70
+
+    (48) expression -> expression binop expression .
+    (48) expression -> expression . binop expression
+    (30) binop -> . +
+    (31) binop -> . -
+    (32) binop -> . *
+    (33) binop -> . /
+    (34) binop -> . %
+    (35) binop -> . LSHIFT
+    (36) binop -> . RSHIFT
+    (37) binop -> . BITOR
+    (38) binop -> . &
+    (39) binop -> . ^
+    (40) binop -> . AND
+    (41) binop -> . OR
+    (42) binop -> . EQ
+    (43) binop -> . NE
+    (44) binop -> . <
+    (45) binop -> . >
+    (46) binop -> . LE
+    (47) binop -> . GE
+
+  ! shift/reduce conflict for + resolved as shift
+  ! shift/reduce conflict for - resolved as shift
+  ! shift/reduce conflict for * resolved as shift
+  ! shift/reduce conflict for / resolved as shift
+  ! shift/reduce conflict for % resolved as shift
+  ! shift/reduce conflict for LSHIFT resolved as shift
+  ! shift/reduce conflict for RSHIFT resolved as shift
+  ! shift/reduce conflict for BITOR resolved as shift
+  ! shift/reduce conflict for & resolved as shift
+  ! shift/reduce conflict for ^ resolved as shift
+  ! shift/reduce conflict for AND resolved as shift
+  ! shift/reduce conflict for OR resolved as shift
+  ! shift/reduce conflict for EQ resolved as shift
+  ! shift/reduce conflict for NE resolved as shift
+  ! shift/reduce conflict for < resolved as shift
+  ! shift/reduce conflict for > resolved as shift
+  ! shift/reduce conflict for LE resolved as shift
+  ! shift/reduce conflict for GE resolved as shift
+    ;               reduce using rule 48 (expression -> expression binop expression .)
+    )               reduce using rule 48 (expression -> expression binop expression .)
+    +               shift and go to state 27
+    -               shift and go to state 28
+    *               shift and go to state 29
+    /               shift and go to state 30
+    %               shift and go to state 31
+    LSHIFT          shift and go to state 32
+    RSHIFT          shift and go to state 33
+    BITOR           shift and go to state 34
+    &               shift and go to state 35
+    ^               shift and go to state 36
+    AND             shift and go to state 37
+    OR              shift and go to state 38
+    EQ              shift and go to state 39
+    NE              shift and go to state 40
+    <               shift and go to state 41
+    >               shift and go to state 42
+    LE              shift and go to state 43
+    GE              shift and go to state 44
+
+  ! +               [ reduce using rule 48 (expression -> expression binop expression .) ]
+  ! -               [ reduce using rule 48 (expression -> expression binop expression .) ]
+  ! *               [ reduce using rule 48 (expression -> expression binop expression .) ]
+  ! /               [ reduce using rule 48 (expression -> expression binop expression .) ]
+  ! %               [ reduce using rule 48 (expression -> expression binop expression .) ]
+  ! LSHIFT          [ reduce using rule 48 (expression -> expression binop expression .) ]
+  ! RSHIFT          [ reduce using rule 48 (expression -> expression binop expression .) ]
+  ! BITOR           [ reduce using rule 48 (expression -> expression binop expression .) ]
+  ! &               [ reduce using rule 48 (expression -> expression binop expression .) ]
+  ! ^               [ reduce using rule 48 (expression -> expression binop expression .) ]
+  ! AND             [ reduce using rule 48 (expression -> expression binop expression .) ]
+  ! OR              [ reduce using rule 48 (expression -> expression binop expression .) ]
+  ! EQ              [ reduce using rule 48 (expression -> expression binop expression .) ]
+  ! NE              [ reduce using rule 48 (expression -> expression binop expression .) ]
+  ! <               [ reduce using rule 48 (expression -> expression binop expression .) ]
+  ! >               [ reduce using rule 48 (expression -> expression binop expression .) ]
+  ! LE              [ reduce using rule 48 (expression -> expression binop expression .) ]
+  ! GE              [ reduce using rule 48 (expression -> expression binop expression .) ]
+
+    binop                          shift and go to state 26
+
+state 71
+
+    (7) statement -> IF ( expression . ) statement
+    (8) statement -> IF ( expression . ) statement ELSE statement
+    (48) expression -> expression . binop expression
+    (30) binop -> . +
+    (31) binop -> . -
+    (32) binop -> . *
+    (33) binop -> . /
+    (34) binop -> . %
+    (35) binop -> . LSHIFT
+    (36) binop -> . RSHIFT
+    (37) binop -> . BITOR
+    (38) binop -> . &
+    (39) binop -> . ^
+    (40) binop -> . AND
+    (41) binop -> . OR
+    (42) binop -> . EQ
+    (43) binop -> . NE
+    (44) binop -> . <
+    (45) binop -> . >
+    (46) binop -> . LE
+    (47) binop -> . GE
+
+    )               shift and go to state 81
+    +               shift and go to state 27
+    -               shift and go to state 28
+    *               shift and go to state 29
+    /               shift and go to state 30
+    %               shift and go to state 31
+    LSHIFT          shift and go to state 32
+    RSHIFT          shift and go to state 33
+    BITOR           shift and go to state 34
+    &               shift and go to state 35
+    ^               shift and go to state 36
+    AND             shift and go to state 37
+    OR              shift and go to state 38
+    EQ              shift and go to state 39
+    NE              shift and go to state 40
+    <               shift and go to state 41
+    >               shift and go to state 42
+    LE              shift and go to state 43
+    GE              shift and go to state 44
+
+    binop                          shift and go to state 26
+
+state 72
+
+    (55) expression -> ( expression ) .
+
+    ;               reduce using rule 55 (expression -> ( expression ) .)
+    +               reduce using rule 55 (expression -> ( expression ) .)
+    -               reduce using rule 55 (expression -> ( expression ) .)
+    *               reduce using rule 55 (expression -> ( expression ) .)
+    /               reduce using rule 55 (expression -> ( expression ) .)
+    %               reduce using rule 55 (expression -> ( expression ) .)
+    LSHIFT          reduce using rule 55 (expression -> ( expression ) .)
+    RSHIFT          reduce using rule 55 (expression -> ( expression ) .)
+    BITOR           reduce using rule 55 (expression -> ( expression ) .)
+    &               reduce using rule 55 (expression -> ( expression ) .)
+    ^               reduce using rule 55 (expression -> ( expression ) .)
+    AND             reduce using rule 55 (expression -> ( expression ) .)
+    OR              reduce using rule 55 (expression -> ( expression ) .)
+    EQ              reduce using rule 55 (expression -> ( expression ) .)
+    NE              reduce using rule 55 (expression -> ( expression ) .)
+    <               reduce using rule 55 (expression -> ( expression ) .)
+    >               reduce using rule 55 (expression -> ( expression ) .)
+    LE              reduce using rule 55 (expression -> ( expression ) .)
+    GE              reduce using rule 55 (expression -> ( expression ) .)
+    )               reduce using rule 55 (expression -> ( expression ) .)
+
+
+state 73
+
+    (9) statement -> WHILE ( expression . ) statement
+    (48) expression -> expression . binop expression
+    (30) binop -> . +
+    (31) binop -> . -
+    (32) binop -> . *
+    (33) binop -> . /
+    (34) binop -> . %
+    (35) binop -> . LSHIFT
+    (36) binop -> . RSHIFT
+    (37) binop -> . BITOR
+    (38) binop -> . &
+    (39) binop -> . ^
+    (40) binop -> . AND
+    (41) binop -> . OR
+    (42) binop -> . EQ
+    (43) binop -> . NE
+    (44) binop -> . <
+    (45) binop -> . >
+    (46) binop -> . LE
+    (47) binop -> . GE
+
+    )               shift and go to state 82
+    +               shift and go to state 27
+    -               shift and go to state 28
+    *               shift and go to state 29
+    /               shift and go to state 30
+    %               shift and go to state 31
+    LSHIFT          shift and go to state 32
+    RSHIFT          shift and go to state 33
+    BITOR           shift and go to state 34
+    &               shift and go to state 35
+    ^               shift and go to state 36
+    AND             shift and go to state 37
+    OR              shift and go to state 38
+    EQ              shift and go to state 39
+    NE              shift and go to state 40
+    <               shift and go to state 41
+    >               shift and go to state 42
+    LE              shift and go to state 43
+    GE              shift and go to state 44
+
+    binop                          shift and go to state 26
+
+state 74
+
+    (10) statement -> DO statement WHILE . ( expression ) ;
+
+    (               shift and go to state 83
+
+
+state 75
+
+    (11) statement -> FOR ( opt_expr . ; opt_expr ; opt_expr ) statement
+
+    ;               shift and go to state 84
+
+
+state 76
+
+    (12) opt_expr -> expression .
+    (48) expression -> expression . binop expression
+    (30) binop -> . +
+    (31) binop -> . -
+    (32) binop -> . *
+    (33) binop -> . /
+    (34) binop -> . %
+    (35) binop -> . LSHIFT
+    (36) binop -> . RSHIFT
+    (37) binop -> . BITOR
+    (38) binop -> . &
+    (39) binop -> . ^
+    (40) binop -> . AND
+    (41) binop -> . OR
+    (42) binop -> . EQ
+    (43) binop -> . NE
+    (44) binop -> . <
+    (45) binop -> . >
+    (46) binop -> . LE
+    (47) binop -> . GE
+
+    ;               reduce using rule 12 (opt_expr -> expression .)
+    )               reduce using rule 12 (opt_expr -> expression .)
+    +               shift and go to state 27
+    -               shift and go to state 28
+    *               shift and go to state 29
+    /               shift and go to state 30
+    %               shift and go to state 31
+    LSHIFT          shift and go to state 32
+    RSHIFT          shift and go to state 33
+    BITOR           shift and go to state 34
+    &               shift and go to state 35
+    ^               shift and go to state 36
+    AND             shift and go to state 37
+    OR              shift and go to state 38
+    EQ              shift and go to state 39
+    NE              shift and go to state 40
+    <               shift and go to state 41
+    >               shift and go to state 42
+    LE              shift and go to state 43
+    GE              shift and go to state 44
+
+    binop                          shift and go to state 26
+
+state 77
+
+    (14) statement -> PRINT ( print_args . ) ;
+
+    )               shift and go to state 85
+
+
+state 78
+
+    (15) print_args -> STRING . , expression
+    (16) print_args -> STRING .
+
+    ,               shift and go to state 86
+    )               reduce using rule 16 (print_args -> STRING .)
+
+
+state 79
+
+    (17) statement -> SCAN ( ID . ) ;
+
+    )               shift and go to state 87
+
+
+state 80
+
+    (29) expression -> ID assign_op expression .
+    (48) expression -> expression . binop expression
+    (30) binop -> . +
+    (31) binop -> . -
+    (32) binop -> . *
+    (33) binop -> . /
+    (34) binop -> . %
+    (35) binop -> . LSHIFT
+    (36) binop -> . RSHIFT
+    (37) binop -> . BITOR
+    (38) binop -> . &
+    (39) binop -> . ^
+    (40) binop -> . AND
+    (41) binop -> . OR
+    (42) binop -> . EQ
+    (43) binop -> . NE
+    (44) binop -> . <
+    (45) binop -> . >
+    (46) binop -> . LE
+    (47) binop -> . GE
+
+  ! shift/reduce conflict for + resolved as shift
+  ! shift/reduce conflict for - resolved as shift
+  ! shift/reduce conflict for * resolved as shift
+  ! shift/reduce conflict for / resolved as shift
+  ! shift/reduce conflict for % resolved as shift
+  ! shift/reduce conflict for LSHIFT resolved as shift
+  ! shift/reduce conflict for RSHIFT resolved as shift
+  ! shift/reduce conflict for BITOR resolved as shift
+  ! shift/reduce conflict for & resolved as shift
+  ! shift/reduce conflict for ^ resolved as shift
+  ! shift/reduce conflict for AND resolved as shift
+  ! shift/reduce conflict for OR resolved as shift
+  ! shift/reduce conflict for EQ resolved as shift
+  ! shift/reduce conflict for NE resolved as shift
+  ! shift/reduce conflict for < resolved as shift
+  ! shift/reduce conflict for > resolved as shift
+  ! shift/reduce conflict for LE resolved as shift
+  ! shift/reduce conflict for GE resolved as shift
+    ;               reduce using rule 29 (expression -> ID assign_op expression .)
+    )               reduce using rule 29 (expression -> ID assign_op expression .)
+    +               shift and go to state 27
+    -               shift and go to state 28
+    *               shift and go to state 29
+    /               shift and go to state 30
+    %               shift and go to state 31
+    LSHIFT          shift and go to state 32
+    RSHIFT          shift and go to state 33
+    BITOR           shift and go to state 34
+    &               shift and go to state 35
+    ^               shift and go to state 36
+    AND             shift and go to state 37
+    OR              shift and go to state 38
+    EQ              shift and go to state 39
+    NE              shift and go to state 40
+    <               shift and go to state 41
+    >               shift and go to state 42
+    LE              shift and go to state 43
+    GE              shift and go to state 44
+
+  ! +               [ reduce using rule 29 (expression -> ID assign_op expression .) ]
+  ! -               [ reduce using rule 29 (expression -> ID assign_op expression .) ]
+  ! *               [ reduce using rule 29 (expression -> ID assign_op expression .) ]
+  ! /               [ reduce using rule 29 (expression -> ID assign_op expression .) ]
+  ! %               [ reduce using rule 29 (expression -> ID assign_op expression .) ]
+  ! LSHIFT          [ reduce using rule 29 (expression -> ID assign_op expression .) ]
+  ! RSHIFT          [ reduce using rule 29 (expression -> ID assign_op expression .) ]
+  ! BITOR           [ reduce using rule 29 (expression -> ID assign_op expression .) ]
+  ! &               [ reduce using rule 29 (expression -> ID assign_op expression .) ]
+  ! ^               [ reduce using rule 29 (expression -> ID assign_op expression .) ]
+  ! AND             [ reduce using rule 29 (expression -> ID assign_op expression .) ]
+  ! OR              [ reduce using rule 29 (expression -> ID assign_op expression .) ]
+  ! EQ              [ reduce using rule 29 (expression -> ID assign_op expression .) ]
+  ! NE              [ reduce using rule 29 (expression -> ID assign_op expression .) ]
+  ! <               [ reduce using rule 29 (expression -> ID assign_op expression .) ]
+  ! >               [ reduce using rule 29 (expression -> ID assign_op expression .) ]
+  ! LE              [ reduce using rule 29 (expression -> ID assign_op expression .) ]
+  ! GE              [ reduce using rule 29 (expression -> ID assign_op expression .) ]
+
+    binop                          shift and go to state 26
+
+state 81
+
+    (7) statement -> IF ( expression ) . statement
+    (8) statement -> IF ( expression ) . statement ELSE statement
+    (5) statement -> . expression ;
+    (6) statement -> . compound_statement
+    (7) statement -> . IF ( expression ) statement
+    (8) statement -> . IF ( expression ) statement ELSE statement
+    (9) statement -> . WHILE ( expression ) statement
+    (10) statement -> . DO statement WHILE ( expression ) ;
+    (11) statement -> . FOR ( opt_expr ; opt_expr ; opt_expr ) statement
+    (14) statement -> . PRINT ( print_args ) ;
+    (17) statement -> . SCAN ( ID ) ;
+    (29) expression -> . ID assign_op expression
+    (48) expression -> . expression binop expression
+    (49) expression -> . + expression
+    (50) expression -> . - expression
+    (51) expression -> . ~ expression
+    (52) expression -> . ! expression
+    (53) expression -> . PLUSPLUS ID
+    (54) expression -> . MINUSMINUS ID
+    (55) expression -> . ( expression )
+    (56) expression -> . NUMBER
+    (57) expression -> . STRING
+    (58) expression -> . ID
+    (2) compound_statement -> . { stmt_list }
+
+    IF              shift and go to state 9
+    WHILE           shift and go to state 11
+    DO              shift and go to state 12
+    FOR             shift and go to state 13
+    PRINT           shift and go to state 14
+    SCAN            shift and go to state 15
+    ID              shift and go to state 16
+    +               shift and go to state 17
+    -               shift and go to state 18
+    ~               shift and go to state 19
+    !               shift and go to state 20
+    PLUSPLUS        shift and go to state 21
+    MINUSMINUS      shift and go to state 22
+    (               shift and go to state 10
+    NUMBER          shift and go to state 23
+    STRING          shift and go to state 24
+    {               shift and go to state 3
+
+    expression                     shift and go to state 7
+    statement                      shift and go to state 88
+    compound_statement             shift and go to state 8
+
+state 82
+
+    (9) statement -> WHILE ( expression ) . statement
+    (5) statement -> . expression ;
+    (6) statement -> . compound_statement
+    (7) statement -> . IF ( expression ) statement
+    (8) statement -> . IF ( expression ) statement ELSE statement
+    (9) statement -> . WHILE ( expression ) statement
+    (10) statement -> . DO statement WHILE ( expression ) ;
+    (11) statement -> . FOR ( opt_expr ; opt_expr ; opt_expr ) statement
+    (14) statement -> . PRINT ( print_args ) ;
+    (17) statement -> . SCAN ( ID ) ;
+    (29) expression -> . ID assign_op expression
+    (48) expression -> . expression binop expression
+    (49) expression -> . + expression
+    (50) expression -> . - expression
+    (51) expression -> . ~ expression
+    (52) expression -> . ! expression
+    (53) expression -> . PLUSPLUS ID
+    (54) expression -> . MINUSMINUS ID
+    (55) expression -> . ( expression )
+    (56) expression -> . NUMBER
+    (57) expression -> . STRING
+    (58) expression -> . ID
+    (2) compound_statement -> . { stmt_list }
+
+    IF              shift and go to state 9
+    WHILE           shift and go to state 11
+    DO              shift and go to state 12
+    FOR             shift and go to state 13
+    PRINT           shift and go to state 14
+    SCAN            shift and go to state 15
+    ID              shift and go to state 16
+    +               shift and go to state 17
+    -               shift and go to state 18
+    ~               shift and go to state 19
+    !               shift and go to state 20
+    PLUSPLUS        shift and go to state 21
+    MINUSMINUS      shift and go to state 22
+    (               shift and go to state 10
+    NUMBER          shift and go to state 23
+    STRING          shift and go to state 24
+    {               shift and go to state 3
+
+    expression                     shift and go to state 7
+    statement                      shift and go to state 89
+    compound_statement             shift and go to state 8
+
+state 83
+
+    (10) statement -> DO statement WHILE ( . expression ) ;
+    (29) expression -> . ID assign_op expression
+    (48) expression -> . expression binop expression
+    (49) expression -> . + expression
+    (50) expression -> . - expression
+    (51) expression -> . ~ expression
+    (52) expression -> . ! expression
+    (53) expression -> . PLUSPLUS ID
+    (54) expression -> . MINUSMINUS ID
+    (55) expression -> . ( expression )
+    (56) expression -> . NUMBER
+    (57) expression -> . STRING
+    (58) expression -> . ID
+
+    ID              shift and go to state 16
+    +               shift and go to state 17
+    -               shift and go to state 18
+    ~               shift and go to state 19
+    !               shift and go to state 20
+    PLUSPLUS        shift and go to state 21
+    MINUSMINUS      shift and go to state 22
+    (               shift and go to state 10
+    NUMBER          shift and go to state 23
+    STRING          shift and go to state 24
+
+    expression                     shift and go to state 90
+
+state 84
+
+    (11) statement -> FOR ( opt_expr ; . opt_expr ; opt_expr ) statement
+    (12) opt_expr -> . expression
+    (13) opt_expr -> .
+    (29) expression -> . ID assign_op expression
+    (48) expression -> . expression binop expression
+    (49) expression -> . + expression
+    (50) expression -> . - expression
+    (51) expression -> . ~ expression
+    (52) expression -> . ! expression
+    (53) expression -> . PLUSPLUS ID
+    (54) expression -> . MINUSMINUS ID
+    (55) expression -> . ( expression )
+    (56) expression -> . NUMBER
+    (57) expression -> . STRING
+    (58) expression -> . ID
+
+    ;               reduce using rule 13 (opt_expr -> .)
+    ID              shift and go to state 16
+    +               shift and go to state 17
+    -               shift and go to state 18
+    ~               shift and go to state 19
+    !               shift and go to state 20
+    PLUSPLUS        shift and go to state 21
+    MINUSMINUS      shift and go to state 22
+    (               shift and go to state 10
+    NUMBER          shift and go to state 23
+    STRING          shift and go to state 24
+
+    opt_expr                       shift and go to state 91
+    expression                     shift and go to state 76
+
+state 85
+
+    (14) statement -> PRINT ( print_args ) . ;
+
+    ;               shift and go to state 92
+
+
+state 86
+
+    (15) print_args -> STRING , . expression
+    (29) expression -> . ID assign_op expression
+    (48) expression -> . expression binop expression
+    (49) expression -> . + expression
+    (50) expression -> . - expression
+    (51) expression -> . ~ expression
+    (52) expression -> . ! expression
+    (53) expression -> . PLUSPLUS ID
+    (54) expression -> . MINUSMINUS ID
+    (55) expression -> . ( expression )
+    (56) expression -> . NUMBER
+    (57) expression -> . STRING
+    (58) expression -> . ID
+
+    ID              shift and go to state 16
+    +               shift and go to state 17
+    -               shift and go to state 18
+    ~               shift and go to state 19
+    !               shift and go to state 20
+    PLUSPLUS        shift and go to state 21
+    MINUSMINUS      shift and go to state 22
+    (               shift and go to state 10
+    NUMBER          shift and go to state 23
+    STRING          shift and go to state 24
+
+    expression                     shift and go to state 93
+
+state 87
+
+    (17) statement -> SCAN ( ID ) . ;
+
+    ;               shift and go to state 94
+
+
+state 88
+
+    (7) statement -> IF ( expression ) statement .
+    (8) statement -> IF ( expression ) statement . ELSE statement
+
+  ! shift/reduce conflict for ELSE resolved as shift
+    }               reduce using rule 7 (statement -> IF ( expression ) statement .)
+    IF              reduce using rule 7 (statement -> IF ( expression ) statement .)
+    WHILE           reduce using rule 7 (statement -> IF ( expression ) statement .)
+    DO              reduce using rule 7 (statement -> IF ( expression ) statement .)
+    FOR             reduce using rule 7 (statement -> IF ( expression ) statement .)
+    PRINT           reduce using rule 7 (statement -> IF ( expression ) statement .)
+    SCAN            reduce using rule 7 (statement -> IF ( expression ) statement .)
+    ID              reduce using rule 7 (statement -> IF ( expression ) statement .)
+    +               reduce using rule 7 (statement -> IF ( expression ) statement .)
+    -               reduce using rule 7 (statement -> IF ( expression ) statement .)
+    ~               reduce using rule 7 (statement -> IF ( expression ) statement .)
+    !               reduce using rule 7 (statement -> IF ( expression ) statement .)
+    PLUSPLUS        reduce using rule 7 (statement -> IF ( expression ) statement .)
+    MINUSMINUS      reduce using rule 7 (statement -> IF ( expression ) statement .)
+    (               reduce using rule 7 (statement -> IF ( expression ) statement .)
+    NUMBER          reduce using rule 7 (statement -> IF ( expression ) statement .)
+    STRING          reduce using rule 7 (statement -> IF ( expression ) statement .)
+    {               reduce using rule 7 (statement -> IF ( expression ) statement .)
+    ELSE            shift and go to state 95
+
+  ! ELSE            [ reduce using rule 7 (statement -> IF ( expression ) statement .) ]
+
+
+state 89
+
+    (9) statement -> WHILE ( expression ) statement .
+
+    }               reduce using rule 9 (statement -> WHILE ( expression ) statement .)
+    IF              reduce using rule 9 (statement -> WHILE ( expression ) statement .)
+    WHILE           reduce using rule 9 (statement -> WHILE ( expression ) statement .)
+    DO              reduce using rule 9 (statement -> WHILE ( expression ) statement .)
+    FOR             reduce using rule 9 (statement -> WHILE ( expression ) statement .)
+    PRINT           reduce using rule 9 (statement -> WHILE ( expression ) statement .)
+    SCAN            reduce using rule 9 (statement -> WHILE ( expression ) statement .)
+    ID              reduce using rule 9 (statement -> WHILE ( expression ) statement .)
+    +               reduce using rule 9 (statement -> WHILE ( expression ) statement .)
+    -               reduce using rule 9 (statement -> WHILE ( expression ) statement .)
+    ~               reduce using rule 9 (statement -> WHILE ( expression ) statement .)
+    !               reduce using rule 9 (statement -> WHILE ( expression ) statement .)
+    PLUSPLUS        reduce using rule 9 (statement -> WHILE ( expression ) statement .)
+    MINUSMINUS      reduce using rule 9 (statement -> WHILE ( expression ) statement .)
+    (               reduce using rule 9 (statement -> WHILE ( expression ) statement .)
+    NUMBER          reduce using rule 9 (statement -> WHILE ( expression ) statement .)
+    STRING          reduce using rule 9 (statement -> WHILE ( expression ) statement .)
+    {               reduce using rule 9 (statement -> WHILE ( expression ) statement .)
+    ELSE            reduce using rule 9 (statement -> WHILE ( expression ) statement .)
+
+
+state 90
+
+    (10) statement -> DO statement WHILE ( expression . ) ;
+    (48) expression -> expression . binop expression
+    (30) binop -> . +
+    (31) binop -> . -
+    (32) binop -> . *
+    (33) binop -> . /
+    (34) binop -> . %
+    (35) binop -> . LSHIFT
+    (36) binop -> . RSHIFT
+    (37) binop -> . BITOR
+    (38) binop -> . &
+    (39) binop -> . ^
+    (40) binop -> . AND
+    (41) binop -> . OR
+    (42) binop -> . EQ
+    (43) binop -> . NE
+    (44) binop -> . <
+    (45) binop -> . >
+    (46) binop -> . LE
+    (47) binop -> . GE
+
+    )               shift and go to state 96
+    +               shift and go to state 27
+    -               shift and go to state 28
+    *               shift and go to state 29
+    /               shift and go to state 30
+    %               shift and go to state 31
+    LSHIFT          shift and go to state 32
+    RSHIFT          shift and go to state 33
+    BITOR           shift and go to state 34
+    &               shift and go to state 35
+    ^               shift and go to state 36
+    AND             shift and go to state 37
+    OR              shift and go to state 38
+    EQ              shift and go to state 39
+    NE              shift and go to state 40
+    <               shift and go to state 41
+    >               shift and go to state 42
+    LE              shift and go to state 43
+    GE              shift and go to state 44
+
+    binop                          shift and go to state 26
+
+state 91
+
+    (11) statement -> FOR ( opt_expr ; opt_expr . ; opt_expr ) statement
+
+    ;               shift and go to state 97
+
+
+state 92
+
+    (14) statement -> PRINT ( print_args ) ; .
+
+    }               reduce using rule 14 (statement -> PRINT ( print_args ) ; .)
+    IF              reduce using rule 14 (statement -> PRINT ( print_args ) ; .)
+    WHILE           reduce using rule 14 (statement -> PRINT ( print_args ) ; .)
+    DO              reduce using rule 14 (statement -> PRINT ( print_args ) ; .)
+    FOR             reduce using rule 14 (statement -> PRINT ( print_args ) ; .)
+    PRINT           reduce using rule 14 (statement -> PRINT ( print_args ) ; .)
+    SCAN            reduce using rule 14 (statement -> PRINT ( print_args ) ; .)
+    ID              reduce using rule 14 (statement -> PRINT ( print_args ) ; .)
+    +               reduce using rule 14 (statement -> PRINT ( print_args ) ; .)
+    -               reduce using rule 14 (statement -> PRINT ( print_args ) ; .)
+    ~               reduce using rule 14 (statement -> PRINT ( print_args ) ; .)
+    !               reduce using rule 14 (statement -> PRINT ( print_args ) ; .)
+    PLUSPLUS        reduce using rule 14 (statement -> PRINT ( print_args ) ; .)
+    MINUSMINUS      reduce using rule 14 (statement -> PRINT ( print_args ) ; .)
+    (               reduce using rule 14 (statement -> PRINT ( print_args ) ; .)
+    NUMBER          reduce using rule 14 (statement -> PRINT ( print_args ) ; .)
+    STRING          reduce using rule 14 (statement -> PRINT ( print_args ) ; .)
+    {               reduce using rule 14 (statement -> PRINT ( print_args ) ; .)
+    ELSE            reduce using rule 14 (statement -> PRINT ( print_args ) ; .)
+
+
+state 93
+
+    (15) print_args -> STRING , expression .
+    (48) expression -> expression . binop expression
+    (30) binop -> . +
+    (31) binop -> . -
+    (32) binop -> . *
+    (33) binop -> . /
+    (34) binop -> . %
+    (35) binop -> . LSHIFT
+    (36) binop -> . RSHIFT
+    (37) binop -> . BITOR
+    (38) binop -> . &
+    (39) binop -> . ^
+    (40) binop -> . AND
+    (41) binop -> . OR
+    (42) binop -> . EQ
+    (43) binop -> . NE
+    (44) binop -> . <
+    (45) binop -> . >
+    (46) binop -> . LE
+    (47) binop -> . GE
+
+    )               reduce using rule 15 (print_args -> STRING , expression .)
+    +               shift and go to state 27
+    -               shift and go to state 28
+    *               shift and go to state 29
+    /               shift and go to state 30
+    %               shift and go to state 31
+    LSHIFT          shift and go to state 32
+    RSHIFT          shift and go to state 33
+    BITOR           shift and go to state 34
+    &               shift and go to state 35
+    ^               shift and go to state 36
+    AND             shift and go to state 37
+    OR              shift and go to state 38
+    EQ              shift and go to state 39
+    NE              shift and go to state 40
+    <               shift and go to state 41
+    >               shift and go to state 42
+    LE              shift and go to state 43
+    GE              shift and go to state 44
+
+    binop                          shift and go to state 26
+
+state 94
+
+    (17) statement -> SCAN ( ID ) ; .
+
+    }               reduce using rule 17 (statement -> SCAN ( ID ) ; .)
+    IF              reduce using rule 17 (statement -> SCAN ( ID ) ; .)
+    WHILE           reduce using rule 17 (statement -> SCAN ( ID ) ; .)
+    DO              reduce using rule 17 (statement -> SCAN ( ID ) ; .)
+    FOR             reduce using rule 17 (statement -> SCAN ( ID ) ; .)
+    PRINT           reduce using rule 17 (statement -> SCAN ( ID ) ; .)
+    SCAN            reduce using rule 17 (statement -> SCAN ( ID ) ; .)
+    ID              reduce using rule 17 (statement -> SCAN ( ID ) ; .)
+    +               reduce using rule 17 (statement -> SCAN ( ID ) ; .)
+    -               reduce using rule 17 (statement -> SCAN ( ID ) ; .)
+    ~               reduce using rule 17 (statement -> SCAN ( ID ) ; .)
+    !               reduce using rule 17 (statement -> SCAN ( ID ) ; .)
+    PLUSPLUS        reduce using rule 17 (statement -> SCAN ( ID ) ; .)
+    MINUSMINUS      reduce using rule 17 (statement -> SCAN ( ID ) ; .)
+    (               reduce using rule 17 (statement -> SCAN ( ID ) ; .)
+    NUMBER          reduce using rule 17 (statement -> SCAN ( ID ) ; .)
+    STRING          reduce using rule 17 (statement -> SCAN ( ID ) ; .)
+    {               reduce using rule 17 (statement -> SCAN ( ID ) ; .)
+    ELSE            reduce using rule 17 (statement -> SCAN ( ID ) ; .)
+
+
+state 95
+
+    (8) statement -> IF ( expression ) statement ELSE . statement
+    (5) statement -> . expression ;
+    (6) statement -> . compound_statement
+    (7) statement -> . IF ( expression ) statement
+    (8) statement -> . IF ( expression ) statement ELSE statement
+    (9) statement -> . WHILE ( expression ) statement
+    (10) statement -> . DO statement WHILE ( expression ) ;
+    (11) statement -> . FOR ( opt_expr ; opt_expr ; opt_expr ) statement
+    (14) statement -> . PRINT ( print_args ) ;
+    (17) statement -> . SCAN ( ID ) ;
+    (29) expression -> . ID assign_op expression
+    (48) expression -> . expression binop expression
+    (49) expression -> . + expression
+    (50) expression -> . - expression
+    (51) expression -> . ~ expression
+    (52) expression -> . ! expression
+    (53) expression -> . PLUSPLUS ID
+    (54) expression -> . MINUSMINUS ID
+    (55) expression -> . ( expression )
+    (56) expression -> . NUMBER
+    (57) expression -> . STRING
+    (58) expression -> . ID
+    (2) compound_statement -> . { stmt_list }
+
+    IF              shift and go to state 9
+    WHILE           shift and go to state 11
+    DO              shift and go to state 12
+    FOR             shift and go to state 13
+    PRINT           shift and go to state 14
+    SCAN            shift and go to state 15
+    ID              shift and go to state 16
+    +               shift and go to state 17
+    -               shift and go to state 18
+    ~               shift and go to state 19
+    !               shift and go to state 20
+    PLUSPLUS        shift and go to state 21
+    MINUSMINUS      shift and go to state 22
+    (               shift and go to state 10
+    NUMBER          shift and go to state 23
+    STRING          shift and go to state 24
+    {               shift and go to state 3
+
+    expression                     shift and go to state 7
+    statement                      shift and go to state 98
+    compound_statement             shift and go to state 8
+
+state 96
+
+    (10) statement -> DO statement WHILE ( expression ) . ;
+
+    ;               shift and go to state 99
+
+
+state 97
+
+    (11) statement -> FOR ( opt_expr ; opt_expr ; . opt_expr ) statement
+    (12) opt_expr -> . expression
+    (13) opt_expr -> .
+    (29) expression -> . ID assign_op expression
+    (48) expression -> . expression binop expression
+    (49) expression -> . + expression
+    (50) expression -> . - expression
+    (51) expression -> . ~ expression
+    (52) expression -> . ! expression
+    (53) expression -> . PLUSPLUS ID
+    (54) expression -> . MINUSMINUS ID
+    (55) expression -> . ( expression )
+    (56) expression -> . NUMBER
+    (57) expression -> . STRING
+    (58) expression -> . ID
+
+    )               reduce using rule 13 (opt_expr -> .)
+    ID              shift and go to state 16
+    +               shift and go to state 17
+    -               shift and go to state 18
+    ~               shift and go to state 19
+    !               shift and go to state 20
+    PLUSPLUS        shift and go to state 21
+    MINUSMINUS      shift and go to state 22
+    (               shift and go to state 10
+    NUMBER          shift and go to state 23
+    STRING          shift and go to state 24
+
+    opt_expr                       shift and go to state 100
+    expression                     shift and go to state 76
+
+state 98
+
+    (8) statement -> IF ( expression ) statement ELSE statement .
+
+    }               reduce using rule 8 (statement -> IF ( expression ) statement ELSE statement .)
+    IF              reduce using rule 8 (statement -> IF ( expression ) statement ELSE statement .)
+    WHILE           reduce using rule 8 (statement -> IF ( expression ) statement ELSE statement .)
+    DO              reduce using rule 8 (statement -> IF ( expression ) statement ELSE statement .)
+    FOR             reduce using rule 8 (statement -> IF ( expression ) statement ELSE statement .)
+    PRINT           reduce using rule 8 (statement -> IF ( expression ) statement ELSE statement .)
+    SCAN            reduce using rule 8 (statement -> IF ( expression ) statement ELSE statement .)
+    ID              reduce using rule 8 (statement -> IF ( expression ) statement ELSE statement .)
+    +               reduce using rule 8 (statement -> IF ( expression ) statement ELSE statement .)
+    -               reduce using rule 8 (statement -> IF ( expression ) statement ELSE statement .)
+    ~               reduce using rule 8 (statement -> IF ( expression ) statement ELSE statement .)
+    !               reduce using rule 8 (statement -> IF ( expression ) statement ELSE statement .)
+    PLUSPLUS        reduce using rule 8 (statement -> IF ( expression ) statement ELSE statement .)
+    MINUSMINUS      reduce using rule 8 (statement -> IF ( expression ) statement ELSE statement .)
+    (               reduce using rule 8 (statement -> IF ( expression ) statement ELSE statement .)
+    NUMBER          reduce using rule 8 (statement -> IF ( expression ) statement ELSE statement .)
+    STRING          reduce using rule 8 (statement -> IF ( expression ) statement ELSE statement .)
+    {               reduce using rule 8 (statement -> IF ( expression ) statement ELSE statement .)
+    ELSE            reduce using rule 8 (statement -> IF ( expression ) statement ELSE statement .)
+
+
+state 99
+
+    (10) statement -> DO statement WHILE ( expression ) ; .
+
+    }               reduce using rule 10 (statement -> DO statement WHILE ( expression ) ; .)
+    IF              reduce using rule 10 (statement -> DO statement WHILE ( expression ) ; .)
+    WHILE           reduce using rule 10 (statement -> DO statement WHILE ( expression ) ; .)
+    DO              reduce using rule 10 (statement -> DO statement WHILE ( expression ) ; .)
+    FOR             reduce using rule 10 (statement -> DO statement WHILE ( expression ) ; .)
+    PRINT           reduce using rule 10 (statement -> DO statement WHILE ( expression ) ; .)
+    SCAN            reduce using rule 10 (statement -> DO statement WHILE ( expression ) ; .)
+    ID              reduce using rule 10 (statement -> DO statement WHILE ( expression ) ; .)
+    +               reduce using rule 10 (statement -> DO statement WHILE ( expression ) ; .)
+    -               reduce using rule 10 (statement -> DO statement WHILE ( expression ) ; .)
+    ~               reduce using rule 10 (statement -> DO statement WHILE ( expression ) ; .)
+    !               reduce using rule 10 (statement -> DO statement WHILE ( expression ) ; .)
+    PLUSPLUS        reduce using rule 10 (statement -> DO statement WHILE ( expression ) ; .)
+    MINUSMINUS      reduce using rule 10 (statement -> DO statement WHILE ( expression ) ; .)
+    (               reduce using rule 10 (statement -> DO statement WHILE ( expression ) ; .)
+    NUMBER          reduce using rule 10 (statement -> DO statement WHILE ( expression ) ; .)
+    STRING          reduce using rule 10 (statement -> DO statement WHILE ( expression ) ; .)
+    {               reduce using rule 10 (statement -> DO statement WHILE ( expression ) ; .)
+    ELSE            reduce using rule 10 (statement -> DO statement WHILE ( expression ) ; .)
+
+
+state 100
+
+    (11) statement -> FOR ( opt_expr ; opt_expr ; opt_expr . ) statement
+
+    )               shift and go to state 101
+
+
+state 101
+
+    (11) statement -> FOR ( opt_expr ; opt_expr ; opt_expr ) . statement
+    (5) statement -> . expression ;
+    (6) statement -> . compound_statement
+    (7) statement -> . IF ( expression ) statement
+    (8) statement -> . IF ( expression ) statement ELSE statement
+    (9) statement -> . WHILE ( expression ) statement
+    (10) statement -> . DO statement WHILE ( expression ) ;
+    (11) statement -> . FOR ( opt_expr ; opt_expr ; opt_expr ) statement
+    (14) statement -> . PRINT ( print_args ) ;
+    (17) statement -> . SCAN ( ID ) ;
+    (29) expression -> . ID assign_op expression
+    (48) expression -> . expression binop expression
+    (49) expression -> . + expression
+    (50) expression -> . - expression
+    (51) expression -> . ~ expression
+    (52) expression -> . ! expression
+    (53) expression -> . PLUSPLUS ID
+    (54) expression -> . MINUSMINUS ID
+    (55) expression -> . ( expression )
+    (56) expression -> . NUMBER
+    (57) expression -> . STRING
+    (58) expression -> . ID
+    (2) compound_statement -> . { stmt_list }
+
+    IF              shift and go to state 9
+    WHILE           shift and go to state 11
+    DO              shift and go to state 12
+    FOR             shift and go to state 13
+    PRINT           shift and go to state 14
+    SCAN            shift and go to state 15
+    ID              shift and go to state 16
+    +               shift and go to state 17
+    -               shift and go to state 18
+    ~               shift and go to state 19
+    !               shift and go to state 20
+    PLUSPLUS        shift and go to state 21
+    MINUSMINUS      shift and go to state 22
+    (               shift and go to state 10
+    NUMBER          shift and go to state 23
+    STRING          shift and go to state 24
+    {               shift and go to state 3
+
+    statement                      shift and go to state 102
+    expression                     shift and go to state 7
+    compound_statement             shift and go to state 8
+
+state 102
+
+    (11) statement -> FOR ( opt_expr ; opt_expr ; opt_expr ) statement .
+
+    }               reduce using rule 11 (statement -> FOR ( opt_expr ; opt_expr ; opt_expr ) statement .)
+    IF              reduce using rule 11 (statement -> FOR ( opt_expr ; opt_expr ; opt_expr ) statement .)
+    WHILE           reduce using rule 11 (statement -> FOR ( opt_expr ; opt_expr ; opt_expr ) statement .)
+    DO              reduce using rule 11 (statement -> FOR ( opt_expr ; opt_expr ; opt_expr ) statement .)
+    FOR             reduce using rule 11 (statement -> FOR ( opt_expr ; opt_expr ; opt_expr ) statement .)
+    PRINT           reduce using rule 11 (statement -> FOR ( opt_expr ; opt_expr ; opt_expr ) statement .)
+    SCAN            reduce using rule 11 (statement -> FOR ( opt_expr ; opt_expr ; opt_expr ) statement .)
+    ID              reduce using rule 11 (statement -> FOR ( opt_expr ; opt_expr ; opt_expr ) statement .)
+    +               reduce using rule 11 (statement -> FOR ( opt_expr ; opt_expr ; opt_expr ) statement .)
+    -               reduce using rule 11 (statement -> FOR ( opt_expr ; opt_expr ; opt_expr ) statement .)
+    ~               reduce using rule 11 (statement -> FOR ( opt_expr ; opt_expr ; opt_expr ) statement .)
+    !               reduce using rule 11 (statement -> FOR ( opt_expr ; opt_expr ; opt_expr ) statement .)
+    PLUSPLUS        reduce using rule 11 (statement -> FOR ( opt_expr ; opt_expr ; opt_expr ) statement .)
+    MINUSMINUS      reduce using rule 11 (statement -> FOR ( opt_expr ; opt_expr ; opt_expr ) statement .)
+    (               reduce using rule 11 (statement -> FOR ( opt_expr ; opt_expr ; opt_expr ) statement .)
+    NUMBER          reduce using rule 11 (statement -> FOR ( opt_expr ; opt_expr ; opt_expr ) statement .)
+    STRING          reduce using rule 11 (statement -> FOR ( opt_expr ; opt_expr ; opt_expr ) statement .)
+    {               reduce using rule 11 (statement -> FOR ( opt_expr ; opt_expr ; opt_expr ) statement .)
+    ELSE            reduce using rule 11 (statement -> FOR ( opt_expr ; opt_expr ; opt_expr ) statement .)
+
+WARNING: 
+WARNING: Conflicts:
+WARNING: 
+WARNING: shift/reduce conflict for + in state 66 resolved as shift
+WARNING: shift/reduce conflict for - in state 66 resolved as shift
+WARNING: shift/reduce conflict for * in state 66 resolved as shift
+WARNING: shift/reduce conflict for / in state 66 resolved as shift
+WARNING: shift/reduce conflict for % in state 66 resolved as shift
+WARNING: shift/reduce conflict for LSHIFT in state 66 resolved as shift
+WARNING: shift/reduce conflict for RSHIFT in state 66 resolved as shift
+WARNING: shift/reduce conflict for BITOR in state 66 resolved as shift
+WARNING: shift/reduce conflict for & in state 66 resolved as shift
+WARNING: shift/reduce conflict for ^ in state 66 resolved as shift
+WARNING: shift/reduce conflict for AND in state 66 resolved as shift
+WARNING: shift/reduce conflict for OR in state 66 resolved as shift
+WARNING: shift/reduce conflict for EQ in state 66 resolved as shift
+WARNING: shift/reduce conflict for NE in state 66 resolved as shift
+WARNING: shift/reduce conflict for < in state 66 resolved as shift
+WARNING: shift/reduce conflict for > in state 66 resolved as shift
+WARNING: shift/reduce conflict for LE in state 66 resolved as shift
+WARNING: shift/reduce conflict for GE in state 66 resolved as shift
+WARNING: shift/reduce conflict for + in state 67 resolved as shift
+WARNING: shift/reduce conflict for - in state 67 resolved as shift
+WARNING: shift/reduce conflict for * in state 67 resolved as shift
+WARNING: shift/reduce conflict for / in state 67 resolved as shift
+WARNING: shift/reduce conflict for % in state 67 resolved as shift
+WARNING: shift/reduce conflict for LSHIFT in state 67 resolved as shift
+WARNING: shift/reduce conflict for RSHIFT in state 67 resolved as shift
+WARNING: shift/reduce conflict for BITOR in state 67 resolved as shift
+WARNING: shift/reduce conflict for & in state 67 resolved as shift
+WARNING: shift/reduce conflict for ^ in state 67 resolved as shift
+WARNING: shift/reduce conflict for AND in state 67 resolved as shift
+WARNING: shift/reduce conflict for OR in state 67 resolved as shift
+WARNING: shift/reduce conflict for EQ in state 67 resolved as shift
+WARNING: shift/reduce conflict for NE in state 67 resolved as shift
+WARNING: shift/reduce conflict for < in state 67 resolved as shift
+WARNING: shift/reduce conflict for > in state 67 resolved as shift
+WARNING: shift/reduce conflict for LE in state 67 resolved as shift
+WARNING: shift/reduce conflict for GE in state 67 resolved as shift
+WARNING: shift/reduce conflict for + in state 70 resolved as shift
+WARNING: shift/reduce conflict for - in state 70 resolved as shift
+WARNING: shift/reduce conflict for * in state 70 resolved as shift
+WARNING: shift/reduce conflict for / in state 70 resolved as shift
+WARNING: shift/reduce conflict for % in state 70 resolved as shift
+WARNING: shift/reduce conflict for LSHIFT in state 70 resolved as shift
+WARNING: shift/reduce conflict for RSHIFT in state 70 resolved as shift
+WARNING: shift/reduce conflict for BITOR in state 70 resolved as shift
+WARNING: shift/reduce conflict for & in state 70 resolved as shift
+WARNING: shift/reduce conflict for ^ in state 70 resolved as shift
+WARNING: shift/reduce conflict for AND in state 70 resolved as shift
+WARNING: shift/reduce conflict for OR in state 70 resolved as shift
+WARNING: shift/reduce conflict for EQ in state 70 resolved as shift
+WARNING: shift/reduce conflict for NE in state 70 resolved as shift
+WARNING: shift/reduce conflict for < in state 70 resolved as shift
+WARNING: shift/reduce conflict for > in state 70 resolved as shift
+WARNING: shift/reduce conflict for LE in state 70 resolved as shift
+WARNING: shift/reduce conflict for GE in state 70 resolved as shift
+WARNING: shift/reduce conflict for + in state 80 resolved as shift
+WARNING: shift/reduce conflict for - in state 80 resolved as shift
+WARNING: shift/reduce conflict for * in state 80 resolved as shift
+WARNING: shift/reduce conflict for / in state 80 resolved as shift
+WARNING: shift/reduce conflict for % in state 80 resolved as shift
+WARNING: shift/reduce conflict for LSHIFT in state 80 resolved as shift
+WARNING: shift/reduce conflict for RSHIFT in state 80 resolved as shift
+WARNING: shift/reduce conflict for BITOR in state 80 resolved as shift
+WARNING: shift/reduce conflict for & in state 80 resolved as shift
+WARNING: shift/reduce conflict for ^ in state 80 resolved as shift
+WARNING: shift/reduce conflict for AND in state 80 resolved as shift
+WARNING: shift/reduce conflict for OR in state 80 resolved as shift
+WARNING: shift/reduce conflict for EQ in state 80 resolved as shift
+WARNING: shift/reduce conflict for NE in state 80 resolved as shift
+WARNING: shift/reduce conflict for < in state 80 resolved as shift
+WARNING: shift/reduce conflict for > in state 80 resolved as shift
+WARNING: shift/reduce conflict for LE in state 80 resolved as shift
+WARNING: shift/reduce conflict for GE in state 80 resolved as shift
+WARNING: shift/reduce conflict for ELSE in state 88 resolved as shift
