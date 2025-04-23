@@ -5,7 +5,6 @@ import ply.yacc as yacc
 # =====================
 # Lexer for mikroC
 # =====================
-
 reserved = {
     "if": "IF",
     "else": "ELSE",
@@ -97,8 +96,15 @@ def t_NUMBER(t):
     return t
 
 
+def t_CHAR(t):
+    r"'([^\\\n]|\\.)'"
+    t.type = "NUMBER"
+    t.value = ord(t.value[1])
+    return t
+
+
 def t_STRING(t):
-    r"\"([^\\\n]|(\\.)*?)*?\" "
+    r"\"([^\\\n]|\\.)*?\" "
     t.value = t.value[1:-1]
     return t
 
@@ -155,11 +161,10 @@ def t_error(t):
 
 lexer = lex.lex()
 
+
 # =====================
 # AST node definitions
 # =====================
-
-
 class Node:
     pass
 
@@ -248,9 +253,8 @@ class PreInc(Node):
 
 
 # =====================
-# Parser for mikroC
+# Parser
 # =====================
-
 precedence = (
     (
         "right",
@@ -283,7 +287,7 @@ def p_program(p):
 
 
 def p_compound(p):
-    "compound_statement : '{' stmt_list '}'"
+    'compound_statement : "{" stmt_list "}"'
     p[0] = Compound(p[2])
 
 
@@ -298,7 +302,7 @@ def p_stmt_list_empty(p):
 
 
 def p_statement_expr(p):
-    "statement : expression ';'"
+    'statement : expression ";"'
     p[0] = p[1]
 
 
@@ -308,27 +312,27 @@ def p_statement_compound(p):
 
 
 def p_statement_if(p):
-    "statement : IF '(' expression ')' statement"
+    'statement : IF "(" expression ")" statement'
     p[0] = If(p[3], p[5])
 
 
 def p_statement_if_else(p):
-    "statement : IF '(' expression ')' statement ELSE statement"
+    'statement : IF "(" expression ")" statement ELSE statement'
     p[0] = If(p[3], p[5], p[7])
 
 
 def p_statement_while(p):
-    "statement : WHILE '(' expression ')' statement"
+    'statement : WHILE "(" expression ")" statement'
     p[0] = While(p[3], p[5])
 
 
 def p_statement_do(p):
-    "statement : DO statement WHILE '(' expression ')' ';'"
+    'statement : DO statement WHILE "(" expression ")" ";"'
     p[0] = DoWhile(p[2], p[5])
 
 
 def p_statement_for(p):
-    "statement : FOR '(' opt_expr ';' opt_expr ';' opt_expr ')' statement"
+    'statement : FOR "(" opt_expr ";" opt_expr ";" opt_expr ")" statement'
     p[0] = For(p[3], p[5], p[7], p[9])
 
 
@@ -342,13 +346,16 @@ def p_opt_expr_empty(p):
     p[0] = None
 
 
+# print/scan
+
+
 def p_statement_print(p):
-    "statement : PRINT '(' print_args ')' ';'"
+    'statement : PRINT "(" print_args ")" ";"'
     p[0] = Print(*p[3])
 
 
 def p_print_args_fmt(p):
-    "print_args : STRING ',' expression"
+    'print_args : STRING "," expression'
     p[0] = (p[1], p[3])
 
 
@@ -358,13 +365,29 @@ def p_print_args_str(p):
 
 
 def p_statement_scan(p):
-    "statement : SCAN '(' ID ')' ';'"
+    'statement : SCAN "(" ID ")" ";"'
     p[0] = Scan(p[3])
 
 
 # assign operators
+for tok in [
+    "=",
+    "PLUSEQ",
+    "MINUSEQ",
+    "TIMESEQ",
+    "DIVEQ",
+    "MODEQ",
+    "LSHIFTEQ",
+    "RSHIFTEQ",
+    "ANDEQ",
+    "XOREQ",
+    "OREQ",
+]:
+    pass
+
+
 def p_assign_op_eq(p):
-    "assign_op : '='"
+    'assign_op : "="'
     p[0] = p[1]
 
 
@@ -418,13 +441,11 @@ def p_assign_op_oreq(p):
     p[0] = p[1]
 
 
-# expression assignment
 def p_expression_assign(p):
     "expression : ID assign_op expression"
     p[0] = Assign(Var(p[1]), p[2], p[3])
 
 
-# arithmetic operations
 def p_expression_arith(p):
     """expression : expression '+' expression
     | expression '-' expression
@@ -434,7 +455,6 @@ def p_expression_arith(p):
     p[0] = BinOp(p[2], p[1], p[3])
 
 
-# comparisons
 def p_expression_cmp(p):
     """expression : expression '<' expression
     | expression '>' expression
@@ -443,14 +463,23 @@ def p_expression_cmp(p):
     p[0] = BinOp(p[2], p[1], p[3])
 
 
-# equality
 def p_expression_eq(p):
     """expression : expression EQ expression
     | expression NE expression"""
     p[0] = BinOp(p[2], p[1], p[3])
 
 
-# unary operations
+def p_expression_logic(p):
+    """expression : expression AND expression
+    | expression OR expression"""
+    p[0] = BinOp(p[2], p[1], p[3])
+
+
+def p_expression_bitor(p):
+    'expression : expression "|" expression'
+    p[0] = BinOp("|", p[1], p[3])
+
+
 def p_expression_unop_plus(p):
     "expression : '+' expression %prec UPLUS"
     p[0] = UnOp("+", p[2])
@@ -482,9 +511,8 @@ def p_expression_unop_dec(p):
     p[0] = PreInc(Var(p[2]))
 
 
-# grouping, literals, variables
 def p_expression_group(p):
-    "expression : '(' expression ')'"
+    'expression : "(" expression ")"'
     p[0] = p[2]
 
 
@@ -503,7 +531,6 @@ def p_expression_var(p):
     p[0] = Var(p[1])
 
 
-# syntax error handler
 def p_error(p):
     if p:
         print(f"Syntax error at '{p.value}' (line {p.lineno})")
@@ -511,14 +538,12 @@ def p_error(p):
         print("Syntax error at EOF")
 
 
-# build parser
 yacc.yacc()
+
 
 # =====================
 # Code generation
 # =====================
-
-
 class CodeGen:
     def __init__(self):
         self.indent = 0
@@ -533,29 +558,39 @@ class CodeGen:
     def gen(self, node):
         if isinstance(node, Compound):
             self.emit("")
-            for s in node.stmt_list:
-                self.gen(s)
+            [self.gen(s) for s in node.stmt_list]
         elif isinstance(node, Number):
             self.emit(str(node.value))
         elif isinstance(node, Var):
             self.emit(node.name)
         elif isinstance(node, Assign):
-            self.emit(f"{node.target.name} = {self.expr(node.expr)}")
+            # handle plain vs compound assignments explicitly
+            op = node.op
+            expr_code = self.expr(node.expr)
+            if op == "=":
+                self.emit(f"{node.target.name} = {expr_code}")
+            elif op in ("+=", "-=", "*=", "%=", "<<=", ">>=", "&=", "^=", "|=", "/="):
+                # properly handle integer division assignment
+                if op == "/=":
+                    pyop = "//="
+                else:
+                    pyop = op
+                self.emit(f"{node.target.name} {pyop} {expr_code}")
+            else:
+                self.emit(f"{node.target.name} {op} {expr_code}")
         elif isinstance(node, BinOp):
             self.emit(self.expr(node))
         elif isinstance(node, UnOp):
             self.emit(self.expr(node))
         elif isinstance(node, Print):
-            # suppress auto-newline, C-style printf semantics
             if node.expr is not None:
                 self.emit(f'print(f"{node.fmt}" % ({self.expr(node.expr)}), end="")')
             else:
                 self.emit(f'print(f"{node.fmt}", end="")')
         elif isinstance(node, String):
-            # standalone string literal stmt: print raw string
             self.emit(f'print({repr(node.value)}, end="")')
         elif isinstance(node, Scan):
-            self.emit(f"{node.var} = int(input())")
+            self.emit(f"{node.var}=int(input())")
         elif isinstance(node, If):
             self.emit(f"if {self.expr(node.cond)}:")
             self.indent += 1
@@ -595,11 +630,9 @@ class CodeGen:
             self.gen(node.body)
             incr = node.incr
             if isinstance(incr, PreInc):
-                var = incr.var.name
-                self.emit(f"{var} += 1")
+                self.emit(f"{incr.var.name} += 1")
             elif isinstance(incr, Assign):
-                var = incr.target.name
-                self.emit(f"{var} {incr.op} {self.expr(incr.expr)}")
+                self.emit(f"{incr.target.name} {incr.op} {self.expr(incr.expr)}")
             else:
                 self.emit(self.expr(incr))
             self.indent -= 1
@@ -612,11 +645,18 @@ class CodeGen:
         if isinstance(node, Var):
             return node.name
         if isinstance(node, BinOp):
-            return f"({self.expr(node.left)} {node.op} {self.expr(node.right)})"
+            op = node.op
+            pyop = (
+                "and"
+                if op == "&&"
+                else "or" if op == "||" else "//" if op == "/" else op
+            )
+            return f"({self.expr(node.left)} {pyop} {self.expr(node.right)})"
         if isinstance(node, UnOp):
             return f"({node.op}{self.expr(node.expr)})"
         if isinstance(node, Assign):
-            return f"({node.target.name} {node.op} {self.expr(node.expr)})"
+            pyop = "//=" if node.op == "/=" else node.op
+            return f"({node.target.name} {pyop} {self.expr(node.expr)})"
         raise Exception(f"Unrecognized expr: {type(node)}")
 
 
@@ -632,11 +672,11 @@ def main():
     codegen.gen(ast)
     codegen.indent -= 1
     codegen.emit("")
-    codegen.emit("if __name__ == '__main__':")
+    codegen.emit("if __name__=='__main__':")
     codegen.indent += 1
     codegen.emit("__mikroc_main()")
-
     python_code = codegen.get_code()
+    open("../program.py", "w+").write(python_code)
     exec(python_code, globals(), globals())
 
 
