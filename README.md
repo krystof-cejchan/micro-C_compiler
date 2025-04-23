@@ -1,0 +1,1 @@
+[![Python application](https://github.com/krystof-cejchan/micro-C_compiler/actions/workflows/python-app.yml/badge.svg?branch=main)](https://github.com/krystof-cejchan/micro-C_compiler/actions/workflows/python-app.yml)
