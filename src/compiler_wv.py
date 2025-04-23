@@ -586,14 +586,33 @@ class CodeGen:
             self.emit(node.name)
         elif isinstance(node, Assign):
             op = node.op
-            expr_code = self.expr(node.expr)
-            if op == "=":
-                self.emit(f"{node.target.name} = {expr_code}")
-            elif op in ("+=", "-=", "*=", "%=", "<<=", ">>=", "&=", "^=", "|=", "/="):
-                pyop = "//=" if op == "/=" else op
-                self.emit(f"{node.target.name} {pyop} {expr_code}")
+            # nested assignment: e.g. m = (r = 0)
+            if op == "=" and isinstance(node.expr, Assign):
+                inner = node.expr
+                # generate inner assignment first
+                self.emit(f"{inner.target.name} = {self.expr(inner.expr)}")
+                # then outer assign from inner target
+                self.emit(f"{node.target.name} = {inner.target.name}")
             else:
-                self.emit(f"{node.target.name} {op} {expr_code}")
+                expr_code = self.expr(node.expr)
+                if op == "=":
+                    self.emit(f"{node.target.name} = {expr_code}")
+                elif op in (
+                    "+=",
+                    "-=",
+                    "*=",
+                    "%=",
+                    "<<=",
+                    ">>=",
+                    "&=",
+                    "^=",
+                    "|=",
+                    "/=",
+                ):
+                    pyop = "//=" if op == "/=" else op
+                    self.emit(f"{node.target.name} {pyop} {expr_code}")
+                else:
+                    self.emit(f"{node.target.name} {op} {expr_code}")
         elif isinstance(node, PreInc):
             var = node.var.name
             self.emit(f"{var} += 1")
@@ -694,6 +713,27 @@ class CodeGen:
 
 
 def main():
+    if len(sys.argv) < 2:
+        print("Usage: python ai.py <source.mC>")
+        sys.exit(1)
+    data = open(sys.argv[1]).read()
+    ast = yacc.parse(data)
+    codegen = CodeGen()
+    codegen.emit("def __mikroc_main():")
+    codegen.indent += 1
+    codegen.gen(ast)
+    codegen.indent -= 1
+    codegen.emit("")
+    codegen.emit("if __name__ == '__main__':")
+    codegen.indent += 1
+    codegen.emit("__mikroc_main()")
+    python_code = codegen.get_code()
+    open("../program.py", "w+").write(python_code)
+    exec(python_code, globals(), globals())
+
+
+if __name__ == "__main__":
+    main()
     if len(sys.argv) < 2:
         print("Usage: python ai.py <source.mC>")
         sys.exit(1)
