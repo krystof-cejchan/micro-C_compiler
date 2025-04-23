@@ -2,6 +2,14 @@ import sys
 import ply.lex as lex
 import ply.yacc as yacc
 
+errors = []
+
+
+def find_column(input, lexpos):
+    last_cr = input.rfind("\n", 0, lexpos)
+    return lexpos - last_cr
+
+
 # =====================
 # Lexer for mikroC
 # =====================
@@ -103,12 +111,25 @@ def t_CHAR(t):
     return t
 
 
+# catch unterminated string literals first (no closing quote)
+def t_UNCLOSED_STRING(t):
+    r'"([^\
+]|\.)*$'
+    col = find_column(t.lexer.lexdata, t.lexpos)
+    # Report missing closing quote
+    errors.append(f"{t.lineno}.{col} Chybi znak '\"' na konci retezce")
+    # consume only the opening quote to avoid cascading errors
+    t.lexer.skip(1)
+
+
+# properly match closed string literals
 def t_STRING(t):
-    r"\"([^\\\n]|\\.)*?\" "
+    r'"([^\n]|\.)*"'
     t.value = t.value[1:-1]
     return t
 
 
+# map compound assignment operators
 assign_map = {
     "+=": "PLUSEQ",
     "-=": "MINUSEQ",
@@ -155,7 +176,8 @@ def t_newline(t):
 
 
 def t_error(t):
-    print(f"Illegal character '{t.value[0]}' at line {t.lineno}")
+    col = find_column(t.lexer.lexdata, t.lexpos)
+    errors.append(f"{t.lineno}.{col} Illegal character '{t.value[0]}'")
     t.lexer.skip(1)
 
 
@@ -553,12 +575,16 @@ def p_expression_var(p):
 
 def p_error(p):
     if p:
-        print(f"Syntax error at '{p.value}' (line {p.lineno})")
+        col = find_column(p.lexer.lexdata, p.lexpos)
+        errors.append(f"{p.lineno}.{col} syntax error, unexpected {p.type}")
+        # skip this token
+        parser.errok()
     else:
-        print("Syntax error at EOF")
+        errors.append("Syntax error at EOF")
 
 
-yacc.yacc()
+# build the parser
+parser = yacc.yacc()
 
 
 # =====================
@@ -726,12 +752,20 @@ class CodeGen:
         raise Exception(f"Unrecognized expr: {type(node)}")
 
 
-def main(testPath: String | None = None):
-    if testPath == None and len(sys.argv) < 2:
-        print("Usage: python ai.py <source.mC>")
+def main(testPath=None):
+    if testPath is None and len(sys.argv) < 2:
+        print("Usage: python compiler_wv.py <source.mC>")
         sys.exit(1)
-    data = open(testPath if testPath else sys.argv[1]).read()
-    ast = yacc.parse(data)
+    path = testPath if testPath else sys.argv[1]
+    data = open(path).read()
+    lexer.input(data)
+    parser = yacc.yacc()
+    ast = parser.parse(data, lexer=lexer)
+    # if any lexing/parsing errors occurred, report and exit
+    if errors:
+        for e in errors:
+            print(e)
+        sys.exit(1)
     codegen = CodeGen()
     codegen.emit("def __mikroc_main():")
     codegen.indent += 1
