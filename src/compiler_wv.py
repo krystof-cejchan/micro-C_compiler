@@ -270,13 +270,16 @@ precedence = (
         "XOREQ",
         "OREQ",
     ),
-    ("left", "OR"),
-    ("left", "AND"),
-    ("left", "EQ", "NE"),
+    ("left", "OR"),  # logical ||
+    ("left", "AND"),  # logical &&
+    ("left", "EQ", "NE"),  # ==, !=
     ("left", "<", ">", "LE", "GE"),
     ("left", "LSHIFT", "RSHIFT"),
     ("left", "+", "-"),
     ("left", "*", "/", "%"),
+    ("left", "|"),  # bitwise OR
+    ("left", "^"),  # bitwise XOR
+    ("left", "&"),  # bitwise AND
     ("right", "UPLUS", "UMINUS"),
 )
 
@@ -500,6 +503,23 @@ def p_expression_unop_logic_not(p):
     p[0] = UnOp("!", p[2])
 
 
+def p_expression_bitor(p):
+    'expression : expression "|" expression'
+    p[0] = BinOp("|", p[1], p[3])
+
+
+# bitwise XOR
+def p_expression_bitxor(p):
+    "expression : expression '^' expression"
+    p[0] = BinOp("^", p[1], p[3])
+
+
+# bitwise AND
+def p_expression_bitand(p):
+    "expression : expression '&' expression"
+    p[0] = BinOp("&", p[1], p[3])
+
+
 # prefix increment/decrement
 def p_expression_unop_inc(p):
     "expression : PLUSPLUS ID"
@@ -611,13 +631,29 @@ class CodeGen:
             self.indent += 1
             self.gen(node.body)
             cond = node.cond
+            # handle prefix increment condition (++n < limit)
             if isinstance(cond, BinOp) and isinstance(cond.left, PreInc):
                 var = cond.left.var.name
                 self.emit(f"{var} += 1")
                 self.emit(f"if not ({var} {cond.op} {self.expr(cond.right)}): break")
+            # handle standalone pre-inc condition (while (++n))
             elif isinstance(cond, PreInc):
                 var = cond.var.name
                 self.emit(f"{var} += 1")
+                self.emit(f"if not {var}: break")
+            # handle compound assignment in condition, especially shifts
+            elif isinstance(cond, Assign):
+                var = cond.target.name
+                expr_code = self.expr(cond.expr)
+                if cond.op == "<<=":
+                    # simulate 32-bit overflow
+                    self.emit(f"{var} = (({var} << {expr_code}) & 0xFFFFFFFF)")
+                elif cond.op == ">>=":
+                    self.emit(f"{var} = ({var} >> {expr_code})")
+                else:
+                    # map C assignment operators to Python
+                    pyop = "//=" if cond.op == "/=" else cond.op
+                    self.emit(f"{var} {pyop} {expr_code}")
                 self.emit(f"if not {var}: break")
             else:
                 self.emit(f"if not {self.expr(cond)}: break")
