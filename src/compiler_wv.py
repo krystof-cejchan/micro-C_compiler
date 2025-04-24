@@ -117,9 +117,9 @@ def t_UNCLOSED_STRING(t):
 ]|\.)*$'
     col = find_column(t.lexer.lexdata, t.lexpos)
     # Report missing closing quote
-    errors.append(f"{t.lineno}.{col} Chybi znak '\"' na konci retezce")
-    # consume only the opening quote to avoid cascading errors
-    t.lexer.skip(1)
+    errors.append(f'{t.lineno}.{col} Chybi znak " na konci retezce')
+    # consume the entire unterminated string up to newline to suppress further illegal-char errors
+    t.lexer.skip(len(t.value))
 
 
 # properly match closed string literals
