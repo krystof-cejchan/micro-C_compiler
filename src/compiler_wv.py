@@ -113,8 +113,7 @@ def t_CHAR(t):
 
 # catch unterminated string literals first (no closing quote)
 def t_UNCLOSED_STRING(t):
-    r'"([^\
-]|\.)*$'
+    r'"([^\\n]|\.)*$'
     col = find_column(t.lexer.lexdata, t.lexpos)
     # Report missing closing quote
     errors.append(f'{t.lineno}.{col} Chybi znak " na konci retezce')
