@@ -749,7 +749,7 @@ class CodeGen:
             op = node.op
             pyop = "//=" if op == "/=" else op
             return f"({node.target.name} {pyop} {self.expr(node.expr)})"
-        raise Exception(f"Unrecognized expr: {type(node)}")
+        raise Exception(f"nenadefinovaný výraz: {type(node)}")
 
 
 def main(testPath=None):
@@ -757,26 +757,38 @@ def main(testPath=None):
         print("Usage: python compiler_wv.py <source.mC>")
         sys.exit(1)
     path = testPath if testPath else sys.argv[1]
-    data = open(path).read()
-    lexer.input(data)
-    parser = yacc.yacc()
-    ast = parser.parse(data, lexer=lexer)
-    # if any lexing/parsing errors occurred, report and exit
+    data = open(path).read()  # načtení mC souboru
+    lexer.input(data)  # lexer
+    parser = yacc.yacc()  # parser
+    ast = parser.parse(data, lexer=lexer)  # absract syntax tree
+
+    # výpis chyb a ukončení programu
     if errors:
         for e in errors:
             print(e)
         sys.exit(1)
+
+    # vygenerování python kódu
     codegen = CodeGen()
     codegen.emit("def __mikroc_main():")
     codegen.indent += 1
     codegen.gen(ast)
+    codegen.emit(
+        "pass"
+    )  # pokud by byl přeložený soubor prázdný (třeba kvůli tomu, že mC soubor obsahuje jenom komentáře), tak se do main metody vloží pass
     codegen.indent -= 1
     codegen.emit("")
     codegen.emit("if __name__ == '__main__':")
     codegen.indent += 1
     codegen.emit("__mikroc_main()")
     python_code = codegen.get_code()
-    open("../program.py", "w+").write(python_code)
+
+    # přeložený soubor se zapíše do souboru
+    with open("../program.py", "w+") as output_file:
+        # ..pouze pro debugování; není třeba přeložený kód ukládat do souboru
+        output_file.write(python_code)
+
+    # přeložený kod se spustí
     exec(python_code, globals(), globals())
 
 
