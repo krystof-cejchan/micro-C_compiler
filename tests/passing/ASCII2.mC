@@ -7,7 +7,7 @@
                                                        else print("  "); } 
                                print(" |"); }
 
-  print("\t ");
+  print("\n ");
   for (i=0; i<75; ++i) print("-");
  
  print("\n\n");
