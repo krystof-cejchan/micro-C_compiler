@@ -1,17 +1,17 @@
 def __mikroc_main():
-    print(f"Zadej cislo: ", end="")
+    print(f"Zadej 2 prirozena cisla: ", end="")
     a = int(input())
-    p = 0
-    b = 1
-    while True:
-        if (a & b):
-            p ^= 1
-        b = ((b << 1) & 0xFFFFFFFF)
-        if not b: break
-    if (p == 0):
-        print(f"\n  suda parita \n\n", end="")
+    b = int(input())
+    if ((a < 1) or (b < 1)):
+        print(f"\n\nChybna cisla", end="")
     else:
-        print(f"\n  licha parita\n\n", end="")
+        while True:
+            zbytek = (a % b)
+            a = b
+            b = zbytek
+            if not (zbytek != 0): break
+        print(f"\nNejvetsi spolecny delitel: %i" % (a), end="")
+    print(f"\n\n", end="")
     pass
 
 if __name__ == '__main__':

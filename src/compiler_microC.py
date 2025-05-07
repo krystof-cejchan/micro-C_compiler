@@ -1,18 +1,16 @@
 import sys
 
 from lib.ply import lex, yacc
+from lib.utils import find_column
 
-errors = []
-
-
-def find_column(input, lexpos):
-    last_cr = input.rfind("\n", 0, lexpos)
-    return lexpos - last_cr
+errors = []# Seznam chyb z lexingu/parsing, na konci se vypíší a ukončí program
 
 
 # =====================
-# Lexer for mikroC
+# Lexer
 # =====================
+
+# rezervovaná slova jazyka mikroC a jejich tokeny
 reserved = {
     "if": "IF",
     "else": "ELSE",
@@ -23,20 +21,22 @@ reserved = {
     "scan": "SCAN",
 }
 
+# Seznam ostatních tokenů včetně čísel, identifikátorů a operátorů
 tokens = [
     "NUMBER",
     "ID",
     "STRING",
-    "PLUSPLUS",
-    "MINUSMINUS",
-    "EQ",
-    "NE",
-    "LE",
-    "GE",
-    "AND",
-    "OR",
-    "LSHIFT",
-    "RSHIFT",
+    "PLUSPLUS",     # ++
+    "MINUSMINUS",   # --
+    "EQ",           # ==
+    "NE",           # !=
+    "LE",           # <=
+    "GE",           # >=
+    "AND",          # &&
+    "OR",           # ||
+    "LSHIFT",       # <<
+    "RSHIFT",       # >>
+    # Složené přiřazovací operátory (+=, -=, ...)
     "PLUSEQ",
     "MINUSEQ",
     "TIMESEQ",
@@ -49,6 +49,7 @@ tokens = [
     "OREQ",
 ] + list(reserved.values())
 
+# literály, které jsou samy o sobě tokeny
 literals = [
     "=",
     "+",
@@ -71,8 +72,11 @@ literals = [
     ",",
 ]
 
-t_ignore = " \t\r"
+t_ignore = " \t\r"# bílé znaky, které se ignorují - mezery, tabulátory...
 
+# ---------------------
+# Definice regulárních výrazů pro lexér
+# ---------------------
 
 def t_COMMENT(t):
     r"//.*|/\*(.|\n)*?\*/"
@@ -82,7 +86,7 @@ def t_COMMENT(t):
 def t_TRUE(t):
     r"\b(true|false)\b"
     t.type = "NUMBER"
-    t.value = 1 if t.value == "true" else 0
+    t.value = 1 if t.value == "true" else 0    # true/false => 1/0
     return t
 
 
@@ -111,24 +115,20 @@ def t_CHAR(t):
     return t
 
 
-# catch unterminated string literals first (no closing quote)
 def t_UNCLOSED_STRING(t):
     r'"([^\\n]|\.)*$'
     col = find_column(t.lexer.lexdata, t.lexpos)
-    # Report missing closing quote
     errors.append(f'{t.lineno}.{col} Chybi znak " na konci retezce')
-    # consume the entire unterminated string up to newline to suppress further illegal-char errors
     t.lexer.skip(len(t.value))
 
 
-# properly match closed string literals
 def t_STRING(t):
     r"\"([^\\\n]|\\.)*?\" "
     t.value = t.value[1:-1]
     return t
 
 
-# map compound assignment operators
+# slovník pro složené přiřazovací operátory
 assign_map = {
     "+=": "PLUSEQ",
     "-=": "MINUSEQ",
@@ -184,7 +184,8 @@ lexer = lex.lex()
 
 
 # =====================
-# AST node definitions
+# Definice AST (Abstract Syntax Tree) uzlů
+# Každá třída reprezentuje typ uzlu v syntaktickém stromu
 # =====================
 class Node:
     pass
@@ -274,8 +275,10 @@ class PreInc(Node):
 
 
 # =====================
-# Parser
+# Parser - definice gramatiky mikroC pomocí PLY/yacc
 # =====================
+
+# Priorita operátorů pro správné parsování výrazu
 precedence = (
     (
         "right",
@@ -370,8 +373,6 @@ def p_opt_expr_empty(p):
     p[0] = None
 
 
-# print/scan
-
 
 def p_statement_print(p):
     'statement : PRINT "(" print_args ")" ";"'
@@ -393,7 +394,6 @@ def p_statement_scan(p):
     p[0] = Scan(p[3])
 
 
-# assign operators
 for tok in [
     "=",
     "PLUSEQ",
@@ -529,19 +529,16 @@ def p_expression_bitor(p):
     p[0] = BinOp("|", p[1], p[3])
 
 
-# bitwise XOR
 def p_expression_bitxor(p):
     "expression : expression '^' expression"
     p[0] = BinOp("^", p[1], p[3])
 
 
-# bitwise AND
 def p_expression_bitand(p):
     "expression : expression '&' expression"
     p[0] = BinOp("&", p[1], p[3])
 
 
-# prefix increment/decrement
 def p_expression_unop_inc(p):
     "expression : PLUSPLUS ID"
     p[0] = PreInc(Var(p[2]))
@@ -576,13 +573,11 @@ def p_error(p):
     if p:
         col = find_column(p.lexer.lexdata, p.lexpos)
         errors.append(f"{p.lineno}.{col} syntax error, unexpected {p.type}")
-        # skip this token
         parser.errok()
     else:
         errors.append("Syntax error at EOF")
 
 
-# build the parser
 parser = yacc.yacc()
 
 
@@ -602,7 +597,6 @@ class CodeGen:
 
     def gen(self, node):
         if isinstance(node, Compound):
-            # Emit each statement in a compound block
             for stmt in node.stmt_list:
                 self.gen(stmt)
         elif isinstance(node, Number):
@@ -610,10 +604,8 @@ class CodeGen:
         elif isinstance(node, Var):
             self.emit(node.name)
         elif isinstance(node, Assign):
-            # Handle nested assignments: m = (r = 0)
-            if node.op == "=" and isinstance(node.expr, Assign):
+            if node.op == "=" and isinstance(node.expr, Assign):            # m = (r = 0)
                 inner = node.expr
-                # Inner assignment first
                 self.emit(f"{inner.target.name} = {self.expr(inner.expr)}")
                 self.emit(f"{node.target.name} = {inner.target.name}")
             else:
@@ -621,12 +613,10 @@ class CodeGen:
                 if node.op == "=":
                     self.emit(f"{node.target.name} = {expr_code}")
                 else:
-                    # Compound assignment, map '/=' to '//='
                     op = node.op
                     pyop = "//=" if op == "/=" else op
                     self.emit(f"{node.target.name} {pyop} {expr_code}")
         elif isinstance(node, PreInc):
-            # Prefix increment
             var = node.var.name
             self.emit(f"{var} += 1")
         elif isinstance(node, BinOp):
@@ -634,13 +624,11 @@ class CodeGen:
         elif isinstance(node, UnOp):
             self.emit(self.expr(node))
         elif isinstance(node, Print):
-            # C-style print, suppress newline
             if node.expr is not None:
                 self.emit(f'print(f"{node.fmt}" % ({self.expr(node.expr)}), end="")')
             else:
                 self.emit(f'print(f"{node.fmt}", end="")')
         elif isinstance(node, String):
-            # Standalone string literal
             self.emit(f'print({repr(node.value)}, end="")')
         elif isinstance(node, Scan):
             self.emit(f"{node.var} = int(input())")
@@ -660,17 +648,13 @@ class CodeGen:
             self.gen(node.body)
             self.indent -= 1
         elif isinstance(node, DoWhile):
-            # emulating do-while loops
-            self.emit("while True:")
+            self.emit("while True:")            # do while cykly
             self.indent += 1
-            # body of loop
             self.gen(node.body)
             cond = node.cond
-            # direct compound assignment as loop condition (e.g., b <<= 1)
             if isinstance(cond, Assign):
                 var = cond.target.name
                 expr_code = self.expr(cond.expr)
-                # for left-shift, mask to 32 bits so it eventually zeros out
                 if cond.op == "<<=":
                     self.emit(f"{var} = (({var} << {expr_code}) & 0xFFFFFFFF)")
                 elif cond.op == ">>=":
@@ -678,9 +662,7 @@ class CodeGen:
                 else:
                     pyop = "//=" if cond.op == "/=" else cond.op
                     self.emit(f"{var} {pyop} {expr_code}")
-                # test the updated variable
                 self.emit(f"if not {var}: break")
-            # comparison with embedded assignment, e.g., (x += n) < limit
             elif isinstance(cond, BinOp) and isinstance(cond.left, Assign):
                 assign = cond.left
                 var = assign.target.name
@@ -688,28 +670,23 @@ class CodeGen:
                 pyop = "//=" if assign.op == "/=" else assign.op
                 self.emit(f"{var} {pyop} {expr_code}")
                 self.emit(f"if not ({var} {cond.op} {self.expr(cond.right)}): break")
-            # prefix increment in comparison, e.g., ++n < limit
             elif isinstance(cond, BinOp) and isinstance(cond.left, PreInc):
                 var = cond.left.var.name
                 self.emit(f"{var} += 1")
                 self.emit(f"if not ({var} {cond.op} {self.expr(cond.right)}): break")
-            # standalone prefix increment condition, e.g., while(++n)
             elif isinstance(cond, PreInc):
                 var = cond.var.name
                 self.emit(f"{var} += 1")
                 self.emit(f"if not {var}: break")
-            # plain boolean condition
             else:
                 self.emit(f"if not {self.expr(cond)}: break")
             self.indent -= 1
         elif isinstance(node, For):
-            # for(init; cond; incr)
             if node.init:
                 self.gen(node.init)
             self.emit(f"while {self.expr(node.cond) if node.cond else 'True'}:")
             self.indent += 1
             self.gen(node.body)
-            # increment step
             incr = node.incr
             if isinstance(incr, PreInc):
                 self.emit(f"{incr.var.name} += 1")
@@ -753,13 +730,13 @@ class CodeGen:
 
 def main(testPath=None):
     if testPath is None and len(sys.argv) < 2:
-        print("Usage: python compiler_wv.py <source.mC>")
+        print("použijte:\tpython compiler_microC.py <zdroj_kod.mC>\nnebo\t\tpython3 compiler_microC.py <zdroj_kod.mC>")
         sys.exit(1)
     path = testPath if testPath else sys.argv[1]
     data = open(path).read()  # načtení mC souboru
     lexer.input(data)  # lexer
     parser = yacc.yacc()  # parser
-    ast = parser.parse(data, lexer=lexer)  # absract syntax tree
+    ast = parser.parse(data, lexer=lexer)  # ast
 
     # výpis chyb a ukončení programu
     if errors:
