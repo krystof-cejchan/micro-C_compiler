@@ -123,7 +123,7 @@ def t_UNCLOSED_STRING(t):
 
 # properly match closed string literals
 def t_STRING(t):
-    r'"([^\n]|\.)*"'
+    r"\"([^\\\n]|\\.)*?\" "
     t.value = t.value[1:-1]
     return t
 
