@@ -1,31 +1,16 @@
 def __mikroc_main():
-    print(f"\n              ASCII tabulka\n\n    ", end="")
-    i = 0
-    while (i < 16):
-        print(f" %X" % (i), end="")
-        i += 1
-    print(f"\n   ", end="")
-    i = 0
-    while (i < 35):
-        print(f"-", end="")
-        i += 1
-    i = 32
-    while (i < 128):
-        print(f"\n %X|" % (i), end="")
-        j = i
-        while (j < (i + 16)):
-            if (j < 127):
-                print(f" %c" % (j), end="")
-            else:
-                print(f"  ", end="")
-            j += 1
-        print(f" |", end="")
-        i += 16
-    print(f"\n   ", end="")
-    i = 0
-    while (i < 35):
-        print(f"-", end="")
-        i += 1
+    print(f"Zadej 2 prirozena cisla: ", end="")
+    a = int(input())
+    b = int(input())
+    if ((a < 1) or (b < 1)):
+        print(f"\n\nChybna cisla", end="")
+    else:
+        while True:
+            zbytek = (a % b)
+            a = b
+            b = zbytek
+            if not (zbytek != 0): break
+        print(f"\nNejvetsi spolecny delitel: %i" % (a), end="")
     print(f"\n\n", end="")
     pass
 
