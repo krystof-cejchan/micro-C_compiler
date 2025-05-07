@@ -1,1 +1,4193 @@
 Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Unused terminals:
+
+    LSHIFT
+    RSHIFT
+
+Grammar
+
+Rule 0     S' -> program
+Rule 1     program -> compound_statement
+Rule 2     compound_statement -> { stmt_list }
+Rule 3     stmt_list -> stmt_list statement
+Rule 4     stmt_list -> <empty>
+Rule 5     statement -> expression ;
+Rule 6     statement -> compound_statement
+Rule 7     statement -> IF ( expression ) statement
+Rule 8     statement -> IF ( expression ) statement ELSE statement
+Rule 9     statement -> WHILE ( expression ) statement
+Rule 10    statement -> DO statement WHILE ( expression ) ;
+Rule 11    statement -> FOR ( opt_expr ; opt_expr ; opt_expr ) statement
+Rule 12    opt_expr -> expression
+Rule 13    opt_expr -> <empty>
+Rule 14    statement -> PRINT ( print_args ) ;
+Rule 15    print_args -> STRING , expression
+Rule 16    print_args -> STRING
+Rule 17    statement -> SCAN ( ID ) ;
+Rule 18    assign_op -> =
+Rule 19    assign_op -> PLUSEQ
+Rule 20    assign_op -> MINUSEQ
+Rule 21    assign_op -> TIMESEQ
+Rule 22    assign_op -> DIVEQ
+Rule 23    assign_op -> MODEQ
+Rule 24    assign_op -> LSHIFTEQ
+Rule 25    assign_op -> RSHIFTEQ
+Rule 26    assign_op -> ANDEQ
+Rule 27    assign_op -> XOREQ
+Rule 28    assign_op -> OREQ
+Rule 29    expression -> ID assign_op expression
+Rule 30    expression -> expression + expression
+Rule 31    expression -> expression - expression
+Rule 32    expression -> expression * expression
+Rule 33    expression -> expression / expression
+Rule 34    expression -> expression % expression
+Rule 35    expression -> expression < expression
+Rule 36    expression -> expression > expression
+Rule 37    expression -> expression LE expression
+Rule 38    expression -> expression GE expression
+Rule 39    expression -> expression EQ expression
+Rule 40    expression -> expression NE expression
+Rule 41    expression -> expression AND expression
+Rule 42    expression -> expression OR expression
+Rule 43    expression -> + expression
+Rule 44    expression -> - expression
+Rule 45    expression -> ~ expression
+Rule 46    expression -> ! expression
+Rule 47    expression -> expression | expression
+Rule 48    expression -> expression ^ expression
+Rule 49    expression -> expression & expression
+Rule 50    expression -> PLUSPLUS ID
+Rule 51    expression -> MINUSMINUS ID
+Rule 52    expression -> ( expression )
+Rule 53    expression -> NUMBER
+Rule 54    expression -> STRING
+Rule 55    expression -> ID
+
+Terminals, with rules where they appear
+
+!                    : 46
+%                    : 34
+&                    : 49
+(                    : 7 8 9 10 11 14 17 52
+)                    : 7 8 9 10 11 14 17 52
+*                    : 32
++                    : 30 43
+,                    : 15
+-                    : 31 44
+/                    : 33
+;                    : 5 10 11 11 14 17
+<                    : 35
+=                    : 18
+>                    : 36
+AND                  : 41
+ANDEQ                : 26
+DIVEQ                : 22
+DO                   : 10
+ELSE                 : 8
+EQ                   : 39
+FOR                  : 11
+GE                   : 38
+ID                   : 17 29 50 51 55
+IF                   : 7 8
+LE                   : 37
+LSHIFT               : 
+LSHIFTEQ             : 24
+MINUSEQ              : 20
+MINUSMINUS           : 51
+MODEQ                : 23
+NE                   : 40
+NUMBER               : 53
+OR                   : 42
+OREQ                 : 28
+PLUSEQ               : 19
+PLUSPLUS             : 50
+PRINT                : 14
+RSHIFT               : 
+RSHIFTEQ             : 25
+SCAN                 : 17
+STRING               : 15 16 54
+TIMESEQ              : 21
+WHILE                : 9 10
+XOREQ                : 27
+^                    : 48
+error                : 
+{                    : 2
+|                    : 47
+}                    : 2
+~                    : 45
+
+Nonterminals, with rules where they appear
+
+assign_op            : 29
+compound_statement   : 1 6
+expression           : 5 7 8 9 10 12 15 29 30 30 31 31 32 32 33 33 34 34 35 35 36 36 37 37 38 38 39 39 40 40 41 41 42 42 43 44 45 46 47 47 48 48 49 49 52
+opt_expr             : 11 11 11
+print_args           : 14
+program              : 0
+statement            : 3 7 8 8 9 10 11
+stmt_list            : 2 3
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . program
+    (1) program -> . compound_statement
+    (2) compound_statement -> . { stmt_list }
+
+    {               shift and go to state 3
+
+    program                        shift and go to state 1
+    compound_statement             shift and go to state 2
+
+state 1
+
+    (0) S' -> program .
+
+
+
+state 2
+
+    (1) program -> compound_statement .
+
+    $end            reduce using rule 1 (program -> compound_statement .)
+
+
+state 3
+
+    (2) compound_statement -> { . stmt_list }
+    (3) stmt_list -> . stmt_list statement
+    (4) stmt_list -> .
+
+    }               reduce using rule 4 (stmt_list -> .)
+    IF              reduce using rule 4 (stmt_list -> .)
+    WHILE           reduce using rule 4 (stmt_list -> .)
+    DO              reduce using rule 4 (stmt_list -> .)
+    FOR             reduce using rule 4 (stmt_list -> .)
+    PRINT           reduce using rule 4 (stmt_list -> .)
+    SCAN            reduce using rule 4 (stmt_list -> .)
+    ID              reduce using rule 4 (stmt_list -> .)
+    +               reduce using rule 4 (stmt_list -> .)
+    -               reduce using rule 4 (stmt_list -> .)
+    ~               reduce using rule 4 (stmt_list -> .)
+    !               reduce using rule 4 (stmt_list -> .)
+    PLUSPLUS        reduce using rule 4 (stmt_list -> .)
+    MINUSMINUS      reduce using rule 4 (stmt_list -> .)
+    (               reduce using rule 4 (stmt_list -> .)
+    NUMBER          reduce using rule 4 (stmt_list -> .)
+    STRING          reduce using rule 4 (stmt_list -> .)
+    {               reduce using rule 4 (stmt_list -> .)
+
+    stmt_list                      shift and go to state 4
+
+state 4
+
+    (2) compound_statement -> { stmt_list . }
+    (3) stmt_list -> stmt_list . statement
+    (5) statement -> . expression ;
+    (6) statement -> . compound_statement
+    (7) statement -> . IF ( expression ) statement
+    (8) statement -> . IF ( expression ) statement ELSE statement
+    (9) statement -> . WHILE ( expression ) statement
+    (10) statement -> . DO statement WHILE ( expression ) ;
+    (11) statement -> . FOR ( opt_expr ; opt_expr ; opt_expr ) statement
+    (14) statement -> . PRINT ( print_args ) ;
+    (17) statement -> . SCAN ( ID ) ;
+    (29) expression -> . ID assign_op expression
+    (30) expression -> . expression + expression
+    (31) expression -> . expression - expression
+    (32) expression -> . expression * expression
+    (33) expression -> . expression / expression
+    (34) expression -> . expression % expression
+    (35) expression -> . expression < expression
+    (36) expression -> . expression > expression
+    (37) expression -> . expression LE expression
+    (38) expression -> . expression GE expression
+    (39) expression -> . expression EQ expression
+    (40) expression -> . expression NE expression
+    (41) expression -> . expression AND expression
+    (42) expression -> . expression OR expression
+    (43) expression -> . + expression
+    (44) expression -> . - expression
+    (45) expression -> . ~ expression
+    (46) expression -> . ! expression
+    (47) expression -> . expression | expression
+    (48) expression -> . expression ^ expression
+    (49) expression -> . expression & expression
+    (50) expression -> . PLUSPLUS ID
+    (51) expression -> . MINUSMINUS ID
+    (52) expression -> . ( expression )
+    (53) expression -> . NUMBER
+    (54) expression -> . STRING
+    (55) expression -> . ID
+    (2) compound_statement -> . { stmt_list }
+
+    }               shift and go to state 5
+    IF              shift and go to state 9
+    WHILE           shift and go to state 11
+    DO              shift and go to state 12
+    FOR             shift and go to state 13
+    PRINT           shift and go to state 14
+    SCAN            shift and go to state 15
+    ID              shift and go to state 16
+    +               shift and go to state 17
+    -               shift and go to state 18
+    ~               shift and go to state 19
+    !               shift and go to state 20
+    PLUSPLUS        shift and go to state 21
+    MINUSMINUS      shift and go to state 22
+    (               shift and go to state 10
+    NUMBER          shift and go to state 23
+    STRING          shift and go to state 24
+    {               shift and go to state 3
+
+    statement                      shift and go to state 6
+    expression                     shift and go to state 7
+    compound_statement             shift and go to state 8
+
+state 5
+
+    (2) compound_statement -> { stmt_list } .
+
+    $end            reduce using rule 2 (compound_statement -> { stmt_list } .)
+    }               reduce using rule 2 (compound_statement -> { stmt_list } .)
+    IF              reduce using rule 2 (compound_statement -> { stmt_list } .)
+    WHILE           reduce using rule 2 (compound_statement -> { stmt_list } .)
+    DO              reduce using rule 2 (compound_statement -> { stmt_list } .)
+    FOR             reduce using rule 2 (compound_statement -> { stmt_list } .)
+    PRINT           reduce using rule 2 (compound_statement -> { stmt_list } .)
+    SCAN            reduce using rule 2 (compound_statement -> { stmt_list } .)
+    ID              reduce using rule 2 (compound_statement -> { stmt_list } .)
+    +               reduce using rule 2 (compound_statement -> { stmt_list } .)
+    -               reduce using rule 2 (compound_statement -> { stmt_list } .)
+    ~               reduce using rule 2 (compound_statement -> { stmt_list } .)
+    !               reduce using rule 2 (compound_statement -> { stmt_list } .)
+    PLUSPLUS        reduce using rule 2 (compound_statement -> { stmt_list } .)
+    MINUSMINUS      reduce using rule 2 (compound_statement -> { stmt_list } .)
+    (               reduce using rule 2 (compound_statement -> { stmt_list } .)
+    NUMBER          reduce using rule 2 (compound_statement -> { stmt_list } .)
+    STRING          reduce using rule 2 (compound_statement -> { stmt_list } .)
+    {               reduce using rule 2 (compound_statement -> { stmt_list } .)
+    ELSE            reduce using rule 2 (compound_statement -> { stmt_list } .)
+
+
+state 6
+
+    (3) stmt_list -> stmt_list statement .
+
+    }               reduce using rule 3 (stmt_list -> stmt_list statement .)
+    IF              reduce using rule 3 (stmt_list -> stmt_list statement .)
+    WHILE           reduce using rule 3 (stmt_list -> stmt_list statement .)
+    DO              reduce using rule 3 (stmt_list -> stmt_list statement .)
+    FOR             reduce using rule 3 (stmt_list -> stmt_list statement .)
+    PRINT           reduce using rule 3 (stmt_list -> stmt_list statement .)
+    SCAN            reduce using rule 3 (stmt_list -> stmt_list statement .)
+    ID              reduce using rule 3 (stmt_list -> stmt_list statement .)
+    +               reduce using rule 3 (stmt_list -> stmt_list statement .)
+    -               reduce using rule 3 (stmt_list -> stmt_list statement .)
+    ~               reduce using rule 3 (stmt_list -> stmt_list statement .)
+    !               reduce using rule 3 (stmt_list -> stmt_list statement .)
+    PLUSPLUS        reduce using rule 3 (stmt_list -> stmt_list statement .)
+    MINUSMINUS      reduce using rule 3 (stmt_list -> stmt_list statement .)
+    (               reduce using rule 3 (stmt_list -> stmt_list statement .)
+    NUMBER          reduce using rule 3 (stmt_list -> stmt_list statement .)
+    STRING          reduce using rule 3 (stmt_list -> stmt_list statement .)
+    {               reduce using rule 3 (stmt_list -> stmt_list statement .)
+
+
+state 7
+
+    (5) statement -> expression . ;
+    (30) expression -> expression . + expression
+    (31) expression -> expression . - expression
+    (32) expression -> expression . * expression
+    (33) expression -> expression . / expression
+    (34) expression -> expression . % expression
+    (35) expression -> expression . < expression
+    (36) expression -> expression . > expression
+    (37) expression -> expression . LE expression
+    (38) expression -> expression . GE expression
+    (39) expression -> expression . EQ expression
+    (40) expression -> expression . NE expression
+    (41) expression -> expression . AND expression
+    (42) expression -> expression . OR expression
+    (47) expression -> expression . | expression
+    (48) expression -> expression . ^ expression
+    (49) expression -> expression . & expression
+
+    ;               shift and go to state 25
+    +               shift and go to state 26
+    -               shift and go to state 27
+    *               shift and go to state 28
+    /               shift and go to state 29
+    %               shift and go to state 30
+    <               shift and go to state 31
+    >               shift and go to state 32
+    LE              shift and go to state 33
+    GE              shift and go to state 34
+    EQ              shift and go to state 35
+    NE              shift and go to state 36
+    AND             shift and go to state 37
+    OR              shift and go to state 38
+    |               shift and go to state 39
+    ^               shift and go to state 40
+    &               shift and go to state 41
+
+
+state 8
+
+    (6) statement -> compound_statement .
+
+    }               reduce using rule 6 (statement -> compound_statement .)
+    IF              reduce using rule 6 (statement -> compound_statement .)
+    WHILE           reduce using rule 6 (statement -> compound_statement .)
+    DO              reduce using rule 6 (statement -> compound_statement .)
+    FOR             reduce using rule 6 (statement -> compound_statement .)
+    PRINT           reduce using rule 6 (statement -> compound_statement .)
+    SCAN            reduce using rule 6 (statement -> compound_statement .)
+    ID              reduce using rule 6 (statement -> compound_statement .)
+    +               reduce using rule 6 (statement -> compound_statement .)
+    -               reduce using rule 6 (statement -> compound_statement .)
+    ~               reduce using rule 6 (statement -> compound_statement .)
+    !               reduce using rule 6 (statement -> compound_statement .)
+    PLUSPLUS        reduce using rule 6 (statement -> compound_statement .)
+    MINUSMINUS      reduce using rule 6 (statement -> compound_statement .)
+    (               reduce using rule 6 (statement -> compound_statement .)
+    NUMBER          reduce using rule 6 (statement -> compound_statement .)
+    STRING          reduce using rule 6 (statement -> compound_statement .)
+    {               reduce using rule 6 (statement -> compound_statement .)
+    ELSE            reduce using rule 6 (statement -> compound_statement .)
+
+
+state 9
+
+    (7) statement -> IF . ( expression ) statement
+    (8) statement -> IF . ( expression ) statement ELSE statement
+
+    (               shift and go to state 42
+
+
+state 10
+
+    (52) expression -> ( . expression )
+    (29) expression -> . ID assign_op expression
+    (30) expression -> . expression + expression
+    (31) expression -> . expression - expression
+    (32) expression -> . expression * expression
+    (33) expression -> . expression / expression
+    (34) expression -> . expression % expression
+    (35) expression -> . expression < expression
+    (36) expression -> . expression > expression
+    (37) expression -> . expression LE expression
+    (38) expression -> . expression GE expression
+    (39) expression -> . expression EQ expression
+    (40) expression -> . expression NE expression
+    (41) expression -> . expression AND expression
+    (42) expression -> . expression OR expression
+    (43) expression -> . + expression
+    (44) expression -> . - expression
+    (45) expression -> . ~ expression
+    (46) expression -> . ! expression
+    (47) expression -> . expression | expression
+    (48) expression -> . expression ^ expression
+    (49) expression -> . expression & expression
+    (50) expression -> . PLUSPLUS ID
+    (51) expression -> . MINUSMINUS ID
+    (52) expression -> . ( expression )
+    (53) expression -> . NUMBER
+    (54) expression -> . STRING
+    (55) expression -> . ID
+
+    ID              shift and go to state 16
+    +               shift and go to state 17
+    -               shift and go to state 18
+    ~               shift and go to state 19
+    !               shift and go to state 20
+    PLUSPLUS        shift and go to state 21
+    MINUSMINUS      shift and go to state 22
+    (               shift and go to state 10
+    NUMBER          shift and go to state 23
+    STRING          shift and go to state 24
+
+    expression                     shift and go to state 43
+
+state 11
+
+    (9) statement -> WHILE . ( expression ) statement
+
+    (               shift and go to state 44
+
+
+state 12
+
+    (10) statement -> DO . statement WHILE ( expression ) ;
+    (5) statement -> . expression ;
+    (6) statement -> . compound_statement
+    (7) statement -> . IF ( expression ) statement
+    (8) statement -> . IF ( expression ) statement ELSE statement
+    (9) statement -> . WHILE ( expression ) statement
+    (10) statement -> . DO statement WHILE ( expression ) ;
+    (11) statement -> . FOR ( opt_expr ; opt_expr ; opt_expr ) statement
+    (14) statement -> . PRINT ( print_args ) ;
+    (17) statement -> . SCAN ( ID ) ;
+    (29) expression -> . ID assign_op expression
+    (30) expression -> . expression + expression
+    (31) expression -> . expression - expression
+    (32) expression -> . expression * expression
+    (33) expression -> . expression / expression
+    (34) expression -> . expression % expression
+    (35) expression -> . expression < expression
+    (36) expression -> . expression > expression
+    (37) expression -> . expression LE expression
+    (38) expression -> . expression GE expression
+    (39) expression -> . expression EQ expression
+    (40) expression -> . expression NE expression
+    (41) expression -> . expression AND expression
+    (42) expression -> . expression OR expression
+    (43) expression -> . + expression
+    (44) expression -> . - expression
+    (45) expression -> . ~ expression
+    (46) expression -> . ! expression
+    (47) expression -> . expression | expression
+    (48) expression -> . expression ^ expression
+    (49) expression -> . expression & expression
+    (50) expression -> . PLUSPLUS ID
+    (51) expression -> . MINUSMINUS ID
+    (52) expression -> . ( expression )
+    (53) expression -> . NUMBER
+    (54) expression -> . STRING
+    (55) expression -> . ID
+    (2) compound_statement -> . { stmt_list }
+
+    IF              shift and go to state 9
+    WHILE           shift and go to state 11
+    DO              shift and go to state 12
+    FOR             shift and go to state 13
+    PRINT           shift and go to state 14
+    SCAN            shift and go to state 15
+    ID              shift and go to state 16
+    +               shift and go to state 17
+    -               shift and go to state 18
+    ~               shift and go to state 19
+    !               shift and go to state 20
+    PLUSPLUS        shift and go to state 21
+    MINUSMINUS      shift and go to state 22
+    (               shift and go to state 10
+    NUMBER          shift and go to state 23
+    STRING          shift and go to state 24
+    {               shift and go to state 3
+
+    statement                      shift and go to state 45
+    expression                     shift and go to state 7
+    compound_statement             shift and go to state 8
+
+state 13
+
+    (11) statement -> FOR . ( opt_expr ; opt_expr ; opt_expr ) statement
+
+    (               shift and go to state 46
+
+
+state 14
+
+    (14) statement -> PRINT . ( print_args ) ;
+
+    (               shift and go to state 47
+
+
+state 15
+
+    (17) statement -> SCAN . ( ID ) ;
+
+    (               shift and go to state 48
+
+
+state 16
+
+    (29) expression -> ID . assign_op expression
+    (55) expression -> ID .
+    (18) assign_op -> . =
+    (19) assign_op -> . PLUSEQ
+    (20) assign_op -> . MINUSEQ
+    (21) assign_op -> . TIMESEQ
+    (22) assign_op -> . DIVEQ
+    (23) assign_op -> . MODEQ
+    (24) assign_op -> . LSHIFTEQ
+    (25) assign_op -> . RSHIFTEQ
+    (26) assign_op -> . ANDEQ
+    (27) assign_op -> . XOREQ
+    (28) assign_op -> . OREQ
+
+    ;               reduce using rule 55 (expression -> ID .)
+    +               reduce using rule 55 (expression -> ID .)
+    -               reduce using rule 55 (expression -> ID .)
+    *               reduce using rule 55 (expression -> ID .)
+    /               reduce using rule 55 (expression -> ID .)
+    %               reduce using rule 55 (expression -> ID .)
+    <               reduce using rule 55 (expression -> ID .)
+    >               reduce using rule 55 (expression -> ID .)
+    LE              reduce using rule 55 (expression -> ID .)
+    GE              reduce using rule 55 (expression -> ID .)
+    EQ              reduce using rule 55 (expression -> ID .)
+    NE              reduce using rule 55 (expression -> ID .)
+    AND             reduce using rule 55 (expression -> ID .)
+    OR              reduce using rule 55 (expression -> ID .)
+    |               reduce using rule 55 (expression -> ID .)
+    ^               reduce using rule 55 (expression -> ID .)
+    &               reduce using rule 55 (expression -> ID .)
+    )               reduce using rule 55 (expression -> ID .)
+    =               shift and go to state 50
+    PLUSEQ          shift and go to state 51
+    MINUSEQ         shift and go to state 52
+    TIMESEQ         shift and go to state 53
+    DIVEQ           shift and go to state 54
+    MODEQ           shift and go to state 55
+    LSHIFTEQ        shift and go to state 56
+    RSHIFTEQ        shift and go to state 57
+    ANDEQ           shift and go to state 58
+    XOREQ           shift and go to state 59
+    OREQ            shift and go to state 60
+
+    assign_op                      shift and go to state 49
+
+state 17
+
+    (43) expression -> + . expression
+    (29) expression -> . ID assign_op expression
+    (30) expression -> . expression + expression
+    (31) expression -> . expression - expression
+    (32) expression -> . expression * expression
+    (33) expression -> . expression / expression
+    (34) expression -> . expression % expression
+    (35) expression -> . expression < expression
+    (36) expression -> . expression > expression
+    (37) expression -> . expression LE expression
+    (38) expression -> . expression GE expression
+    (39) expression -> . expression EQ expression
+    (40) expression -> . expression NE expression
+    (41) expression -> . expression AND expression
+    (42) expression -> . expression OR expression
+    (43) expression -> . + expression
+    (44) expression -> . - expression
+    (45) expression -> . ~ expression
+    (46) expression -> . ! expression
+    (47) expression -> . expression | expression
+    (48) expression -> . expression ^ expression
+    (49) expression -> . expression & expression
+    (50) expression -> . PLUSPLUS ID
+    (51) expression -> . MINUSMINUS ID
+    (52) expression -> . ( expression )
+    (53) expression -> . NUMBER
+    (54) expression -> . STRING
+    (55) expression -> . ID
+
+    ID              shift and go to state 16
+    +               shift and go to state 17
+    -               shift and go to state 18
+    ~               shift and go to state 19
+    !               shift and go to state 20
+    PLUSPLUS        shift and go to state 21
+    MINUSMINUS      shift and go to state 22
+    (               shift and go to state 10
+    NUMBER          shift and go to state 23
+    STRING          shift and go to state 24
+
+    expression                     shift and go to state 61
+
+state 18
+
+    (44) expression -> - . expression
+    (29) expression -> . ID assign_op expression
+    (30) expression -> . expression + expression
+    (31) expression -> . expression - expression
+    (32) expression -> . expression * expression
+    (33) expression -> . expression / expression
+    (34) expression -> . expression % expression
+    (35) expression -> . expression < expression
+    (36) expression -> . expression > expression
+    (37) expression -> . expression LE expression
+    (38) expression -> . expression GE expression
+    (39) expression -> . expression EQ expression
+    (40) expression -> . expression NE expression
+    (41) expression -> . expression AND expression
+    (42) expression -> . expression OR expression
+    (43) expression -> . + expression
+    (44) expression -> . - expression
+    (45) expression -> . ~ expression
+    (46) expression -> . ! expression
+    (47) expression -> . expression | expression
+    (48) expression -> . expression ^ expression
+    (49) expression -> . expression & expression
+    (50) expression -> . PLUSPLUS ID
+    (51) expression -> . MINUSMINUS ID
+    (52) expression -> . ( expression )
+    (53) expression -> . NUMBER
+    (54) expression -> . STRING
+    (55) expression -> . ID
+
+    ID              shift and go to state 16
+    +               shift and go to state 17
+    -               shift and go to state 18
+    ~               shift and go to state 19
+    !               shift and go to state 20
+    PLUSPLUS        shift and go to state 21
+    MINUSMINUS      shift and go to state 22
+    (               shift and go to state 10
+    NUMBER          shift and go to state 23
+    STRING          shift and go to state 24
+
+    expression                     shift and go to state 62
+
+state 19
+
+    (45) expression -> ~ . expression
+    (29) expression -> . ID assign_op expression
+    (30) expression -> . expression + expression
+    (31) expression -> . expression - expression
+    (32) expression -> . expression * expression
+    (33) expression -> . expression / expression
+    (34) expression -> . expression % expression
+    (35) expression -> . expression < expression
+    (36) expression -> . expression > expression
+    (37) expression -> . expression LE expression
+    (38) expression -> . expression GE expression
+    (39) expression -> . expression EQ expression
+    (40) expression -> . expression NE expression
+    (41) expression -> . expression AND expression
+    (42) expression -> . expression OR expression
+    (43) expression -> . + expression
+    (44) expression -> . - expression
+    (45) expression -> . ~ expression
+    (46) expression -> . ! expression
+    (47) expression -> . expression | expression
+    (48) expression -> . expression ^ expression
+    (49) expression -> . expression & expression
+    (50) expression -> . PLUSPLUS ID
+    (51) expression -> . MINUSMINUS ID
+    (52) expression -> . ( expression )
+    (53) expression -> . NUMBER
+    (54) expression -> . STRING
+    (55) expression -> . ID
+
+    ID              shift and go to state 16
+    +               shift and go to state 17
+    -               shift and go to state 18
+    ~               shift and go to state 19
+    !               shift and go to state 20
+    PLUSPLUS        shift and go to state 21
+    MINUSMINUS      shift and go to state 22
+    (               shift and go to state 10
+    NUMBER          shift and go to state 23
+    STRING          shift and go to state 24
+
+    expression                     shift and go to state 63
+
+state 20
+
+    (46) expression -> ! . expression
+    (29) expression -> . ID assign_op expression
+    (30) expression -> . expression + expression
+    (31) expression -> . expression - expression
+    (32) expression -> . expression * expression
+    (33) expression -> . expression / expression
+    (34) expression -> . expression % expression
+    (35) expression -> . expression < expression
+    (36) expression -> . expression > expression
+    (37) expression -> . expression LE expression
+    (38) expression -> . expression GE expression
+    (39) expression -> . expression EQ expression
+    (40) expression -> . expression NE expression
+    (41) expression -> . expression AND expression
+    (42) expression -> . expression OR expression
+    (43) expression -> . + expression
+    (44) expression -> . - expression
+    (45) expression -> . ~ expression
+    (46) expression -> . ! expression
+    (47) expression -> . expression | expression
+    (48) expression -> . expression ^ expression
+    (49) expression -> . expression & expression
+    (50) expression -> . PLUSPLUS ID
+    (51) expression -> . MINUSMINUS ID
+    (52) expression -> . ( expression )
+    (53) expression -> . NUMBER
+    (54) expression -> . STRING
+    (55) expression -> . ID
+
+    ID              shift and go to state 16
+    +               shift and go to state 17
+    -               shift and go to state 18
+    ~               shift and go to state 19
+    !               shift and go to state 20
+    PLUSPLUS        shift and go to state 21
+    MINUSMINUS      shift and go to state 22
+    (               shift and go to state 10
+    NUMBER          shift and go to state 23
+    STRING          shift and go to state 24
+
+    expression                     shift and go to state 64
+
+state 21
+
+    (50) expression -> PLUSPLUS . ID
+
+    ID              shift and go to state 65
+
+
+state 22
+
+    (51) expression -> MINUSMINUS . ID
+
+    ID              shift and go to state 66
+
+
+state 23
+
+    (53) expression -> NUMBER .
+
+    ;               reduce using rule 53 (expression -> NUMBER .)
+    +               reduce using rule 53 (expression -> NUMBER .)
+    -               reduce using rule 53 (expression -> NUMBER .)
+    *               reduce using rule 53 (expression -> NUMBER .)
+    /               reduce using rule 53 (expression -> NUMBER .)
+    %               reduce using rule 53 (expression -> NUMBER .)
+    <               reduce using rule 53 (expression -> NUMBER .)
+    >               reduce using rule 53 (expression -> NUMBER .)
+    LE              reduce using rule 53 (expression -> NUMBER .)
+    GE              reduce using rule 53 (expression -> NUMBER .)
+    EQ              reduce using rule 53 (expression -> NUMBER .)
+    NE              reduce using rule 53 (expression -> NUMBER .)
+    AND             reduce using rule 53 (expression -> NUMBER .)
+    OR              reduce using rule 53 (expression -> NUMBER .)
+    |               reduce using rule 53 (expression -> NUMBER .)
+    ^               reduce using rule 53 (expression -> NUMBER .)
+    &               reduce using rule 53 (expression -> NUMBER .)
+    )               reduce using rule 53 (expression -> NUMBER .)
+
+
+state 24
+
+    (54) expression -> STRING .
+
+    ;               reduce using rule 54 (expression -> STRING .)
+    +               reduce using rule 54 (expression -> STRING .)
+    -               reduce using rule 54 (expression -> STRING .)
+    *               reduce using rule 54 (expression -> STRING .)
+    /               reduce using rule 54 (expression -> STRING .)
+    %               reduce using rule 54 (expression -> STRING .)
+    <               reduce using rule 54 (expression -> STRING .)
+    >               reduce using rule 54 (expression -> STRING .)
+    LE              reduce using rule 54 (expression -> STRING .)
+    GE              reduce using rule 54 (expression -> STRING .)
+    EQ              reduce using rule 54 (expression -> STRING .)
+    NE              reduce using rule 54 (expression -> STRING .)
+    AND             reduce using rule 54 (expression -> STRING .)
+    OR              reduce using rule 54 (expression -> STRING .)
+    |               reduce using rule 54 (expression -> STRING .)
+    ^               reduce using rule 54 (expression -> STRING .)
+    &               reduce using rule 54 (expression -> STRING .)
+    )               reduce using rule 54 (expression -> STRING .)
+
+
+state 25
+
+    (5) statement -> expression ; .
+
+    }               reduce using rule 5 (statement -> expression ; .)
+    IF              reduce using rule 5 (statement -> expression ; .)
+    WHILE           reduce using rule 5 (statement -> expression ; .)
+    DO              reduce using rule 5 (statement -> expression ; .)
+    FOR             reduce using rule 5 (statement -> expression ; .)
+    PRINT           reduce using rule 5 (statement -> expression ; .)
+    SCAN            reduce using rule 5 (statement -> expression ; .)
+    ID              reduce using rule 5 (statement -> expression ; .)
+    +               reduce using rule 5 (statement -> expression ; .)
+    -               reduce using rule 5 (statement -> expression ; .)
+    ~               reduce using rule 5 (statement -> expression ; .)
+    !               reduce using rule 5 (statement -> expression ; .)
+    PLUSPLUS        reduce using rule 5 (statement -> expression ; .)
+    MINUSMINUS      reduce using rule 5 (statement -> expression ; .)
+    (               reduce using rule 5 (statement -> expression ; .)
+    NUMBER          reduce using rule 5 (statement -> expression ; .)
+    STRING          reduce using rule 5 (statement -> expression ; .)
+    {               reduce using rule 5 (statement -> expression ; .)
+    ELSE            reduce using rule 5 (statement -> expression ; .)
+
+
+state 26
+
+    (30) expression -> expression + . expression
+    (29) expression -> . ID assign_op expression
+    (30) expression -> . expression + expression
+    (31) expression -> . expression - expression
+    (32) expression -> . expression * expression
+    (33) expression -> . expression / expression
+    (34) expression -> . expression % expression
+    (35) expression -> . expression < expression
+    (36) expression -> . expression > expression
+    (37) expression -> . expression LE expression
+    (38) expression -> . expression GE expression
+    (39) expression -> . expression EQ expression
+    (40) expression -> . expression NE expression
+    (41) expression -> . expression AND expression
+    (42) expression -> . expression OR expression
+    (43) expression -> . + expression
+    (44) expression -> . - expression
+    (45) expression -> . ~ expression
+    (46) expression -> . ! expression
+    (47) expression -> . expression | expression
+    (48) expression -> . expression ^ expression
+    (49) expression -> . expression & expression
+    (50) expression -> . PLUSPLUS ID
+    (51) expression -> . MINUSMINUS ID
+    (52) expression -> . ( expression )
+    (53) expression -> . NUMBER
+    (54) expression -> . STRING
+    (55) expression -> . ID
+
+    ID              shift and go to state 16
+    +               shift and go to state 17
+    -               shift and go to state 18
+    ~               shift and go to state 19
+    !               shift and go to state 20
+    PLUSPLUS        shift and go to state 21
+    MINUSMINUS      shift and go to state 22
+    (               shift and go to state 10
+    NUMBER          shift and go to state 23
+    STRING          shift and go to state 24
+
+    expression                     shift and go to state 67
+
+state 27
+
+    (31) expression -> expression - . expression
+    (29) expression -> . ID assign_op expression
+    (30) expression -> . expression + expression
+    (31) expression -> . expression - expression
+    (32) expression -> . expression * expression
+    (33) expression -> . expression / expression
+    (34) expression -> . expression % expression
+    (35) expression -> . expression < expression
+    (36) expression -> . expression > expression
+    (37) expression -> . expression LE expression
+    (38) expression -> . expression GE expression
+    (39) expression -> . expression EQ expression
+    (40) expression -> . expression NE expression
+    (41) expression -> . expression AND expression
+    (42) expression -> . expression OR expression
+    (43) expression -> . + expression
+    (44) expression -> . - expression
+    (45) expression -> . ~ expression
+    (46) expression -> . ! expression
+    (47) expression -> . expression | expression
+    (48) expression -> . expression ^ expression
+    (49) expression -> . expression & expression
+    (50) expression -> . PLUSPLUS ID
+    (51) expression -> . MINUSMINUS ID
+    (52) expression -> . ( expression )
+    (53) expression -> . NUMBER
+    (54) expression -> . STRING
+    (55) expression -> . ID
+
+    ID              shift and go to state 16
+    +               shift and go to state 17
+    -               shift and go to state 18
+    ~               shift and go to state 19
+    !               shift and go to state 20
+    PLUSPLUS        shift and go to state 21
+    MINUSMINUS      shift and go to state 22
+    (               shift and go to state 10
+    NUMBER          shift and go to state 23
+    STRING          shift and go to state 24
+
+    expression                     shift and go to state 68
+
+state 28
+
+    (32) expression -> expression * . expression
+    (29) expression -> . ID assign_op expression
+    (30) expression -> . expression + expression
+    (31) expression -> . expression - expression
+    (32) expression -> . expression * expression
+    (33) expression -> . expression / expression
+    (34) expression -> . expression % expression
+    (35) expression -> . expression < expression
+    (36) expression -> . expression > expression
+    (37) expression -> . expression LE expression
+    (38) expression -> . expression GE expression
+    (39) expression -> . expression EQ expression
+    (40) expression -> . expression NE expression
+    (41) expression -> . expression AND expression
+    (42) expression -> . expression OR expression
+    (43) expression -> . + expression
+    (44) expression -> . - expression
+    (45) expression -> . ~ expression
+    (46) expression -> . ! expression
+    (47) expression -> . expression | expression
+    (48) expression -> . expression ^ expression
+    (49) expression -> . expression & expression
+    (50) expression -> . PLUSPLUS ID
+    (51) expression -> . MINUSMINUS ID
+    (52) expression -> . ( expression )
+    (53) expression -> . NUMBER
+    (54) expression -> . STRING
+    (55) expression -> . ID
+
+    ID              shift and go to state 16
+    +               shift and go to state 17
+    -               shift and go to state 18
+    ~               shift and go to state 19
+    !               shift and go to state 20
+    PLUSPLUS        shift and go to state 21
+    MINUSMINUS      shift and go to state 22
+    (               shift and go to state 10
+    NUMBER          shift and go to state 23
+    STRING          shift and go to state 24
+
+    expression                     shift and go to state 69
+
+state 29
+
+    (33) expression -> expression / . expression
+    (29) expression -> . ID assign_op expression
+    (30) expression -> . expression + expression
+    (31) expression -> . expression - expression
+    (32) expression -> . expression * expression
+    (33) expression -> . expression / expression
+    (34) expression -> . expression % expression
+    (35) expression -> . expression < expression
+    (36) expression -> . expression > expression
+    (37) expression -> . expression LE expression
+    (38) expression -> . expression GE expression
+    (39) expression -> . expression EQ expression
+    (40) expression -> . expression NE expression
+    (41) expression -> . expression AND expression
+    (42) expression -> . expression OR expression
+    (43) expression -> . + expression
+    (44) expression -> . - expression
+    (45) expression -> . ~ expression
+    (46) expression -> . ! expression
+    (47) expression -> . expression | expression
+    (48) expression -> . expression ^ expression
+    (49) expression -> . expression & expression
+    (50) expression -> . PLUSPLUS ID
+    (51) expression -> . MINUSMINUS ID
+    (52) expression -> . ( expression )
+    (53) expression -> . NUMBER
+    (54) expression -> . STRING
+    (55) expression -> . ID
+
+    ID              shift and go to state 16
+    +               shift and go to state 17
+    -               shift and go to state 18
+    ~               shift and go to state 19
+    !               shift and go to state 20
+    PLUSPLUS        shift and go to state 21
+    MINUSMINUS      shift and go to state 22
+    (               shift and go to state 10
+    NUMBER          shift and go to state 23
+    STRING          shift and go to state 24
+
+    expression                     shift and go to state 70
+
+state 30
+
+    (34) expression -> expression % . expression
+    (29) expression -> . ID assign_op expression
+    (30) expression -> . expression + expression
+    (31) expression -> . expression - expression
+    (32) expression -> . expression * expression
+    (33) expression -> . expression / expression
+    (34) expression -> . expression % expression
+    (35) expression -> . expression < expression
+    (36) expression -> . expression > expression
+    (37) expression -> . expression LE expression
+    (38) expression -> . expression GE expression
+    (39) expression -> . expression EQ expression
+    (40) expression -> . expression NE expression
+    (41) expression -> . expression AND expression
+    (42) expression -> . expression OR expression
+    (43) expression -> . + expression
+    (44) expression -> . - expression
+    (45) expression -> . ~ expression
+    (46) expression -> . ! expression
+    (47) expression -> . expression | expression
+    (48) expression -> . expression ^ expression
+    (49) expression -> . expression & expression
+    (50) expression -> . PLUSPLUS ID
+    (51) expression -> . MINUSMINUS ID
+    (52) expression -> . ( expression )
+    (53) expression -> . NUMBER
+    (54) expression -> . STRING
+    (55) expression -> . ID
+
+    ID              shift and go to state 16
+    +               shift and go to state 17
+    -               shift and go to state 18
+    ~               shift and go to state 19
+    !               shift and go to state 20
+    PLUSPLUS        shift and go to state 21
+    MINUSMINUS      shift and go to state 22
+    (               shift and go to state 10
+    NUMBER          shift and go to state 23
+    STRING          shift and go to state 24
+
+    expression                     shift and go to state 71
+
+state 31
+
+    (35) expression -> expression < . expression
+    (29) expression -> . ID assign_op expression
+    (30) expression -> . expression + expression
+    (31) expression -> . expression - expression
+    (32) expression -> . expression * expression
+    (33) expression -> . expression / expression
+    (34) expression -> . expression % expression
+    (35) expression -> . expression < expression
+    (36) expression -> . expression > expression
+    (37) expression -> . expression LE expression
+    (38) expression -> . expression GE expression
+    (39) expression -> . expression EQ expression
+    (40) expression -> . expression NE expression
+    (41) expression -> . expression AND expression
+    (42) expression -> . expression OR expression
+    (43) expression -> . + expression
+    (44) expression -> . - expression
+    (45) expression -> . ~ expression
+    (46) expression -> . ! expression
+    (47) expression -> . expression | expression
+    (48) expression -> . expression ^ expression
+    (49) expression -> . expression & expression
+    (50) expression -> . PLUSPLUS ID
+    (51) expression -> . MINUSMINUS ID
+    (52) expression -> . ( expression )
+    (53) expression -> . NUMBER
+    (54) expression -> . STRING
+    (55) expression -> . ID
+
+    ID              shift and go to state 16
+    +               shift and go to state 17
+    -               shift and go to state 18
+    ~               shift and go to state 19
+    !               shift and go to state 20
+    PLUSPLUS        shift and go to state 21
+    MINUSMINUS      shift and go to state 22
+    (               shift and go to state 10
+    NUMBER          shift and go to state 23
+    STRING          shift and go to state 24
+
+    expression                     shift and go to state 72
+
+state 32
+
+    (36) expression -> expression > . expression
+    (29) expression -> . ID assign_op expression
+    (30) expression -> . expression + expression
+    (31) expression -> . expression - expression
+    (32) expression -> . expression * expression
+    (33) expression -> . expression / expression
+    (34) expression -> . expression % expression
+    (35) expression -> . expression < expression
+    (36) expression -> . expression > expression
+    (37) expression -> . expression LE expression
+    (38) expression -> . expression GE expression
+    (39) expression -> . expression EQ expression
+    (40) expression -> . expression NE expression
+    (41) expression -> . expression AND expression
+    (42) expression -> . expression OR expression
+    (43) expression -> . + expression
+    (44) expression -> . - expression
+    (45) expression -> . ~ expression
+    (46) expression -> . ! expression
+    (47) expression -> . expression | expression
+    (48) expression -> . expression ^ expression
+    (49) expression -> . expression & expression
+    (50) expression -> . PLUSPLUS ID
+    (51) expression -> . MINUSMINUS ID
+    (52) expression -> . ( expression )
+    (53) expression -> . NUMBER
+    (54) expression -> . STRING
+    (55) expression -> . ID
+
+    ID              shift and go to state 16
+    +               shift and go to state 17
+    -               shift and go to state 18
+    ~               shift and go to state 19
+    !               shift and go to state 20
+    PLUSPLUS        shift and go to state 21
+    MINUSMINUS      shift and go to state 22
+    (               shift and go to state 10
+    NUMBER          shift and go to state 23
+    STRING          shift and go to state 24
+
+    expression                     shift and go to state 73
+
+state 33
+
+    (37) expression -> expression LE . expression
+    (29) expression -> . ID assign_op expression
+    (30) expression -> . expression + expression
+    (31) expression -> . expression - expression
+    (32) expression -> . expression * expression
+    (33) expression -> . expression / expression
+    (34) expression -> . expression % expression
+    (35) expression -> . expression < expression
+    (36) expression -> . expression > expression
+    (37) expression -> . expression LE expression
+    (38) expression -> . expression GE expression
+    (39) expression -> . expression EQ expression
+    (40) expression -> . expression NE expression
+    (41) expression -> . expression AND expression
+    (42) expression -> . expression OR expression
+    (43) expression -> . + expression
+    (44) expression -> . - expression
+    (45) expression -> . ~ expression
+    (46) expression -> . ! expression
+    (47) expression -> . expression | expression
+    (48) expression -> . expression ^ expression
+    (49) expression -> . expression & expression
+    (50) expression -> . PLUSPLUS ID
+    (51) expression -> . MINUSMINUS ID
+    (52) expression -> . ( expression )
+    (53) expression -> . NUMBER
+    (54) expression -> . STRING
+    (55) expression -> . ID
+
+    ID              shift and go to state 16
+    +               shift and go to state 17
+    -               shift and go to state 18
+    ~               shift and go to state 19
+    !               shift and go to state 20
+    PLUSPLUS        shift and go to state 21
+    MINUSMINUS      shift and go to state 22
+    (               shift and go to state 10
+    NUMBER          shift and go to state 23
+    STRING          shift and go to state 24
+
+    expression                     shift and go to state 74
+
+state 34
+
+    (38) expression -> expression GE . expression
+    (29) expression -> . ID assign_op expression
+    (30) expression -> . expression + expression
+    (31) expression -> . expression - expression
+    (32) expression -> . expression * expression
+    (33) expression -> . expression / expression
+    (34) expression -> . expression % expression
+    (35) expression -> . expression < expression
+    (36) expression -> . expression > expression
+    (37) expression -> . expression LE expression
+    (38) expression -> . expression GE expression
+    (39) expression -> . expression EQ expression
+    (40) expression -> . expression NE expression
+    (41) expression -> . expression AND expression
+    (42) expression -> . expression OR expression
+    (43) expression -> . + expression
+    (44) expression -> . - expression
+    (45) expression -> . ~ expression
+    (46) expression -> . ! expression
+    (47) expression -> . expression | expression
+    (48) expression -> . expression ^ expression
+    (49) expression -> . expression & expression
+    (50) expression -> . PLUSPLUS ID
+    (51) expression -> . MINUSMINUS ID
+    (52) expression -> . ( expression )
+    (53) expression -> . NUMBER
+    (54) expression -> . STRING
+    (55) expression -> . ID
+
+    ID              shift and go to state 16
+    +               shift and go to state 17
+    -               shift and go to state 18
+    ~               shift and go to state 19
+    !               shift and go to state 20
+    PLUSPLUS        shift and go to state 21
+    MINUSMINUS      shift and go to state 22
+    (               shift and go to state 10
+    NUMBER          shift and go to state 23
+    STRING          shift and go to state 24
+
+    expression                     shift and go to state 75
+
+state 35
+
+    (39) expression -> expression EQ . expression
+    (29) expression -> . ID assign_op expression
+    (30) expression -> . expression + expression
+    (31) expression -> . expression - expression
+    (32) expression -> . expression * expression
+    (33) expression -> . expression / expression
+    (34) expression -> . expression % expression
+    (35) expression -> . expression < expression
+    (36) expression -> . expression > expression
+    (37) expression -> . expression LE expression
+    (38) expression -> . expression GE expression
+    (39) expression -> . expression EQ expression
+    (40) expression -> . expression NE expression
+    (41) expression -> . expression AND expression
+    (42) expression -> . expression OR expression
+    (43) expression -> . + expression
+    (44) expression -> . - expression
+    (45) expression -> . ~ expression
+    (46) expression -> . ! expression
+    (47) expression -> . expression | expression
+    (48) expression -> . expression ^ expression
+    (49) expression -> . expression & expression
+    (50) expression -> . PLUSPLUS ID
+    (51) expression -> . MINUSMINUS ID
+    (52) expression -> . ( expression )
+    (53) expression -> . NUMBER
+    (54) expression -> . STRING
+    (55) expression -> . ID
+
+    ID              shift and go to state 16
+    +               shift and go to state 17
+    -               shift and go to state 18
+    ~               shift and go to state 19
+    !               shift and go to state 20
+    PLUSPLUS        shift and go to state 21
+    MINUSMINUS      shift and go to state 22
+    (               shift and go to state 10
+    NUMBER          shift and go to state 23
+    STRING          shift and go to state 24
+
+    expression                     shift and go to state 76
+
+state 36
+
+    (40) expression -> expression NE . expression
+    (29) expression -> . ID assign_op expression
+    (30) expression -> . expression + expression
+    (31) expression -> . expression - expression
+    (32) expression -> . expression * expression
+    (33) expression -> . expression / expression
+    (34) expression -> . expression % expression
+    (35) expression -> . expression < expression
+    (36) expression -> . expression > expression
+    (37) expression -> . expression LE expression
+    (38) expression -> . expression GE expression
+    (39) expression -> . expression EQ expression
+    (40) expression -> . expression NE expression
+    (41) expression -> . expression AND expression
+    (42) expression -> . expression OR expression
+    (43) expression -> . + expression
+    (44) expression -> . - expression
+    (45) expression -> . ~ expression
+    (46) expression -> . ! expression
+    (47) expression -> . expression | expression
+    (48) expression -> . expression ^ expression
+    (49) expression -> . expression & expression
+    (50) expression -> . PLUSPLUS ID
+    (51) expression -> . MINUSMINUS ID
+    (52) expression -> . ( expression )
+    (53) expression -> . NUMBER
+    (54) expression -> . STRING
+    (55) expression -> . ID
+
+    ID              shift and go to state 16
+    +               shift and go to state 17
+    -               shift and go to state 18
+    ~               shift and go to state 19
+    !               shift and go to state 20
+    PLUSPLUS        shift and go to state 21
+    MINUSMINUS      shift and go to state 22
+    (               shift and go to state 10
+    NUMBER          shift and go to state 23
+    STRING          shift and go to state 24
+
+    expression                     shift and go to state 77
+
+state 37
+
+    (41) expression -> expression AND . expression
+    (29) expression -> . ID assign_op expression
+    (30) expression -> . expression + expression
+    (31) expression -> . expression - expression
+    (32) expression -> . expression * expression
+    (33) expression -> . expression / expression
+    (34) expression -> . expression % expression
+    (35) expression -> . expression < expression
+    (36) expression -> . expression > expression
+    (37) expression -> . expression LE expression
+    (38) expression -> . expression GE expression
+    (39) expression -> . expression EQ expression
+    (40) expression -> . expression NE expression
+    (41) expression -> . expression AND expression
+    (42) expression -> . expression OR expression
+    (43) expression -> . + expression
+    (44) expression -> . - expression
+    (45) expression -> . ~ expression
+    (46) expression -> . ! expression
+    (47) expression -> . expression | expression
+    (48) expression -> . expression ^ expression
+    (49) expression -> . expression & expression
+    (50) expression -> . PLUSPLUS ID
+    (51) expression -> . MINUSMINUS ID
+    (52) expression -> . ( expression )
+    (53) expression -> . NUMBER
+    (54) expression -> . STRING
+    (55) expression -> . ID
+
+    ID              shift and go to state 16
+    +               shift and go to state 17
+    -               shift and go to state 18
+    ~               shift and go to state 19
+    !               shift and go to state 20
+    PLUSPLUS        shift and go to state 21
+    MINUSMINUS      shift and go to state 22
+    (               shift and go to state 10
+    NUMBER          shift and go to state 23
+    STRING          shift and go to state 24
+
+    expression                     shift and go to state 78
+
+state 38
+
+    (42) expression -> expression OR . expression
+    (29) expression -> . ID assign_op expression
+    (30) expression -> . expression + expression
+    (31) expression -> . expression - expression
+    (32) expression -> . expression * expression
+    (33) expression -> . expression / expression
+    (34) expression -> . expression % expression
+    (35) expression -> . expression < expression
+    (36) expression -> . expression > expression
+    (37) expression -> . expression LE expression
+    (38) expression -> . expression GE expression
+    (39) expression -> . expression EQ expression
+    (40) expression -> . expression NE expression
+    (41) expression -> . expression AND expression
+    (42) expression -> . expression OR expression
+    (43) expression -> . + expression
+    (44) expression -> . - expression
+    (45) expression -> . ~ expression
+    (46) expression -> . ! expression
+    (47) expression -> . expression | expression
+    (48) expression -> . expression ^ expression
+    (49) expression -> . expression & expression
+    (50) expression -> . PLUSPLUS ID
+    (51) expression -> . MINUSMINUS ID
+    (52) expression -> . ( expression )
+    (53) expression -> . NUMBER
+    (54) expression -> . STRING
+    (55) expression -> . ID
+
+    ID              shift and go to state 16
+    +               shift and go to state 17
+    -               shift and go to state 18
+    ~               shift and go to state 19
+    !               shift and go to state 20
+    PLUSPLUS        shift and go to state 21
+    MINUSMINUS      shift and go to state 22
+    (               shift and go to state 10
+    NUMBER          shift and go to state 23
+    STRING          shift and go to state 24
+
+    expression                     shift and go to state 79
+
+state 39
+
+    (47) expression -> expression | . expression
+    (29) expression -> . ID assign_op expression
+    (30) expression -> . expression + expression
+    (31) expression -> . expression - expression
+    (32) expression -> . expression * expression
+    (33) expression -> . expression / expression
+    (34) expression -> . expression % expression
+    (35) expression -> . expression < expression
+    (36) expression -> . expression > expression
+    (37) expression -> . expression LE expression
+    (38) expression -> . expression GE expression
+    (39) expression -> . expression EQ expression
+    (40) expression -> . expression NE expression
+    (41) expression -> . expression AND expression
+    (42) expression -> . expression OR expression
+    (43) expression -> . + expression
+    (44) expression -> . - expression
+    (45) expression -> . ~ expression
+    (46) expression -> . ! expression
+    (47) expression -> . expression | expression
+    (48) expression -> . expression ^ expression
+    (49) expression -> . expression & expression
+    (50) expression -> . PLUSPLUS ID
+    (51) expression -> . MINUSMINUS ID
+    (52) expression -> . ( expression )
+    (53) expression -> . NUMBER
+    (54) expression -> . STRING
+    (55) expression -> . ID
+
+    ID              shift and go to state 16
+    +               shift and go to state 17
+    -               shift and go to state 18
+    ~               shift and go to state 19
+    !               shift and go to state 20
+    PLUSPLUS        shift and go to state 21
+    MINUSMINUS      shift and go to state 22
+    (               shift and go to state 10
+    NUMBER          shift and go to state 23
+    STRING          shift and go to state 24
+
+    expression                     shift and go to state 80
+
+state 40
+
+    (48) expression -> expression ^ . expression
+    (29) expression -> . ID assign_op expression
+    (30) expression -> . expression + expression
+    (31) expression -> . expression - expression
+    (32) expression -> . expression * expression
+    (33) expression -> . expression / expression
+    (34) expression -> . expression % expression
+    (35) expression -> . expression < expression
+    (36) expression -> . expression > expression
+    (37) expression -> . expression LE expression
+    (38) expression -> . expression GE expression
+    (39) expression -> . expression EQ expression
+    (40) expression -> . expression NE expression
+    (41) expression -> . expression AND expression
+    (42) expression -> . expression OR expression
+    (43) expression -> . + expression
+    (44) expression -> . - expression
+    (45) expression -> . ~ expression
+    (46) expression -> . ! expression
+    (47) expression -> . expression | expression
+    (48) expression -> . expression ^ expression
+    (49) expression -> . expression & expression
+    (50) expression -> . PLUSPLUS ID
+    (51) expression -> . MINUSMINUS ID
+    (52) expression -> . ( expression )
+    (53) expression -> . NUMBER
+    (54) expression -> . STRING
+    (55) expression -> . ID
+
+    ID              shift and go to state 16
+    +               shift and go to state 17
+    -               shift and go to state 18
+    ~               shift and go to state 19
+    !               shift and go to state 20
+    PLUSPLUS        shift and go to state 21
+    MINUSMINUS      shift and go to state 22
+    (               shift and go to state 10
+    NUMBER          shift and go to state 23
+    STRING          shift and go to state 24
+
+    expression                     shift and go to state 81
+
+state 41
+
+    (49) expression -> expression & . expression
+    (29) expression -> . ID assign_op expression
+    (30) expression -> . expression + expression
+    (31) expression -> . expression - expression
+    (32) expression -> . expression * expression
+    (33) expression -> . expression / expression
+    (34) expression -> . expression % expression
+    (35) expression -> . expression < expression
+    (36) expression -> . expression > expression
+    (37) expression -> . expression LE expression
+    (38) expression -> . expression GE expression
+    (39) expression -> . expression EQ expression
+    (40) expression -> . expression NE expression
+    (41) expression -> . expression AND expression
+    (42) expression -> . expression OR expression
+    (43) expression -> . + expression
+    (44) expression -> . - expression
+    (45) expression -> . ~ expression
+    (46) expression -> . ! expression
+    (47) expression -> . expression | expression
+    (48) expression -> . expression ^ expression
+    (49) expression -> . expression & expression
+    (50) expression -> . PLUSPLUS ID
+    (51) expression -> . MINUSMINUS ID
+    (52) expression -> . ( expression )
+    (53) expression -> . NUMBER
+    (54) expression -> . STRING
+    (55) expression -> . ID
+
+    ID              shift and go to state 16
+    +               shift and go to state 17
+    -               shift and go to state 18
+    ~               shift and go to state 19
+    !               shift and go to state 20
+    PLUSPLUS        shift and go to state 21
+    MINUSMINUS      shift and go to state 22
+    (               shift and go to state 10
+    NUMBER          shift and go to state 23
+    STRING          shift and go to state 24
+
+    expression                     shift and go to state 82
+
+state 42
+
+    (7) statement -> IF ( . expression ) statement
+    (8) statement -> IF ( . expression ) statement ELSE statement
+    (29) expression -> . ID assign_op expression
+    (30) expression -> . expression + expression
+    (31) expression -> . expression - expression
+    (32) expression -> . expression * expression
+    (33) expression -> . expression / expression
+    (34) expression -> . expression % expression
+    (35) expression -> . expression < expression
+    (36) expression -> . expression > expression
+    (37) expression -> . expression LE expression
+    (38) expression -> . expression GE expression
+    (39) expression -> . expression EQ expression
+    (40) expression -> . expression NE expression
+    (41) expression -> . expression AND expression
+    (42) expression -> . expression OR expression
+    (43) expression -> . + expression
+    (44) expression -> . - expression
+    (45) expression -> . ~ expression
+    (46) expression -> . ! expression
+    (47) expression -> . expression | expression
+    (48) expression -> . expression ^ expression
+    (49) expression -> . expression & expression
+    (50) expression -> . PLUSPLUS ID
+    (51) expression -> . MINUSMINUS ID
+    (52) expression -> . ( expression )
+    (53) expression -> . NUMBER
+    (54) expression -> . STRING
+    (55) expression -> . ID
+
+    ID              shift and go to state 16
+    +               shift and go to state 17
+    -               shift and go to state 18
+    ~               shift and go to state 19
+    !               shift and go to state 20
+    PLUSPLUS        shift and go to state 21
+    MINUSMINUS      shift and go to state 22
+    (               shift and go to state 10
+    NUMBER          shift and go to state 23
+    STRING          shift and go to state 24
+
+    expression                     shift and go to state 83
+
+state 43
+
+    (52) expression -> ( expression . )
+    (30) expression -> expression . + expression
+    (31) expression -> expression . - expression
+    (32) expression -> expression . * expression
+    (33) expression -> expression . / expression
+    (34) expression -> expression . % expression
+    (35) expression -> expression . < expression
+    (36) expression -> expression . > expression
+    (37) expression -> expression . LE expression
+    (38) expression -> expression . GE expression
+    (39) expression -> expression . EQ expression
+    (40) expression -> expression . NE expression
+    (41) expression -> expression . AND expression
+    (42) expression -> expression . OR expression
+    (47) expression -> expression . | expression
+    (48) expression -> expression . ^ expression
+    (49) expression -> expression . & expression
+
+    )               shift and go to state 84
+    +               shift and go to state 26
+    -               shift and go to state 27
+    *               shift and go to state 28
+    /               shift and go to state 29
+    %               shift and go to state 30
+    <               shift and go to state 31
+    >               shift and go to state 32
+    LE              shift and go to state 33
+    GE              shift and go to state 34
+    EQ              shift and go to state 35
+    NE              shift and go to state 36
+    AND             shift and go to state 37
+    OR              shift and go to state 38
+    |               shift and go to state 39
+    ^               shift and go to state 40
+    &               shift and go to state 41
+
+
+state 44
+
+    (9) statement -> WHILE ( . expression ) statement
+    (29) expression -> . ID assign_op expression
+    (30) expression -> . expression + expression
+    (31) expression -> . expression - expression
+    (32) expression -> . expression * expression
+    (33) expression -> . expression / expression
+    (34) expression -> . expression % expression
+    (35) expression -> . expression < expression
+    (36) expression -> . expression > expression
+    (37) expression -> . expression LE expression
+    (38) expression -> . expression GE expression
+    (39) expression -> . expression EQ expression
+    (40) expression -> . expression NE expression
+    (41) expression -> . expression AND expression
+    (42) expression -> . expression OR expression
+    (43) expression -> . + expression
+    (44) expression -> . - expression
+    (45) expression -> . ~ expression
+    (46) expression -> . ! expression
+    (47) expression -> . expression | expression
+    (48) expression -> . expression ^ expression
+    (49) expression -> . expression & expression
+    (50) expression -> . PLUSPLUS ID
+    (51) expression -> . MINUSMINUS ID
+    (52) expression -> . ( expression )
+    (53) expression -> . NUMBER
+    (54) expression -> . STRING
+    (55) expression -> . ID
+
+    ID              shift and go to state 16
+    +               shift and go to state 17
+    -               shift and go to state 18
+    ~               shift and go to state 19
+    !               shift and go to state 20
+    PLUSPLUS        shift and go to state 21
+    MINUSMINUS      shift and go to state 22
+    (               shift and go to state 10
+    NUMBER          shift and go to state 23
+    STRING          shift and go to state 24
+
+    expression                     shift and go to state 85
+
+state 45
+
+    (10) statement -> DO statement . WHILE ( expression ) ;
+
+    WHILE           shift and go to state 86
+
+
+state 46
+
+    (11) statement -> FOR ( . opt_expr ; opt_expr ; opt_expr ) statement
+    (12) opt_expr -> . expression
+    (13) opt_expr -> .
+    (29) expression -> . ID assign_op expression
+    (30) expression -> . expression + expression
+    (31) expression -> . expression - expression
+    (32) expression -> . expression * expression
+    (33) expression -> . expression / expression
+    (34) expression -> . expression % expression
+    (35) expression -> . expression < expression
+    (36) expression -> . expression > expression
+    (37) expression -> . expression LE expression
+    (38) expression -> . expression GE expression
+    (39) expression -> . expression EQ expression
+    (40) expression -> . expression NE expression
+    (41) expression -> . expression AND expression
+    (42) expression -> . expression OR expression
+    (43) expression -> . + expression
+    (44) expression -> . - expression
+    (45) expression -> . ~ expression
+    (46) expression -> . ! expression
+    (47) expression -> . expression | expression
+    (48) expression -> . expression ^ expression
+    (49) expression -> . expression & expression
+    (50) expression -> . PLUSPLUS ID
+    (51) expression -> . MINUSMINUS ID
+    (52) expression -> . ( expression )
+    (53) expression -> . NUMBER
+    (54) expression -> . STRING
+    (55) expression -> . ID
+
+    ;               reduce using rule 13 (opt_expr -> .)
+    ID              shift and go to state 16
+    +               shift and go to state 17
+    -               shift and go to state 18
+    ~               shift and go to state 19
+    !               shift and go to state 20
+    PLUSPLUS        shift and go to state 21
+    MINUSMINUS      shift and go to state 22
+    (               shift and go to state 10
+    NUMBER          shift and go to state 23
+    STRING          shift and go to state 24
+
+    opt_expr                       shift and go to state 87
+    expression                     shift and go to state 88
+
+state 47
+
+    (14) statement -> PRINT ( . print_args ) ;
+    (15) print_args -> . STRING , expression
+    (16) print_args -> . STRING
+
+    STRING          shift and go to state 90
+
+    print_args                     shift and go to state 89
+
+state 48
+
+    (17) statement -> SCAN ( . ID ) ;
+
+    ID              shift and go to state 91
+
+
+state 49
+
+    (29) expression -> ID assign_op . expression
+    (29) expression -> . ID assign_op expression
+    (30) expression -> . expression + expression
+    (31) expression -> . expression - expression
+    (32) expression -> . expression * expression
+    (33) expression -> . expression / expression
+    (34) expression -> . expression % expression
+    (35) expression -> . expression < expression
+    (36) expression -> . expression > expression
+    (37) expression -> . expression LE expression
+    (38) expression -> . expression GE expression
+    (39) expression -> . expression EQ expression
+    (40) expression -> . expression NE expression
+    (41) expression -> . expression AND expression
+    (42) expression -> . expression OR expression
+    (43) expression -> . + expression
+    (44) expression -> . - expression
+    (45) expression -> . ~ expression
+    (46) expression -> . ! expression
+    (47) expression -> . expression | expression
+    (48) expression -> . expression ^ expression
+    (49) expression -> . expression & expression
+    (50) expression -> . PLUSPLUS ID
+    (51) expression -> . MINUSMINUS ID
+    (52) expression -> . ( expression )
+    (53) expression -> . NUMBER
+    (54) expression -> . STRING
+    (55) expression -> . ID
+
+    ID              shift and go to state 16
+    +               shift and go to state 17
+    -               shift and go to state 18
+    ~               shift and go to state 19
+    !               shift and go to state 20
+    PLUSPLUS        shift and go to state 21
+    MINUSMINUS      shift and go to state 22
+    (               shift and go to state 10
+    NUMBER          shift and go to state 23
+    STRING          shift and go to state 24
+
+    expression                     shift and go to state 92
+
+state 50
+
+    (18) assign_op -> = .
+
+    ID              reduce using rule 18 (assign_op -> = .)
+    +               reduce using rule 18 (assign_op -> = .)
+    -               reduce using rule 18 (assign_op -> = .)
+    ~               reduce using rule 18 (assign_op -> = .)
+    !               reduce using rule 18 (assign_op -> = .)
+    PLUSPLUS        reduce using rule 18 (assign_op -> = .)
+    MINUSMINUS      reduce using rule 18 (assign_op -> = .)
+    (               reduce using rule 18 (assign_op -> = .)
+    NUMBER          reduce using rule 18 (assign_op -> = .)
+    STRING          reduce using rule 18 (assign_op -> = .)
+
+
+state 51
+
+    (19) assign_op -> PLUSEQ .
+
+    ID              reduce using rule 19 (assign_op -> PLUSEQ .)
+    +               reduce using rule 19 (assign_op -> PLUSEQ .)
+    -               reduce using rule 19 (assign_op -> PLUSEQ .)
+    ~               reduce using rule 19 (assign_op -> PLUSEQ .)
+    !               reduce using rule 19 (assign_op -> PLUSEQ .)
+    PLUSPLUS        reduce using rule 19 (assign_op -> PLUSEQ .)
+    MINUSMINUS      reduce using rule 19 (assign_op -> PLUSEQ .)
+    (               reduce using rule 19 (assign_op -> PLUSEQ .)
+    NUMBER          reduce using rule 19 (assign_op -> PLUSEQ .)
+    STRING          reduce using rule 19 (assign_op -> PLUSEQ .)
+
+
+state 52
+
+    (20) assign_op -> MINUSEQ .
+
+    ID              reduce using rule 20 (assign_op -> MINUSEQ .)
+    +               reduce using rule 20 (assign_op -> MINUSEQ .)
+    -               reduce using rule 20 (assign_op -> MINUSEQ .)
+    ~               reduce using rule 20 (assign_op -> MINUSEQ .)
+    !               reduce using rule 20 (assign_op -> MINUSEQ .)
+    PLUSPLUS        reduce using rule 20 (assign_op -> MINUSEQ .)
+    MINUSMINUS      reduce using rule 20 (assign_op -> MINUSEQ .)
+    (               reduce using rule 20 (assign_op -> MINUSEQ .)
+    NUMBER          reduce using rule 20 (assign_op -> MINUSEQ .)
+    STRING          reduce using rule 20 (assign_op -> MINUSEQ .)
+
+
+state 53
+
+    (21) assign_op -> TIMESEQ .
+
+    ID              reduce using rule 21 (assign_op -> TIMESEQ .)
+    +               reduce using rule 21 (assign_op -> TIMESEQ .)
+    -               reduce using rule 21 (assign_op -> TIMESEQ .)
+    ~               reduce using rule 21 (assign_op -> TIMESEQ .)
+    !               reduce using rule 21 (assign_op -> TIMESEQ .)
+    PLUSPLUS        reduce using rule 21 (assign_op -> TIMESEQ .)
+    MINUSMINUS      reduce using rule 21 (assign_op -> TIMESEQ .)
+    (               reduce using rule 21 (assign_op -> TIMESEQ .)
+    NUMBER          reduce using rule 21 (assign_op -> TIMESEQ .)
+    STRING          reduce using rule 21 (assign_op -> TIMESEQ .)
+
+
+state 54
+
+    (22) assign_op -> DIVEQ .
+
+    ID              reduce using rule 22 (assign_op -> DIVEQ .)
+    +               reduce using rule 22 (assign_op -> DIVEQ .)
+    -               reduce using rule 22 (assign_op -> DIVEQ .)
+    ~               reduce using rule 22 (assign_op -> DIVEQ .)
+    !               reduce using rule 22 (assign_op -> DIVEQ .)
+    PLUSPLUS        reduce using rule 22 (assign_op -> DIVEQ .)
+    MINUSMINUS      reduce using rule 22 (assign_op -> DIVEQ .)
+    (               reduce using rule 22 (assign_op -> DIVEQ .)
+    NUMBER          reduce using rule 22 (assign_op -> DIVEQ .)
+    STRING          reduce using rule 22 (assign_op -> DIVEQ .)
+
+
+state 55
+
+    (23) assign_op -> MODEQ .
+
+    ID              reduce using rule 23 (assign_op -> MODEQ .)
+    +               reduce using rule 23 (assign_op -> MODEQ .)
+    -               reduce using rule 23 (assign_op -> MODEQ .)
+    ~               reduce using rule 23 (assign_op -> MODEQ .)
+    !               reduce using rule 23 (assign_op -> MODEQ .)
+    PLUSPLUS        reduce using rule 23 (assign_op -> MODEQ .)
+    MINUSMINUS      reduce using rule 23 (assign_op -> MODEQ .)
+    (               reduce using rule 23 (assign_op -> MODEQ .)
+    NUMBER          reduce using rule 23 (assign_op -> MODEQ .)
+    STRING          reduce using rule 23 (assign_op -> MODEQ .)
+
+
+state 56
+
+    (24) assign_op -> LSHIFTEQ .
+
+    ID              reduce using rule 24 (assign_op -> LSHIFTEQ .)
+    +               reduce using rule 24 (assign_op -> LSHIFTEQ .)
+    -               reduce using rule 24 (assign_op -> LSHIFTEQ .)
+    ~               reduce using rule 24 (assign_op -> LSHIFTEQ .)
+    !               reduce using rule 24 (assign_op -> LSHIFTEQ .)
+    PLUSPLUS        reduce using rule 24 (assign_op -> LSHIFTEQ .)
+    MINUSMINUS      reduce using rule 24 (assign_op -> LSHIFTEQ .)
+    (               reduce using rule 24 (assign_op -> LSHIFTEQ .)
+    NUMBER          reduce using rule 24 (assign_op -> LSHIFTEQ .)
+    STRING          reduce using rule 24 (assign_op -> LSHIFTEQ .)
+
+
+state 57
+
+    (25) assign_op -> RSHIFTEQ .
+
+    ID              reduce using rule 25 (assign_op -> RSHIFTEQ .)
+    +               reduce using rule 25 (assign_op -> RSHIFTEQ .)
+    -               reduce using rule 25 (assign_op -> RSHIFTEQ .)
+    ~               reduce using rule 25 (assign_op -> RSHIFTEQ .)
+    !               reduce using rule 25 (assign_op -> RSHIFTEQ .)
+    PLUSPLUS        reduce using rule 25 (assign_op -> RSHIFTEQ .)
+    MINUSMINUS      reduce using rule 25 (assign_op -> RSHIFTEQ .)
+    (               reduce using rule 25 (assign_op -> RSHIFTEQ .)
+    NUMBER          reduce using rule 25 (assign_op -> RSHIFTEQ .)
+    STRING          reduce using rule 25 (assign_op -> RSHIFTEQ .)
+
+
+state 58
+
+    (26) assign_op -> ANDEQ .
+
+    ID              reduce using rule 26 (assign_op -> ANDEQ .)
+    +               reduce using rule 26 (assign_op -> ANDEQ .)
+    -               reduce using rule 26 (assign_op -> ANDEQ .)
+    ~               reduce using rule 26 (assign_op -> ANDEQ .)
+    !               reduce using rule 26 (assign_op -> ANDEQ .)
+    PLUSPLUS        reduce using rule 26 (assign_op -> ANDEQ .)
+    MINUSMINUS      reduce using rule 26 (assign_op -> ANDEQ .)
+    (               reduce using rule 26 (assign_op -> ANDEQ .)
+    NUMBER          reduce using rule 26 (assign_op -> ANDEQ .)
+    STRING          reduce using rule 26 (assign_op -> ANDEQ .)
+
+
+state 59
+
+    (27) assign_op -> XOREQ .
+
+    ID              reduce using rule 27 (assign_op -> XOREQ .)
+    +               reduce using rule 27 (assign_op -> XOREQ .)
+    -               reduce using rule 27 (assign_op -> XOREQ .)
+    ~               reduce using rule 27 (assign_op -> XOREQ .)
+    !               reduce using rule 27 (assign_op -> XOREQ .)
+    PLUSPLUS        reduce using rule 27 (assign_op -> XOREQ .)
+    MINUSMINUS      reduce using rule 27 (assign_op -> XOREQ .)
+    (               reduce using rule 27 (assign_op -> XOREQ .)
+    NUMBER          reduce using rule 27 (assign_op -> XOREQ .)
+    STRING          reduce using rule 27 (assign_op -> XOREQ .)
+
+
+state 60
+
+    (28) assign_op -> OREQ .
+
+    ID              reduce using rule 28 (assign_op -> OREQ .)
+    +               reduce using rule 28 (assign_op -> OREQ .)
+    -               reduce using rule 28 (assign_op -> OREQ .)
+    ~               reduce using rule 28 (assign_op -> OREQ .)
+    !               reduce using rule 28 (assign_op -> OREQ .)
+    PLUSPLUS        reduce using rule 28 (assign_op -> OREQ .)
+    MINUSMINUS      reduce using rule 28 (assign_op -> OREQ .)
+    (               reduce using rule 28 (assign_op -> OREQ .)
+    NUMBER          reduce using rule 28 (assign_op -> OREQ .)
+    STRING          reduce using rule 28 (assign_op -> OREQ .)
+
+
+state 61
+
+    (43) expression -> + expression .
+    (30) expression -> expression . + expression
+    (31) expression -> expression . - expression
+    (32) expression -> expression . * expression
+    (33) expression -> expression . / expression
+    (34) expression -> expression . % expression
+    (35) expression -> expression . < expression
+    (36) expression -> expression . > expression
+    (37) expression -> expression . LE expression
+    (38) expression -> expression . GE expression
+    (39) expression -> expression . EQ expression
+    (40) expression -> expression . NE expression
+    (41) expression -> expression . AND expression
+    (42) expression -> expression . OR expression
+    (47) expression -> expression . | expression
+    (48) expression -> expression . ^ expression
+    (49) expression -> expression . & expression
+
+    ;               reduce using rule 43 (expression -> + expression .)
+    +               reduce using rule 43 (expression -> + expression .)
+    -               reduce using rule 43 (expression -> + expression .)
+    *               reduce using rule 43 (expression -> + expression .)
+    /               reduce using rule 43 (expression -> + expression .)
+    %               reduce using rule 43 (expression -> + expression .)
+    <               reduce using rule 43 (expression -> + expression .)
+    >               reduce using rule 43 (expression -> + expression .)
+    LE              reduce using rule 43 (expression -> + expression .)
+    GE              reduce using rule 43 (expression -> + expression .)
+    EQ              reduce using rule 43 (expression -> + expression .)
+    NE              reduce using rule 43 (expression -> + expression .)
+    AND             reduce using rule 43 (expression -> + expression .)
+    OR              reduce using rule 43 (expression -> + expression .)
+    |               reduce using rule 43 (expression -> + expression .)
+    ^               reduce using rule 43 (expression -> + expression .)
+    &               reduce using rule 43 (expression -> + expression .)
+    )               reduce using rule 43 (expression -> + expression .)
+
+  ! +               [ shift and go to state 26 ]
+  ! -               [ shift and go to state 27 ]
+  ! *               [ shift and go to state 28 ]
+  ! /               [ shift and go to state 29 ]
+  ! %               [ shift and go to state 30 ]
+  ! <               [ shift and go to state 31 ]
+  ! >               [ shift and go to state 32 ]
+  ! LE              [ shift and go to state 33 ]
+  ! GE              [ shift and go to state 34 ]
+  ! EQ              [ shift and go to state 35 ]
+  ! NE              [ shift and go to state 36 ]
+  ! AND             [ shift and go to state 37 ]
+  ! OR              [ shift and go to state 38 ]
+  ! |               [ shift and go to state 39 ]
+  ! ^               [ shift and go to state 40 ]
+  ! &               [ shift and go to state 41 ]
+
+
+state 62
+
+    (44) expression -> - expression .
+    (30) expression -> expression . + expression
+    (31) expression -> expression . - expression
+    (32) expression -> expression . * expression
+    (33) expression -> expression . / expression
+    (34) expression -> expression . % expression
+    (35) expression -> expression . < expression
+    (36) expression -> expression . > expression
+    (37) expression -> expression . LE expression
+    (38) expression -> expression . GE expression
+    (39) expression -> expression . EQ expression
+    (40) expression -> expression . NE expression
+    (41) expression -> expression . AND expression
+    (42) expression -> expression . OR expression
+    (47) expression -> expression . | expression
+    (48) expression -> expression . ^ expression
+    (49) expression -> expression . & expression
+
+    ;               reduce using rule 44 (expression -> - expression .)
+    +               reduce using rule 44 (expression -> - expression .)
+    -               reduce using rule 44 (expression -> - expression .)
+    *               reduce using rule 44 (expression -> - expression .)
+    /               reduce using rule 44 (expression -> - expression .)
+    %               reduce using rule 44 (expression -> - expression .)
+    <               reduce using rule 44 (expression -> - expression .)
+    >               reduce using rule 44 (expression -> - expression .)
+    LE              reduce using rule 44 (expression -> - expression .)
+    GE              reduce using rule 44 (expression -> - expression .)
+    EQ              reduce using rule 44 (expression -> - expression .)
+    NE              reduce using rule 44 (expression -> - expression .)
+    AND             reduce using rule 44 (expression -> - expression .)
+    OR              reduce using rule 44 (expression -> - expression .)
+    |               reduce using rule 44 (expression -> - expression .)
+    ^               reduce using rule 44 (expression -> - expression .)
+    &               reduce using rule 44 (expression -> - expression .)
+    )               reduce using rule 44 (expression -> - expression .)
+
+  ! +               [ shift and go to state 26 ]
+  ! -               [ shift and go to state 27 ]
+  ! *               [ shift and go to state 28 ]
+  ! /               [ shift and go to state 29 ]
+  ! %               [ shift and go to state 30 ]
+  ! <               [ shift and go to state 31 ]
+  ! >               [ shift and go to state 32 ]
+  ! LE              [ shift and go to state 33 ]
+  ! GE              [ shift and go to state 34 ]
+  ! EQ              [ shift and go to state 35 ]
+  ! NE              [ shift and go to state 36 ]
+  ! AND             [ shift and go to state 37 ]
+  ! OR              [ shift and go to state 38 ]
+  ! |               [ shift and go to state 39 ]
+  ! ^               [ shift and go to state 40 ]
+  ! &               [ shift and go to state 41 ]
+
+
+state 63
+
+    (45) expression -> ~ expression .
+    (30) expression -> expression . + expression
+    (31) expression -> expression . - expression
+    (32) expression -> expression . * expression
+    (33) expression -> expression . / expression
+    (34) expression -> expression . % expression
+    (35) expression -> expression . < expression
+    (36) expression -> expression . > expression
+    (37) expression -> expression . LE expression
+    (38) expression -> expression . GE expression
+    (39) expression -> expression . EQ expression
+    (40) expression -> expression . NE expression
+    (41) expression -> expression . AND expression
+    (42) expression -> expression . OR expression
+    (47) expression -> expression . | expression
+    (48) expression -> expression . ^ expression
+    (49) expression -> expression . & expression
+
+  ! shift/reduce conflict for + resolved as shift
+  ! shift/reduce conflict for - resolved as shift
+  ! shift/reduce conflict for * resolved as shift
+  ! shift/reduce conflict for / resolved as shift
+  ! shift/reduce conflict for % resolved as shift
+  ! shift/reduce conflict for < resolved as shift
+  ! shift/reduce conflict for > resolved as shift
+  ! shift/reduce conflict for LE resolved as shift
+  ! shift/reduce conflict for GE resolved as shift
+  ! shift/reduce conflict for EQ resolved as shift
+  ! shift/reduce conflict for NE resolved as shift
+  ! shift/reduce conflict for AND resolved as shift
+  ! shift/reduce conflict for OR resolved as shift
+  ! shift/reduce conflict for | resolved as shift
+  ! shift/reduce conflict for ^ resolved as shift
+  ! shift/reduce conflict for & resolved as shift
+    ;               reduce using rule 45 (expression -> ~ expression .)
+    )               reduce using rule 45 (expression -> ~ expression .)
+    +               shift and go to state 26
+    -               shift and go to state 27
+    *               shift and go to state 28
+    /               shift and go to state 29
+    %               shift and go to state 30
+    <               shift and go to state 31
+    >               shift and go to state 32
+    LE              shift and go to state 33
+    GE              shift and go to state 34
+    EQ              shift and go to state 35
+    NE              shift and go to state 36
+    AND             shift and go to state 37
+    OR              shift and go to state 38
+    |               shift and go to state 39
+    ^               shift and go to state 40
+    &               shift and go to state 41
+
+  ! +               [ reduce using rule 45 (expression -> ~ expression .) ]
+  ! -               [ reduce using rule 45 (expression -> ~ expression .) ]
+  ! *               [ reduce using rule 45 (expression -> ~ expression .) ]
+  ! /               [ reduce using rule 45 (expression -> ~ expression .) ]
+  ! %               [ reduce using rule 45 (expression -> ~ expression .) ]
+  ! <               [ reduce using rule 45 (expression -> ~ expression .) ]
+  ! >               [ reduce using rule 45 (expression -> ~ expression .) ]
+  ! LE              [ reduce using rule 45 (expression -> ~ expression .) ]
+  ! GE              [ reduce using rule 45 (expression -> ~ expression .) ]
+  ! EQ              [ reduce using rule 45 (expression -> ~ expression .) ]
+  ! NE              [ reduce using rule 45 (expression -> ~ expression .) ]
+  ! AND             [ reduce using rule 45 (expression -> ~ expression .) ]
+  ! OR              [ reduce using rule 45 (expression -> ~ expression .) ]
+  ! |               [ reduce using rule 45 (expression -> ~ expression .) ]
+  ! ^               [ reduce using rule 45 (expression -> ~ expression .) ]
+  ! &               [ reduce using rule 45 (expression -> ~ expression .) ]
+
+
+state 64
+
+    (46) expression -> ! expression .
+    (30) expression -> expression . + expression
+    (31) expression -> expression . - expression
+    (32) expression -> expression . * expression
+    (33) expression -> expression . / expression
+    (34) expression -> expression . % expression
+    (35) expression -> expression . < expression
+    (36) expression -> expression . > expression
+    (37) expression -> expression . LE expression
+    (38) expression -> expression . GE expression
+    (39) expression -> expression . EQ expression
+    (40) expression -> expression . NE expression
+    (41) expression -> expression . AND expression
+    (42) expression -> expression . OR expression
+    (47) expression -> expression . | expression
+    (48) expression -> expression . ^ expression
+    (49) expression -> expression . & expression
+
+  ! shift/reduce conflict for + resolved as shift
+  ! shift/reduce conflict for - resolved as shift
+  ! shift/reduce conflict for * resolved as shift
+  ! shift/reduce conflict for / resolved as shift
+  ! shift/reduce conflict for % resolved as shift
+  ! shift/reduce conflict for < resolved as shift
+  ! shift/reduce conflict for > resolved as shift
+  ! shift/reduce conflict for LE resolved as shift
+  ! shift/reduce conflict for GE resolved as shift
+  ! shift/reduce conflict for EQ resolved as shift
+  ! shift/reduce conflict for NE resolved as shift
+  ! shift/reduce conflict for AND resolved as shift
+  ! shift/reduce conflict for OR resolved as shift
+  ! shift/reduce conflict for | resolved as shift
+  ! shift/reduce conflict for ^ resolved as shift
+  ! shift/reduce conflict for & resolved as shift
+    ;               reduce using rule 46 (expression -> ! expression .)
+    )               reduce using rule 46 (expression -> ! expression .)
+    +               shift and go to state 26
+    -               shift and go to state 27
+    *               shift and go to state 28
+    /               shift and go to state 29
+    %               shift and go to state 30
+    <               shift and go to state 31
+    >               shift and go to state 32
+    LE              shift and go to state 33
+    GE              shift and go to state 34
+    EQ              shift and go to state 35
+    NE              shift and go to state 36
+    AND             shift and go to state 37
+    OR              shift and go to state 38
+    |               shift and go to state 39
+    ^               shift and go to state 40
+    &               shift and go to state 41
+
+  ! +               [ reduce using rule 46 (expression -> ! expression .) ]
+  ! -               [ reduce using rule 46 (expression -> ! expression .) ]
+  ! *               [ reduce using rule 46 (expression -> ! expression .) ]
+  ! /               [ reduce using rule 46 (expression -> ! expression .) ]
+  ! %               [ reduce using rule 46 (expression -> ! expression .) ]
+  ! <               [ reduce using rule 46 (expression -> ! expression .) ]
+  ! >               [ reduce using rule 46 (expression -> ! expression .) ]
+  ! LE              [ reduce using rule 46 (expression -> ! expression .) ]
+  ! GE              [ reduce using rule 46 (expression -> ! expression .) ]
+  ! EQ              [ reduce using rule 46 (expression -> ! expression .) ]
+  ! NE              [ reduce using rule 46 (expression -> ! expression .) ]
+  ! AND             [ reduce using rule 46 (expression -> ! expression .) ]
+  ! OR              [ reduce using rule 46 (expression -> ! expression .) ]
+  ! |               [ reduce using rule 46 (expression -> ! expression .) ]
+  ! ^               [ reduce using rule 46 (expression -> ! expression .) ]
+  ! &               [ reduce using rule 46 (expression -> ! expression .) ]
+
+
+state 65
+
+    (50) expression -> PLUSPLUS ID .
+
+    ;               reduce using rule 50 (expression -> PLUSPLUS ID .)
+    +               reduce using rule 50 (expression -> PLUSPLUS ID .)
+    -               reduce using rule 50 (expression -> PLUSPLUS ID .)
+    *               reduce using rule 50 (expression -> PLUSPLUS ID .)
+    /               reduce using rule 50 (expression -> PLUSPLUS ID .)
+    %               reduce using rule 50 (expression -> PLUSPLUS ID .)
+    <               reduce using rule 50 (expression -> PLUSPLUS ID .)
+    >               reduce using rule 50 (expression -> PLUSPLUS ID .)
+    LE              reduce using rule 50 (expression -> PLUSPLUS ID .)
+    GE              reduce using rule 50 (expression -> PLUSPLUS ID .)
+    EQ              reduce using rule 50 (expression -> PLUSPLUS ID .)
+    NE              reduce using rule 50 (expression -> PLUSPLUS ID .)
+    AND             reduce using rule 50 (expression -> PLUSPLUS ID .)
+    OR              reduce using rule 50 (expression -> PLUSPLUS ID .)
+    |               reduce using rule 50 (expression -> PLUSPLUS ID .)
+    ^               reduce using rule 50 (expression -> PLUSPLUS ID .)
+    &               reduce using rule 50 (expression -> PLUSPLUS ID .)
+    )               reduce using rule 50 (expression -> PLUSPLUS ID .)
+
+
+state 66
+
+    (51) expression -> MINUSMINUS ID .
+
+    ;               reduce using rule 51 (expression -> MINUSMINUS ID .)
+    +               reduce using rule 51 (expression -> MINUSMINUS ID .)
+    -               reduce using rule 51 (expression -> MINUSMINUS ID .)
+    *               reduce using rule 51 (expression -> MINUSMINUS ID .)
+    /               reduce using rule 51 (expression -> MINUSMINUS ID .)
+    %               reduce using rule 51 (expression -> MINUSMINUS ID .)
+    <               reduce using rule 51 (expression -> MINUSMINUS ID .)
+    >               reduce using rule 51 (expression -> MINUSMINUS ID .)
+    LE              reduce using rule 51 (expression -> MINUSMINUS ID .)
+    GE              reduce using rule 51 (expression -> MINUSMINUS ID .)
+    EQ              reduce using rule 51 (expression -> MINUSMINUS ID .)
+    NE              reduce using rule 51 (expression -> MINUSMINUS ID .)
+    AND             reduce using rule 51 (expression -> MINUSMINUS ID .)
+    OR              reduce using rule 51 (expression -> MINUSMINUS ID .)
+    |               reduce using rule 51 (expression -> MINUSMINUS ID .)
+    ^               reduce using rule 51 (expression -> MINUSMINUS ID .)
+    &               reduce using rule 51 (expression -> MINUSMINUS ID .)
+    )               reduce using rule 51 (expression -> MINUSMINUS ID .)
+
+
+state 67
+
+    (30) expression -> expression + expression .
+    (30) expression -> expression . + expression
+    (31) expression -> expression . - expression
+    (32) expression -> expression . * expression
+    (33) expression -> expression . / expression
+    (34) expression -> expression . % expression
+    (35) expression -> expression . < expression
+    (36) expression -> expression . > expression
+    (37) expression -> expression . LE expression
+    (38) expression -> expression . GE expression
+    (39) expression -> expression . EQ expression
+    (40) expression -> expression . NE expression
+    (41) expression -> expression . AND expression
+    (42) expression -> expression . OR expression
+    (47) expression -> expression . | expression
+    (48) expression -> expression . ^ expression
+    (49) expression -> expression . & expression
+
+    ;               reduce using rule 30 (expression -> expression + expression .)
+    +               reduce using rule 30 (expression -> expression + expression .)
+    -               reduce using rule 30 (expression -> expression + expression .)
+    <               reduce using rule 30 (expression -> expression + expression .)
+    >               reduce using rule 30 (expression -> expression + expression .)
+    LE              reduce using rule 30 (expression -> expression + expression .)
+    GE              reduce using rule 30 (expression -> expression + expression .)
+    EQ              reduce using rule 30 (expression -> expression + expression .)
+    NE              reduce using rule 30 (expression -> expression + expression .)
+    AND             reduce using rule 30 (expression -> expression + expression .)
+    OR              reduce using rule 30 (expression -> expression + expression .)
+    )               reduce using rule 30 (expression -> expression + expression .)
+    *               shift and go to state 28
+    /               shift and go to state 29
+    %               shift and go to state 30
+    |               shift and go to state 39
+    ^               shift and go to state 40
+    &               shift and go to state 41
+
+  ! *               [ reduce using rule 30 (expression -> expression + expression .) ]
+  ! /               [ reduce using rule 30 (expression -> expression + expression .) ]
+  ! %               [ reduce using rule 30 (expression -> expression + expression .) ]
+  ! |               [ reduce using rule 30 (expression -> expression + expression .) ]
+  ! ^               [ reduce using rule 30 (expression -> expression + expression .) ]
+  ! &               [ reduce using rule 30 (expression -> expression + expression .) ]
+  ! +               [ shift and go to state 26 ]
+  ! -               [ shift and go to state 27 ]
+  ! <               [ shift and go to state 31 ]
+  ! >               [ shift and go to state 32 ]
+  ! LE              [ shift and go to state 33 ]
+  ! GE              [ shift and go to state 34 ]
+  ! EQ              [ shift and go to state 35 ]
+  ! NE              [ shift and go to state 36 ]
+  ! AND             [ shift and go to state 37 ]
+  ! OR              [ shift and go to state 38 ]
+
+
+state 68
+
+    (31) expression -> expression - expression .
+    (30) expression -> expression . + expression
+    (31) expression -> expression . - expression
+    (32) expression -> expression . * expression
+    (33) expression -> expression . / expression
+    (34) expression -> expression . % expression
+    (35) expression -> expression . < expression
+    (36) expression -> expression . > expression
+    (37) expression -> expression . LE expression
+    (38) expression -> expression . GE expression
+    (39) expression -> expression . EQ expression
+    (40) expression -> expression . NE expression
+    (41) expression -> expression . AND expression
+    (42) expression -> expression . OR expression
+    (47) expression -> expression . | expression
+    (48) expression -> expression . ^ expression
+    (49) expression -> expression . & expression
+
+    ;               reduce using rule 31 (expression -> expression - expression .)
+    +               reduce using rule 31 (expression -> expression - expression .)
+    -               reduce using rule 31 (expression -> expression - expression .)
+    <               reduce using rule 31 (expression -> expression - expression .)
+    >               reduce using rule 31 (expression -> expression - expression .)
+    LE              reduce using rule 31 (expression -> expression - expression .)
+    GE              reduce using rule 31 (expression -> expression - expression .)
+    EQ              reduce using rule 31 (expression -> expression - expression .)
+    NE              reduce using rule 31 (expression -> expression - expression .)
+    AND             reduce using rule 31 (expression -> expression - expression .)
+    OR              reduce using rule 31 (expression -> expression - expression .)
+    )               reduce using rule 31 (expression -> expression - expression .)
+    *               shift and go to state 28
+    /               shift and go to state 29
+    %               shift and go to state 30
+    |               shift and go to state 39
+    ^               shift and go to state 40
+    &               shift and go to state 41
+
+  ! *               [ reduce using rule 31 (expression -> expression - expression .) ]
+  ! /               [ reduce using rule 31 (expression -> expression - expression .) ]
+  ! %               [ reduce using rule 31 (expression -> expression - expression .) ]
+  ! |               [ reduce using rule 31 (expression -> expression - expression .) ]
+  ! ^               [ reduce using rule 31 (expression -> expression - expression .) ]
+  ! &               [ reduce using rule 31 (expression -> expression - expression .) ]
+  ! +               [ shift and go to state 26 ]
+  ! -               [ shift and go to state 27 ]
+  ! <               [ shift and go to state 31 ]
+  ! >               [ shift and go to state 32 ]
+  ! LE              [ shift and go to state 33 ]
+  ! GE              [ shift and go to state 34 ]
+  ! EQ              [ shift and go to state 35 ]
+  ! NE              [ shift and go to state 36 ]
+  ! AND             [ shift and go to state 37 ]
+  ! OR              [ shift and go to state 38 ]
+
+
+state 69
+
+    (32) expression -> expression * expression .
+    (30) expression -> expression . + expression
+    (31) expression -> expression . - expression
+    (32) expression -> expression . * expression
+    (33) expression -> expression . / expression
+    (34) expression -> expression . % expression
+    (35) expression -> expression . < expression
+    (36) expression -> expression . > expression
+    (37) expression -> expression . LE expression
+    (38) expression -> expression . GE expression
+    (39) expression -> expression . EQ expression
+    (40) expression -> expression . NE expression
+    (41) expression -> expression . AND expression
+    (42) expression -> expression . OR expression
+    (47) expression -> expression . | expression
+    (48) expression -> expression . ^ expression
+    (49) expression -> expression . & expression
+
+    ;               reduce using rule 32 (expression -> expression * expression .)
+    +               reduce using rule 32 (expression -> expression * expression .)
+    -               reduce using rule 32 (expression -> expression * expression .)
+    *               reduce using rule 32 (expression -> expression * expression .)
+    /               reduce using rule 32 (expression -> expression * expression .)
+    %               reduce using rule 32 (expression -> expression * expression .)
+    <               reduce using rule 32 (expression -> expression * expression .)
+    >               reduce using rule 32 (expression -> expression * expression .)
+    LE              reduce using rule 32 (expression -> expression * expression .)
+    GE              reduce using rule 32 (expression -> expression * expression .)
+    EQ              reduce using rule 32 (expression -> expression * expression .)
+    NE              reduce using rule 32 (expression -> expression * expression .)
+    AND             reduce using rule 32 (expression -> expression * expression .)
+    OR              reduce using rule 32 (expression -> expression * expression .)
+    )               reduce using rule 32 (expression -> expression * expression .)
+    |               shift and go to state 39
+    ^               shift and go to state 40
+    &               shift and go to state 41
+
+  ! |               [ reduce using rule 32 (expression -> expression * expression .) ]
+  ! ^               [ reduce using rule 32 (expression -> expression * expression .) ]
+  ! &               [ reduce using rule 32 (expression -> expression * expression .) ]
+  ! +               [ shift and go to state 26 ]
+  ! -               [ shift and go to state 27 ]
+  ! *               [ shift and go to state 28 ]
+  ! /               [ shift and go to state 29 ]
+  ! %               [ shift and go to state 30 ]
+  ! <               [ shift and go to state 31 ]
+  ! >               [ shift and go to state 32 ]
+  ! LE              [ shift and go to state 33 ]
+  ! GE              [ shift and go to state 34 ]
+  ! EQ              [ shift and go to state 35 ]
+  ! NE              [ shift and go to state 36 ]
+  ! AND             [ shift and go to state 37 ]
+  ! OR              [ shift and go to state 38 ]
+
+
+state 70
+
+    (33) expression -> expression / expression .
+    (30) expression -> expression . + expression
+    (31) expression -> expression . - expression
+    (32) expression -> expression . * expression
+    (33) expression -> expression . / expression
+    (34) expression -> expression . % expression
+    (35) expression -> expression . < expression
+    (36) expression -> expression . > expression
+    (37) expression -> expression . LE expression
+    (38) expression -> expression . GE expression
+    (39) expression -> expression . EQ expression
+    (40) expression -> expression . NE expression
+    (41) expression -> expression . AND expression
+    (42) expression -> expression . OR expression
+    (47) expression -> expression . | expression
+    (48) expression -> expression . ^ expression
+    (49) expression -> expression . & expression
+
+    ;               reduce using rule 33 (expression -> expression / expression .)
+    +               reduce using rule 33 (expression -> expression / expression .)
+    -               reduce using rule 33 (expression -> expression / expression .)
+    *               reduce using rule 33 (expression -> expression / expression .)
+    /               reduce using rule 33 (expression -> expression / expression .)
+    %               reduce using rule 33 (expression -> expression / expression .)
+    <               reduce using rule 33 (expression -> expression / expression .)
+    >               reduce using rule 33 (expression -> expression / expression .)
+    LE              reduce using rule 33 (expression -> expression / expression .)
+    GE              reduce using rule 33 (expression -> expression / expression .)
+    EQ              reduce using rule 33 (expression -> expression / expression .)
+    NE              reduce using rule 33 (expression -> expression / expression .)
+    AND             reduce using rule 33 (expression -> expression / expression .)
+    OR              reduce using rule 33 (expression -> expression / expression .)
+    )               reduce using rule 33 (expression -> expression / expression .)
+    |               shift and go to state 39
+    ^               shift and go to state 40
+    &               shift and go to state 41
+
+  ! |               [ reduce using rule 33 (expression -> expression / expression .) ]
+  ! ^               [ reduce using rule 33 (expression -> expression / expression .) ]
+  ! &               [ reduce using rule 33 (expression -> expression / expression .) ]
+  ! +               [ shift and go to state 26 ]
+  ! -               [ shift and go to state 27 ]
+  ! *               [ shift and go to state 28 ]
+  ! /               [ shift and go to state 29 ]
+  ! %               [ shift and go to state 30 ]
+  ! <               [ shift and go to state 31 ]
+  ! >               [ shift and go to state 32 ]
+  ! LE              [ shift and go to state 33 ]
+  ! GE              [ shift and go to state 34 ]
+  ! EQ              [ shift and go to state 35 ]
+  ! NE              [ shift and go to state 36 ]
+  ! AND             [ shift and go to state 37 ]
+  ! OR              [ shift and go to state 38 ]
+
+
+state 71
+
+    (34) expression -> expression % expression .
+    (30) expression -> expression . + expression
+    (31) expression -> expression . - expression
+    (32) expression -> expression . * expression
+    (33) expression -> expression . / expression
+    (34) expression -> expression . % expression
+    (35) expression -> expression . < expression
+    (36) expression -> expression . > expression
+    (37) expression -> expression . LE expression
+    (38) expression -> expression . GE expression
+    (39) expression -> expression . EQ expression
+    (40) expression -> expression . NE expression
+    (41) expression -> expression . AND expression
+    (42) expression -> expression . OR expression
+    (47) expression -> expression . | expression
+    (48) expression -> expression . ^ expression
+    (49) expression -> expression . & expression
+
+    ;               reduce using rule 34 (expression -> expression % expression .)
+    +               reduce using rule 34 (expression -> expression % expression .)
+    -               reduce using rule 34 (expression -> expression % expression .)
+    *               reduce using rule 34 (expression -> expression % expression .)
+    /               reduce using rule 34 (expression -> expression % expression .)
+    %               reduce using rule 34 (expression -> expression % expression .)
+    <               reduce using rule 34 (expression -> expression % expression .)
+    >               reduce using rule 34 (expression -> expression % expression .)
+    LE              reduce using rule 34 (expression -> expression % expression .)
+    GE              reduce using rule 34 (expression -> expression % expression .)
+    EQ              reduce using rule 34 (expression -> expression % expression .)
+    NE              reduce using rule 34 (expression -> expression % expression .)
+    AND             reduce using rule 34 (expression -> expression % expression .)
+    OR              reduce using rule 34 (expression -> expression % expression .)
+    )               reduce using rule 34 (expression -> expression % expression .)
+    |               shift and go to state 39
+    ^               shift and go to state 40
+    &               shift and go to state 41
+
+  ! |               [ reduce using rule 34 (expression -> expression % expression .) ]
+  ! ^               [ reduce using rule 34 (expression -> expression % expression .) ]
+  ! &               [ reduce using rule 34 (expression -> expression % expression .) ]
+  ! +               [ shift and go to state 26 ]
+  ! -               [ shift and go to state 27 ]
+  ! *               [ shift and go to state 28 ]
+  ! /               [ shift and go to state 29 ]
+  ! %               [ shift and go to state 30 ]
+  ! <               [ shift and go to state 31 ]
+  ! >               [ shift and go to state 32 ]
+  ! LE              [ shift and go to state 33 ]
+  ! GE              [ shift and go to state 34 ]
+  ! EQ              [ shift and go to state 35 ]
+  ! NE              [ shift and go to state 36 ]
+  ! AND             [ shift and go to state 37 ]
+  ! OR              [ shift and go to state 38 ]
+
+
+state 72
+
+    (35) expression -> expression < expression .
+    (30) expression -> expression . + expression
+    (31) expression -> expression . - expression
+    (32) expression -> expression . * expression
+    (33) expression -> expression . / expression
+    (34) expression -> expression . % expression
+    (35) expression -> expression . < expression
+    (36) expression -> expression . > expression
+    (37) expression -> expression . LE expression
+    (38) expression -> expression . GE expression
+    (39) expression -> expression . EQ expression
+    (40) expression -> expression . NE expression
+    (41) expression -> expression . AND expression
+    (42) expression -> expression . OR expression
+    (47) expression -> expression . | expression
+    (48) expression -> expression . ^ expression
+    (49) expression -> expression . & expression
+
+    ;               reduce using rule 35 (expression -> expression < expression .)
+    <               reduce using rule 35 (expression -> expression < expression .)
+    >               reduce using rule 35 (expression -> expression < expression .)
+    LE              reduce using rule 35 (expression -> expression < expression .)
+    GE              reduce using rule 35 (expression -> expression < expression .)
+    EQ              reduce using rule 35 (expression -> expression < expression .)
+    NE              reduce using rule 35 (expression -> expression < expression .)
+    AND             reduce using rule 35 (expression -> expression < expression .)
+    OR              reduce using rule 35 (expression -> expression < expression .)
+    )               reduce using rule 35 (expression -> expression < expression .)
+    +               shift and go to state 26
+    -               shift and go to state 27
+    *               shift and go to state 28
+    /               shift and go to state 29
+    %               shift and go to state 30
+    |               shift and go to state 39
+    ^               shift and go to state 40
+    &               shift and go to state 41
+
+  ! +               [ reduce using rule 35 (expression -> expression < expression .) ]
+  ! -               [ reduce using rule 35 (expression -> expression < expression .) ]
+  ! *               [ reduce using rule 35 (expression -> expression < expression .) ]
+  ! /               [ reduce using rule 35 (expression -> expression < expression .) ]
+  ! %               [ reduce using rule 35 (expression -> expression < expression .) ]
+  ! |               [ reduce using rule 35 (expression -> expression < expression .) ]
+  ! ^               [ reduce using rule 35 (expression -> expression < expression .) ]
+  ! &               [ reduce using rule 35 (expression -> expression < expression .) ]
+  ! <               [ shift and go to state 31 ]
+  ! >               [ shift and go to state 32 ]
+  ! LE              [ shift and go to state 33 ]
+  ! GE              [ shift and go to state 34 ]
+  ! EQ              [ shift and go to state 35 ]
+  ! NE              [ shift and go to state 36 ]
+  ! AND             [ shift and go to state 37 ]
+  ! OR              [ shift and go to state 38 ]
+
+
+state 73
+
+    (36) expression -> expression > expression .
+    (30) expression -> expression . + expression
+    (31) expression -> expression . - expression
+    (32) expression -> expression . * expression
+    (33) expression -> expression . / expression
+    (34) expression -> expression . % expression
+    (35) expression -> expression . < expression
+    (36) expression -> expression . > expression
+    (37) expression -> expression . LE expression
+    (38) expression -> expression . GE expression
+    (39) expression -> expression . EQ expression
+    (40) expression -> expression . NE expression
+    (41) expression -> expression . AND expression
+    (42) expression -> expression . OR expression
+    (47) expression -> expression . | expression
+    (48) expression -> expression . ^ expression
+    (49) expression -> expression . & expression
+
+    ;               reduce using rule 36 (expression -> expression > expression .)
+    <               reduce using rule 36 (expression -> expression > expression .)
+    >               reduce using rule 36 (expression -> expression > expression .)
+    LE              reduce using rule 36 (expression -> expression > expression .)
+    GE              reduce using rule 36 (expression -> expression > expression .)
+    EQ              reduce using rule 36 (expression -> expression > expression .)
+    NE              reduce using rule 36 (expression -> expression > expression .)
+    AND             reduce using rule 36 (expression -> expression > expression .)
+    OR              reduce using rule 36 (expression -> expression > expression .)
+    )               reduce using rule 36 (expression -> expression > expression .)
+    +               shift and go to state 26
+    -               shift and go to state 27
+    *               shift and go to state 28
+    /               shift and go to state 29
+    %               shift and go to state 30
+    |               shift and go to state 39
+    ^               shift and go to state 40
+    &               shift and go to state 41
+
+  ! +               [ reduce using rule 36 (expression -> expression > expression .) ]
+  ! -               [ reduce using rule 36 (expression -> expression > expression .) ]
+  ! *               [ reduce using rule 36 (expression -> expression > expression .) ]
+  ! /               [ reduce using rule 36 (expression -> expression > expression .) ]
+  ! %               [ reduce using rule 36 (expression -> expression > expression .) ]
+  ! |               [ reduce using rule 36 (expression -> expression > expression .) ]
+  ! ^               [ reduce using rule 36 (expression -> expression > expression .) ]
+  ! &               [ reduce using rule 36 (expression -> expression > expression .) ]
+  ! <               [ shift and go to state 31 ]
+  ! >               [ shift and go to state 32 ]
+  ! LE              [ shift and go to state 33 ]
+  ! GE              [ shift and go to state 34 ]
+  ! EQ              [ shift and go to state 35 ]
+  ! NE              [ shift and go to state 36 ]
+  ! AND             [ shift and go to state 37 ]
+  ! OR              [ shift and go to state 38 ]
+
+
+state 74
+
+    (37) expression -> expression LE expression .
+    (30) expression -> expression . + expression
+    (31) expression -> expression . - expression
+    (32) expression -> expression . * expression
+    (33) expression -> expression . / expression
+    (34) expression -> expression . % expression
+    (35) expression -> expression . < expression
+    (36) expression -> expression . > expression
+    (37) expression -> expression . LE expression
+    (38) expression -> expression . GE expression
+    (39) expression -> expression . EQ expression
+    (40) expression -> expression . NE expression
+    (41) expression -> expression . AND expression
+    (42) expression -> expression . OR expression
+    (47) expression -> expression . | expression
+    (48) expression -> expression . ^ expression
+    (49) expression -> expression . & expression
+
+    ;               reduce using rule 37 (expression -> expression LE expression .)
+    <               reduce using rule 37 (expression -> expression LE expression .)
+    >               reduce using rule 37 (expression -> expression LE expression .)
+    LE              reduce using rule 37 (expression -> expression LE expression .)
+    GE              reduce using rule 37 (expression -> expression LE expression .)
+    EQ              reduce using rule 37 (expression -> expression LE expression .)
+    NE              reduce using rule 37 (expression -> expression LE expression .)
+    AND             reduce using rule 37 (expression -> expression LE expression .)
+    OR              reduce using rule 37 (expression -> expression LE expression .)
+    )               reduce using rule 37 (expression -> expression LE expression .)
+    +               shift and go to state 26
+    -               shift and go to state 27
+    *               shift and go to state 28
+    /               shift and go to state 29
+    %               shift and go to state 30
+    |               shift and go to state 39
+    ^               shift and go to state 40
+    &               shift and go to state 41
+
+  ! +               [ reduce using rule 37 (expression -> expression LE expression .) ]
+  ! -               [ reduce using rule 37 (expression -> expression LE expression .) ]
+  ! *               [ reduce using rule 37 (expression -> expression LE expression .) ]
+  ! /               [ reduce using rule 37 (expression -> expression LE expression .) ]
+  ! %               [ reduce using rule 37 (expression -> expression LE expression .) ]
+  ! |               [ reduce using rule 37 (expression -> expression LE expression .) ]
+  ! ^               [ reduce using rule 37 (expression -> expression LE expression .) ]
+  ! &               [ reduce using rule 37 (expression -> expression LE expression .) ]
+  ! <               [ shift and go to state 31 ]
+  ! >               [ shift and go to state 32 ]
+  ! LE              [ shift and go to state 33 ]
+  ! GE              [ shift and go to state 34 ]
+  ! EQ              [ shift and go to state 35 ]
+  ! NE              [ shift and go to state 36 ]
+  ! AND             [ shift and go to state 37 ]
+  ! OR              [ shift and go to state 38 ]
+
+
+state 75
+
+    (38) expression -> expression GE expression .
+    (30) expression -> expression . + expression
+    (31) expression -> expression . - expression
+    (32) expression -> expression . * expression
+    (33) expression -> expression . / expression
+    (34) expression -> expression . % expression
+    (35) expression -> expression . < expression
+    (36) expression -> expression . > expression
+    (37) expression -> expression . LE expression
+    (38) expression -> expression . GE expression
+    (39) expression -> expression . EQ expression
+    (40) expression -> expression . NE expression
+    (41) expression -> expression . AND expression
+    (42) expression -> expression . OR expression
+    (47) expression -> expression . | expression
+    (48) expression -> expression . ^ expression
+    (49) expression -> expression . & expression
+
+    ;               reduce using rule 38 (expression -> expression GE expression .)
+    <               reduce using rule 38 (expression -> expression GE expression .)
+    >               reduce using rule 38 (expression -> expression GE expression .)
+    LE              reduce using rule 38 (expression -> expression GE expression .)
+    GE              reduce using rule 38 (expression -> expression GE expression .)
+    EQ              reduce using rule 38 (expression -> expression GE expression .)
+    NE              reduce using rule 38 (expression -> expression GE expression .)
+    AND             reduce using rule 38 (expression -> expression GE expression .)
+    OR              reduce using rule 38 (expression -> expression GE expression .)
+    )               reduce using rule 38 (expression -> expression GE expression .)
+    +               shift and go to state 26
+    -               shift and go to state 27
+    *               shift and go to state 28
+    /               shift and go to state 29
+    %               shift and go to state 30
+    |               shift and go to state 39
+    ^               shift and go to state 40
+    &               shift and go to state 41
+
+  ! +               [ reduce using rule 38 (expression -> expression GE expression .) ]
+  ! -               [ reduce using rule 38 (expression -> expression GE expression .) ]
+  ! *               [ reduce using rule 38 (expression -> expression GE expression .) ]
+  ! /               [ reduce using rule 38 (expression -> expression GE expression .) ]
+  ! %               [ reduce using rule 38 (expression -> expression GE expression .) ]
+  ! |               [ reduce using rule 38 (expression -> expression GE expression .) ]
+  ! ^               [ reduce using rule 38 (expression -> expression GE expression .) ]
+  ! &               [ reduce using rule 38 (expression -> expression GE expression .) ]
+  ! <               [ shift and go to state 31 ]
+  ! >               [ shift and go to state 32 ]
+  ! LE              [ shift and go to state 33 ]
+  ! GE              [ shift and go to state 34 ]
+  ! EQ              [ shift and go to state 35 ]
+  ! NE              [ shift and go to state 36 ]
+  ! AND             [ shift and go to state 37 ]
+  ! OR              [ shift and go to state 38 ]
+
+
+state 76
+
+    (39) expression -> expression EQ expression .
+    (30) expression -> expression . + expression
+    (31) expression -> expression . - expression
+    (32) expression -> expression . * expression
+    (33) expression -> expression . / expression
+    (34) expression -> expression . % expression
+    (35) expression -> expression . < expression
+    (36) expression -> expression . > expression
+    (37) expression -> expression . LE expression
+    (38) expression -> expression . GE expression
+    (39) expression -> expression . EQ expression
+    (40) expression -> expression . NE expression
+    (41) expression -> expression . AND expression
+    (42) expression -> expression . OR expression
+    (47) expression -> expression . | expression
+    (48) expression -> expression . ^ expression
+    (49) expression -> expression . & expression
+
+    ;               reduce using rule 39 (expression -> expression EQ expression .)
+    EQ              reduce using rule 39 (expression -> expression EQ expression .)
+    NE              reduce using rule 39 (expression -> expression EQ expression .)
+    AND             reduce using rule 39 (expression -> expression EQ expression .)
+    OR              reduce using rule 39 (expression -> expression EQ expression .)
+    )               reduce using rule 39 (expression -> expression EQ expression .)
+    +               shift and go to state 26
+    -               shift and go to state 27
+    *               shift and go to state 28
+    /               shift and go to state 29
+    %               shift and go to state 30
+    <               shift and go to state 31
+    >               shift and go to state 32
+    LE              shift and go to state 33
+    GE              shift and go to state 34
+    |               shift and go to state 39
+    ^               shift and go to state 40
+    &               shift and go to state 41
+
+  ! +               [ reduce using rule 39 (expression -> expression EQ expression .) ]
+  ! -               [ reduce using rule 39 (expression -> expression EQ expression .) ]
+  ! *               [ reduce using rule 39 (expression -> expression EQ expression .) ]
+  ! /               [ reduce using rule 39 (expression -> expression EQ expression .) ]
+  ! %               [ reduce using rule 39 (expression -> expression EQ expression .) ]
+  ! <               [ reduce using rule 39 (expression -> expression EQ expression .) ]
+  ! >               [ reduce using rule 39 (expression -> expression EQ expression .) ]
+  ! LE              [ reduce using rule 39 (expression -> expression EQ expression .) ]
+  ! GE              [ reduce using rule 39 (expression -> expression EQ expression .) ]
+  ! |               [ reduce using rule 39 (expression -> expression EQ expression .) ]
+  ! ^               [ reduce using rule 39 (expression -> expression EQ expression .) ]
+  ! &               [ reduce using rule 39 (expression -> expression EQ expression .) ]
+  ! EQ              [ shift and go to state 35 ]
+  ! NE              [ shift and go to state 36 ]
+  ! AND             [ shift and go to state 37 ]
+  ! OR              [ shift and go to state 38 ]
+
+
+state 77
+
+    (40) expression -> expression NE expression .
+    (30) expression -> expression . + expression
+    (31) expression -> expression . - expression
+    (32) expression -> expression . * expression
+    (33) expression -> expression . / expression
+    (34) expression -> expression . % expression
+    (35) expression -> expression . < expression
+    (36) expression -> expression . > expression
+    (37) expression -> expression . LE expression
+    (38) expression -> expression . GE expression
+    (39) expression -> expression . EQ expression
+    (40) expression -> expression . NE expression
+    (41) expression -> expression . AND expression
+    (42) expression -> expression . OR expression
+    (47) expression -> expression . | expression
+    (48) expression -> expression . ^ expression
+    (49) expression -> expression . & expression
+
+    ;               reduce using rule 40 (expression -> expression NE expression .)
+    EQ              reduce using rule 40 (expression -> expression NE expression .)
+    NE              reduce using rule 40 (expression -> expression NE expression .)
+    AND             reduce using rule 40 (expression -> expression NE expression .)
+    OR              reduce using rule 40 (expression -> expression NE expression .)
+    )               reduce using rule 40 (expression -> expression NE expression .)
+    +               shift and go to state 26
+    -               shift and go to state 27
+    *               shift and go to state 28
+    /               shift and go to state 29
+    %               shift and go to state 30
+    <               shift and go to state 31
+    >               shift and go to state 32
+    LE              shift and go to state 33
+    GE              shift and go to state 34
+    |               shift and go to state 39
+    ^               shift and go to state 40
+    &               shift and go to state 41
+
+  ! +               [ reduce using rule 40 (expression -> expression NE expression .) ]
+  ! -               [ reduce using rule 40 (expression -> expression NE expression .) ]
+  ! *               [ reduce using rule 40 (expression -> expression NE expression .) ]
+  ! /               [ reduce using rule 40 (expression -> expression NE expression .) ]
+  ! %               [ reduce using rule 40 (expression -> expression NE expression .) ]
+  ! <               [ reduce using rule 40 (expression -> expression NE expression .) ]
+  ! >               [ reduce using rule 40 (expression -> expression NE expression .) ]
+  ! LE              [ reduce using rule 40 (expression -> expression NE expression .) ]
+  ! GE              [ reduce using rule 40 (expression -> expression NE expression .) ]
+  ! |               [ reduce using rule 40 (expression -> expression NE expression .) ]
+  ! ^               [ reduce using rule 40 (expression -> expression NE expression .) ]
+  ! &               [ reduce using rule 40 (expression -> expression NE expression .) ]
+  ! EQ              [ shift and go to state 35 ]
+  ! NE              [ shift and go to state 36 ]
+  ! AND             [ shift and go to state 37 ]
+  ! OR              [ shift and go to state 38 ]
+
+
+state 78
+
+    (41) expression -> expression AND expression .
+    (30) expression -> expression . + expression
+    (31) expression -> expression . - expression
+    (32) expression -> expression . * expression
+    (33) expression -> expression . / expression
+    (34) expression -> expression . % expression
+    (35) expression -> expression . < expression
+    (36) expression -> expression . > expression
+    (37) expression -> expression . LE expression
+    (38) expression -> expression . GE expression
+    (39) expression -> expression . EQ expression
+    (40) expression -> expression . NE expression
+    (41) expression -> expression . AND expression
+    (42) expression -> expression . OR expression
+    (47) expression -> expression . | expression
+    (48) expression -> expression . ^ expression
+    (49) expression -> expression . & expression
+
+    ;               reduce using rule 41 (expression -> expression AND expression .)
+    AND             reduce using rule 41 (expression -> expression AND expression .)
+    OR              reduce using rule 41 (expression -> expression AND expression .)
+    )               reduce using rule 41 (expression -> expression AND expression .)
+    +               shift and go to state 26
+    -               shift and go to state 27
+    *               shift and go to state 28
+    /               shift and go to state 29
+    %               shift and go to state 30
+    <               shift and go to state 31
+    >               shift and go to state 32
+    LE              shift and go to state 33
+    GE              shift and go to state 34
+    EQ              shift and go to state 35
+    NE              shift and go to state 36
+    |               shift and go to state 39
+    ^               shift and go to state 40
+    &               shift and go to state 41
+
+  ! +               [ reduce using rule 41 (expression -> expression AND expression .) ]
+  ! -               [ reduce using rule 41 (expression -> expression AND expression .) ]
+  ! *               [ reduce using rule 41 (expression -> expression AND expression .) ]
+  ! /               [ reduce using rule 41 (expression -> expression AND expression .) ]
+  ! %               [ reduce using rule 41 (expression -> expression AND expression .) ]
+  ! <               [ reduce using rule 41 (expression -> expression AND expression .) ]
+  ! >               [ reduce using rule 41 (expression -> expression AND expression .) ]
+  ! LE              [ reduce using rule 41 (expression -> expression AND expression .) ]
+  ! GE              [ reduce using rule 41 (expression -> expression AND expression .) ]
+  ! EQ              [ reduce using rule 41 (expression -> expression AND expression .) ]
+  ! NE              [ reduce using rule 41 (expression -> expression AND expression .) ]
+  ! |               [ reduce using rule 41 (expression -> expression AND expression .) ]
+  ! ^               [ reduce using rule 41 (expression -> expression AND expression .) ]
+  ! &               [ reduce using rule 41 (expression -> expression AND expression .) ]
+  ! AND             [ shift and go to state 37 ]
+  ! OR              [ shift and go to state 38 ]
+
+
+state 79
+
+    (42) expression -> expression OR expression .
+    (30) expression -> expression . + expression
+    (31) expression -> expression . - expression
+    (32) expression -> expression . * expression
+    (33) expression -> expression . / expression
+    (34) expression -> expression . % expression
+    (35) expression -> expression . < expression
+    (36) expression -> expression . > expression
+    (37) expression -> expression . LE expression
+    (38) expression -> expression . GE expression
+    (39) expression -> expression . EQ expression
+    (40) expression -> expression . NE expression
+    (41) expression -> expression . AND expression
+    (42) expression -> expression . OR expression
+    (47) expression -> expression . | expression
+    (48) expression -> expression . ^ expression
+    (49) expression -> expression . & expression
+
+    ;               reduce using rule 42 (expression -> expression OR expression .)
+    OR              reduce using rule 42 (expression -> expression OR expression .)
+    )               reduce using rule 42 (expression -> expression OR expression .)
+    +               shift and go to state 26
+    -               shift and go to state 27
+    *               shift and go to state 28
+    /               shift and go to state 29
+    %               shift and go to state 30
+    <               shift and go to state 31
+    >               shift and go to state 32
+    LE              shift and go to state 33
+    GE              shift and go to state 34
+    EQ              shift and go to state 35
+    NE              shift and go to state 36
+    AND             shift and go to state 37
+    |               shift and go to state 39
+    ^               shift and go to state 40
+    &               shift and go to state 41
+
+  ! +               [ reduce using rule 42 (expression -> expression OR expression .) ]
+  ! -               [ reduce using rule 42 (expression -> expression OR expression .) ]
+  ! *               [ reduce using rule 42 (expression -> expression OR expression .) ]
+  ! /               [ reduce using rule 42 (expression -> expression OR expression .) ]
+  ! %               [ reduce using rule 42 (expression -> expression OR expression .) ]
+  ! <               [ reduce using rule 42 (expression -> expression OR expression .) ]
+  ! >               [ reduce using rule 42 (expression -> expression OR expression .) ]
+  ! LE              [ reduce using rule 42 (expression -> expression OR expression .) ]
+  ! GE              [ reduce using rule 42 (expression -> expression OR expression .) ]
+  ! EQ              [ reduce using rule 42 (expression -> expression OR expression .) ]
+  ! NE              [ reduce using rule 42 (expression -> expression OR expression .) ]
+  ! AND             [ reduce using rule 42 (expression -> expression OR expression .) ]
+  ! |               [ reduce using rule 42 (expression -> expression OR expression .) ]
+  ! ^               [ reduce using rule 42 (expression -> expression OR expression .) ]
+  ! &               [ reduce using rule 42 (expression -> expression OR expression .) ]
+  ! OR              [ shift and go to state 38 ]
+
+
+state 80
+
+    (47) expression -> expression | expression .
+    (30) expression -> expression . + expression
+    (31) expression -> expression . - expression
+    (32) expression -> expression . * expression
+    (33) expression -> expression . / expression
+    (34) expression -> expression . % expression
+    (35) expression -> expression . < expression
+    (36) expression -> expression . > expression
+    (37) expression -> expression . LE expression
+    (38) expression -> expression . GE expression
+    (39) expression -> expression . EQ expression
+    (40) expression -> expression . NE expression
+    (41) expression -> expression . AND expression
+    (42) expression -> expression . OR expression
+    (47) expression -> expression . | expression
+    (48) expression -> expression . ^ expression
+    (49) expression -> expression . & expression
+
+    ;               reduce using rule 47 (expression -> expression | expression .)
+    +               reduce using rule 47 (expression -> expression | expression .)
+    -               reduce using rule 47 (expression -> expression | expression .)
+    *               reduce using rule 47 (expression -> expression | expression .)
+    /               reduce using rule 47 (expression -> expression | expression .)
+    %               reduce using rule 47 (expression -> expression | expression .)
+    <               reduce using rule 47 (expression -> expression | expression .)
+    >               reduce using rule 47 (expression -> expression | expression .)
+    LE              reduce using rule 47 (expression -> expression | expression .)
+    GE              reduce using rule 47 (expression -> expression | expression .)
+    EQ              reduce using rule 47 (expression -> expression | expression .)
+    NE              reduce using rule 47 (expression -> expression | expression .)
+    AND             reduce using rule 47 (expression -> expression | expression .)
+    OR              reduce using rule 47 (expression -> expression | expression .)
+    |               reduce using rule 47 (expression -> expression | expression .)
+    )               reduce using rule 47 (expression -> expression | expression .)
+    ^               shift and go to state 40
+    &               shift and go to state 41
+
+  ! ^               [ reduce using rule 47 (expression -> expression | expression .) ]
+  ! &               [ reduce using rule 47 (expression -> expression | expression .) ]
+  ! +               [ shift and go to state 26 ]
+  ! -               [ shift and go to state 27 ]
+  ! *               [ shift and go to state 28 ]
+  ! /               [ shift and go to state 29 ]
+  ! %               [ shift and go to state 30 ]
+  ! <               [ shift and go to state 31 ]
+  ! >               [ shift and go to state 32 ]
+  ! LE              [ shift and go to state 33 ]
+  ! GE              [ shift and go to state 34 ]
+  ! EQ              [ shift and go to state 35 ]
+  ! NE              [ shift and go to state 36 ]
+  ! AND             [ shift and go to state 37 ]
+  ! OR              [ shift and go to state 38 ]
+  ! |               [ shift and go to state 39 ]
+
+
+state 81
+
+    (48) expression -> expression ^ expression .
+    (30) expression -> expression . + expression
+    (31) expression -> expression . - expression
+    (32) expression -> expression . * expression
+    (33) expression -> expression . / expression
+    (34) expression -> expression . % expression
+    (35) expression -> expression . < expression
+    (36) expression -> expression . > expression
+    (37) expression -> expression . LE expression
+    (38) expression -> expression . GE expression
+    (39) expression -> expression . EQ expression
+    (40) expression -> expression . NE expression
+    (41) expression -> expression . AND expression
+    (42) expression -> expression . OR expression
+    (47) expression -> expression . | expression
+    (48) expression -> expression . ^ expression
+    (49) expression -> expression . & expression
+
+    ;               reduce using rule 48 (expression -> expression ^ expression .)
+    +               reduce using rule 48 (expression -> expression ^ expression .)
+    -               reduce using rule 48 (expression -> expression ^ expression .)
+    *               reduce using rule 48 (expression -> expression ^ expression .)
+    /               reduce using rule 48 (expression -> expression ^ expression .)
+    %               reduce using rule 48 (expression -> expression ^ expression .)
+    <               reduce using rule 48 (expression -> expression ^ expression .)
+    >               reduce using rule 48 (expression -> expression ^ expression .)
+    LE              reduce using rule 48 (expression -> expression ^ expression .)
+    GE              reduce using rule 48 (expression -> expression ^ expression .)
+    EQ              reduce using rule 48 (expression -> expression ^ expression .)
+    NE              reduce using rule 48 (expression -> expression ^ expression .)
+    AND             reduce using rule 48 (expression -> expression ^ expression .)
+    OR              reduce using rule 48 (expression -> expression ^ expression .)
+    |               reduce using rule 48 (expression -> expression ^ expression .)
+    ^               reduce using rule 48 (expression -> expression ^ expression .)
+    )               reduce using rule 48 (expression -> expression ^ expression .)
+    &               shift and go to state 41
+
+  ! &               [ reduce using rule 48 (expression -> expression ^ expression .) ]
+  ! +               [ shift and go to state 26 ]
+  ! -               [ shift and go to state 27 ]
+  ! *               [ shift and go to state 28 ]
+  ! /               [ shift and go to state 29 ]
+  ! %               [ shift and go to state 30 ]
+  ! <               [ shift and go to state 31 ]
+  ! >               [ shift and go to state 32 ]
+  ! LE              [ shift and go to state 33 ]
+  ! GE              [ shift and go to state 34 ]
+  ! EQ              [ shift and go to state 35 ]
+  ! NE              [ shift and go to state 36 ]
+  ! AND             [ shift and go to state 37 ]
+  ! OR              [ shift and go to state 38 ]
+  ! |               [ shift and go to state 39 ]
+  ! ^               [ shift and go to state 40 ]
+
+
+state 82
+
+    (49) expression -> expression & expression .
+    (30) expression -> expression . + expression
+    (31) expression -> expression . - expression
+    (32) expression -> expression . * expression
+    (33) expression -> expression . / expression
+    (34) expression -> expression . % expression
+    (35) expression -> expression . < expression
+    (36) expression -> expression . > expression
+    (37) expression -> expression . LE expression
+    (38) expression -> expression . GE expression
+    (39) expression -> expression . EQ expression
+    (40) expression -> expression . NE expression
+    (41) expression -> expression . AND expression
+    (42) expression -> expression . OR expression
+    (47) expression -> expression . | expression
+    (48) expression -> expression . ^ expression
+    (49) expression -> expression . & expression
+
+    ;               reduce using rule 49 (expression -> expression & expression .)
+    +               reduce using rule 49 (expression -> expression & expression .)
+    -               reduce using rule 49 (expression -> expression & expression .)
+    *               reduce using rule 49 (expression -> expression & expression .)
+    /               reduce using rule 49 (expression -> expression & expression .)
+    %               reduce using rule 49 (expression -> expression & expression .)
+    <               reduce using rule 49 (expression -> expression & expression .)
+    >               reduce using rule 49 (expression -> expression & expression .)
+    LE              reduce using rule 49 (expression -> expression & expression .)
+    GE              reduce using rule 49 (expression -> expression & expression .)
+    EQ              reduce using rule 49 (expression -> expression & expression .)
+    NE              reduce using rule 49 (expression -> expression & expression .)
+    AND             reduce using rule 49 (expression -> expression & expression .)
+    OR              reduce using rule 49 (expression -> expression & expression .)
+    |               reduce using rule 49 (expression -> expression & expression .)
+    ^               reduce using rule 49 (expression -> expression & expression .)
+    &               reduce using rule 49 (expression -> expression & expression .)
+    )               reduce using rule 49 (expression -> expression & expression .)
+
+  ! +               [ shift and go to state 26 ]
+  ! -               [ shift and go to state 27 ]
+  ! *               [ shift and go to state 28 ]
+  ! /               [ shift and go to state 29 ]
+  ! %               [ shift and go to state 30 ]
+  ! <               [ shift and go to state 31 ]
+  ! >               [ shift and go to state 32 ]
+  ! LE              [ shift and go to state 33 ]
+  ! GE              [ shift and go to state 34 ]
+  ! EQ              [ shift and go to state 35 ]
+  ! NE              [ shift and go to state 36 ]
+  ! AND             [ shift and go to state 37 ]
+  ! OR              [ shift and go to state 38 ]
+  ! |               [ shift and go to state 39 ]
+  ! ^               [ shift and go to state 40 ]
+  ! &               [ shift and go to state 41 ]
+
+
+state 83
+
+    (7) statement -> IF ( expression . ) statement
+    (8) statement -> IF ( expression . ) statement ELSE statement
+    (30) expression -> expression . + expression
+    (31) expression -> expression . - expression
+    (32) expression -> expression . * expression
+    (33) expression -> expression . / expression
+    (34) expression -> expression . % expression
+    (35) expression -> expression . < expression
+    (36) expression -> expression . > expression
+    (37) expression -> expression . LE expression
+    (38) expression -> expression . GE expression
+    (39) expression -> expression . EQ expression
+    (40) expression -> expression . NE expression
+    (41) expression -> expression . AND expression
+    (42) expression -> expression . OR expression
+    (47) expression -> expression . | expression
+    (48) expression -> expression . ^ expression
+    (49) expression -> expression . & expression
+
+    )               shift and go to state 93
+    +               shift and go to state 26
+    -               shift and go to state 27
+    *               shift and go to state 28
+    /               shift and go to state 29
+    %               shift and go to state 30
+    <               shift and go to state 31
+    >               shift and go to state 32
+    LE              shift and go to state 33
+    GE              shift and go to state 34
+    EQ              shift and go to state 35
+    NE              shift and go to state 36
+    AND             shift and go to state 37
+    OR              shift and go to state 38
+    |               shift and go to state 39
+    ^               shift and go to state 40
+    &               shift and go to state 41
+
+
+state 84
+
+    (52) expression -> ( expression ) .
+
+    ;               reduce using rule 52 (expression -> ( expression ) .)
+    +               reduce using rule 52 (expression -> ( expression ) .)
+    -               reduce using rule 52 (expression -> ( expression ) .)
+    *               reduce using rule 52 (expression -> ( expression ) .)
+    /               reduce using rule 52 (expression -> ( expression ) .)
+    %               reduce using rule 52 (expression -> ( expression ) .)
+    <               reduce using rule 52 (expression -> ( expression ) .)
+    >               reduce using rule 52 (expression -> ( expression ) .)
+    LE              reduce using rule 52 (expression -> ( expression ) .)
+    GE              reduce using rule 52 (expression -> ( expression ) .)
+    EQ              reduce using rule 52 (expression -> ( expression ) .)
+    NE              reduce using rule 52 (expression -> ( expression ) .)
+    AND             reduce using rule 52 (expression -> ( expression ) .)
+    OR              reduce using rule 52 (expression -> ( expression ) .)
+    |               reduce using rule 52 (expression -> ( expression ) .)
+    ^               reduce using rule 52 (expression -> ( expression ) .)
+    &               reduce using rule 52 (expression -> ( expression ) .)
+    )               reduce using rule 52 (expression -> ( expression ) .)
+
+
+state 85
+
+    (9) statement -> WHILE ( expression . ) statement
+    (30) expression -> expression . + expression
+    (31) expression -> expression . - expression
+    (32) expression -> expression . * expression
+    (33) expression -> expression . / expression
+    (34) expression -> expression . % expression
+    (35) expression -> expression . < expression
+    (36) expression -> expression . > expression
+    (37) expression -> expression . LE expression
+    (38) expression -> expression . GE expression
+    (39) expression -> expression . EQ expression
+    (40) expression -> expression . NE expression
+    (41) expression -> expression . AND expression
+    (42) expression -> expression . OR expression
+    (47) expression -> expression . | expression
+    (48) expression -> expression . ^ expression
+    (49) expression -> expression . & expression
+
+    )               shift and go to state 94
+    +               shift and go to state 26
+    -               shift and go to state 27
+    *               shift and go to state 28
+    /               shift and go to state 29
+    %               shift and go to state 30
+    <               shift and go to state 31
+    >               shift and go to state 32
+    LE              shift and go to state 33
+    GE              shift and go to state 34
+    EQ              shift and go to state 35
+    NE              shift and go to state 36
+    AND             shift and go to state 37
+    OR              shift and go to state 38
+    |               shift and go to state 39
+    ^               shift and go to state 40
+    &               shift and go to state 41
+
+
+state 86
+
+    (10) statement -> DO statement WHILE . ( expression ) ;
+
+    (               shift and go to state 95
+
+
+state 87
+
+    (11) statement -> FOR ( opt_expr . ; opt_expr ; opt_expr ) statement
+
+    ;               shift and go to state 96
+
+
+state 88
+
+    (12) opt_expr -> expression .
+    (30) expression -> expression . + expression
+    (31) expression -> expression . - expression
+    (32) expression -> expression . * expression
+    (33) expression -> expression . / expression
+    (34) expression -> expression . % expression
+    (35) expression -> expression . < expression
+    (36) expression -> expression . > expression
+    (37) expression -> expression . LE expression
+    (38) expression -> expression . GE expression
+    (39) expression -> expression . EQ expression
+    (40) expression -> expression . NE expression
+    (41) expression -> expression . AND expression
+    (42) expression -> expression . OR expression
+    (47) expression -> expression . | expression
+    (48) expression -> expression . ^ expression
+    (49) expression -> expression . & expression
+
+    ;               reduce using rule 12 (opt_expr -> expression .)
+    )               reduce using rule 12 (opt_expr -> expression .)
+    +               shift and go to state 26
+    -               shift and go to state 27
+    *               shift and go to state 28
+    /               shift and go to state 29
+    %               shift and go to state 30
+    <               shift and go to state 31
+    >               shift and go to state 32
+    LE              shift and go to state 33
+    GE              shift and go to state 34
+    EQ              shift and go to state 35
+    NE              shift and go to state 36
+    AND             shift and go to state 37
+    OR              shift and go to state 38
+    |               shift and go to state 39
+    ^               shift and go to state 40
+    &               shift and go to state 41
+
+
+state 89
+
+    (14) statement -> PRINT ( print_args . ) ;
+
+    )               shift and go to state 97
+
+
+state 90
+
+    (15) print_args -> STRING . , expression
+    (16) print_args -> STRING .
+
+    ,               shift and go to state 98
+    )               reduce using rule 16 (print_args -> STRING .)
+
+
+state 91
+
+    (17) statement -> SCAN ( ID . ) ;
+
+    )               shift and go to state 99
+
+
+state 92
+
+    (29) expression -> ID assign_op expression .
+    (30) expression -> expression . + expression
+    (31) expression -> expression . - expression
+    (32) expression -> expression . * expression
+    (33) expression -> expression . / expression
+    (34) expression -> expression . % expression
+    (35) expression -> expression . < expression
+    (36) expression -> expression . > expression
+    (37) expression -> expression . LE expression
+    (38) expression -> expression . GE expression
+    (39) expression -> expression . EQ expression
+    (40) expression -> expression . NE expression
+    (41) expression -> expression . AND expression
+    (42) expression -> expression . OR expression
+    (47) expression -> expression . | expression
+    (48) expression -> expression . ^ expression
+    (49) expression -> expression . & expression
+
+  ! shift/reduce conflict for + resolved as shift
+  ! shift/reduce conflict for - resolved as shift
+  ! shift/reduce conflict for * resolved as shift
+  ! shift/reduce conflict for / resolved as shift
+  ! shift/reduce conflict for % resolved as shift
+  ! shift/reduce conflict for < resolved as shift
+  ! shift/reduce conflict for > resolved as shift
+  ! shift/reduce conflict for LE resolved as shift
+  ! shift/reduce conflict for GE resolved as shift
+  ! shift/reduce conflict for EQ resolved as shift
+  ! shift/reduce conflict for NE resolved as shift
+  ! shift/reduce conflict for AND resolved as shift
+  ! shift/reduce conflict for OR resolved as shift
+  ! shift/reduce conflict for | resolved as shift
+  ! shift/reduce conflict for ^ resolved as shift
+  ! shift/reduce conflict for & resolved as shift
+    ;               reduce using rule 29 (expression -> ID assign_op expression .)
+    )               reduce using rule 29 (expression -> ID assign_op expression .)
+    +               shift and go to state 26
+    -               shift and go to state 27
+    *               shift and go to state 28
+    /               shift and go to state 29
+    %               shift and go to state 30
+    <               shift and go to state 31
+    >               shift and go to state 32
+    LE              shift and go to state 33
+    GE              shift and go to state 34
+    EQ              shift and go to state 35
+    NE              shift and go to state 36
+    AND             shift and go to state 37
+    OR              shift and go to state 38
+    |               shift and go to state 39
+    ^               shift and go to state 40
+    &               shift and go to state 41
+
+  ! +               [ reduce using rule 29 (expression -> ID assign_op expression .) ]
+  ! -               [ reduce using rule 29 (expression -> ID assign_op expression .) ]
+  ! *               [ reduce using rule 29 (expression -> ID assign_op expression .) ]
+  ! /               [ reduce using rule 29 (expression -> ID assign_op expression .) ]
+  ! %               [ reduce using rule 29 (expression -> ID assign_op expression .) ]
+  ! <               [ reduce using rule 29 (expression -> ID assign_op expression .) ]
+  ! >               [ reduce using rule 29 (expression -> ID assign_op expression .) ]
+  ! LE              [ reduce using rule 29 (expression -> ID assign_op expression .) ]
+  ! GE              [ reduce using rule 29 (expression -> ID assign_op expression .) ]
+  ! EQ              [ reduce using rule 29 (expression -> ID assign_op expression .) ]
+  ! NE              [ reduce using rule 29 (expression -> ID assign_op expression .) ]
+  ! AND             [ reduce using rule 29 (expression -> ID assign_op expression .) ]
+  ! OR              [ reduce using rule 29 (expression -> ID assign_op expression .) ]
+  ! |               [ reduce using rule 29 (expression -> ID assign_op expression .) ]
+  ! ^               [ reduce using rule 29 (expression -> ID assign_op expression .) ]
+  ! &               [ reduce using rule 29 (expression -> ID assign_op expression .) ]
+
+
+state 93
+
+    (7) statement -> IF ( expression ) . statement
+    (8) statement -> IF ( expression ) . statement ELSE statement
+    (5) statement -> . expression ;
+    (6) statement -> . compound_statement
+    (7) statement -> . IF ( expression ) statement
+    (8) statement -> . IF ( expression ) statement ELSE statement
+    (9) statement -> . WHILE ( expression ) statement
+    (10) statement -> . DO statement WHILE ( expression ) ;
+    (11) statement -> . FOR ( opt_expr ; opt_expr ; opt_expr ) statement
+    (14) statement -> . PRINT ( print_args ) ;
+    (17) statement -> . SCAN ( ID ) ;
+    (29) expression -> . ID assign_op expression
+    (30) expression -> . expression + expression
+    (31) expression -> . expression - expression
+    (32) expression -> . expression * expression
+    (33) expression -> . expression / expression
+    (34) expression -> . expression % expression
+    (35) expression -> . expression < expression
+    (36) expression -> . expression > expression
+    (37) expression -> . expression LE expression
+    (38) expression -> . expression GE expression
+    (39) expression -> . expression EQ expression
+    (40) expression -> . expression NE expression
+    (41) expression -> . expression AND expression
+    (42) expression -> . expression OR expression
+    (43) expression -> . + expression
+    (44) expression -> . - expression
+    (45) expression -> . ~ expression
+    (46) expression -> . ! expression
+    (47) expression -> . expression | expression
+    (48) expression -> . expression ^ expression
+    (49) expression -> . expression & expression
+    (50) expression -> . PLUSPLUS ID
+    (51) expression -> . MINUSMINUS ID
+    (52) expression -> . ( expression )
+    (53) expression -> . NUMBER
+    (54) expression -> . STRING
+    (55) expression -> . ID
+    (2) compound_statement -> . { stmt_list }
+
+    IF              shift and go to state 9
+    WHILE           shift and go to state 11
+    DO              shift and go to state 12
+    FOR             shift and go to state 13
+    PRINT           shift and go to state 14
+    SCAN            shift and go to state 15
+    ID              shift and go to state 16
+    +               shift and go to state 17
+    -               shift and go to state 18
+    ~               shift and go to state 19
+    !               shift and go to state 20
+    PLUSPLUS        shift and go to state 21
+    MINUSMINUS      shift and go to state 22
+    (               shift and go to state 10
+    NUMBER          shift and go to state 23
+    STRING          shift and go to state 24
+    {               shift and go to state 3
+
+    expression                     shift and go to state 7
+    statement                      shift and go to state 100
+    compound_statement             shift and go to state 8
+
+state 94
+
+    (9) statement -> WHILE ( expression ) . statement
+    (5) statement -> . expression ;
+    (6) statement -> . compound_statement
+    (7) statement -> . IF ( expression ) statement
+    (8) statement -> . IF ( expression ) statement ELSE statement
+    (9) statement -> . WHILE ( expression ) statement
+    (10) statement -> . DO statement WHILE ( expression ) ;
+    (11) statement -> . FOR ( opt_expr ; opt_expr ; opt_expr ) statement
+    (14) statement -> . PRINT ( print_args ) ;
+    (17) statement -> . SCAN ( ID ) ;
+    (29) expression -> . ID assign_op expression
+    (30) expression -> . expression + expression
+    (31) expression -> . expression - expression
+    (32) expression -> . expression * expression
+    (33) expression -> . expression / expression
+    (34) expression -> . expression % expression
+    (35) expression -> . expression < expression
+    (36) expression -> . expression > expression
+    (37) expression -> . expression LE expression
+    (38) expression -> . expression GE expression
+    (39) expression -> . expression EQ expression
+    (40) expression -> . expression NE expression
+    (41) expression -> . expression AND expression
+    (42) expression -> . expression OR expression
+    (43) expression -> . + expression
+    (44) expression -> . - expression
+    (45) expression -> . ~ expression
+    (46) expression -> . ! expression
+    (47) expression -> . expression | expression
+    (48) expression -> . expression ^ expression
+    (49) expression -> . expression & expression
+    (50) expression -> . PLUSPLUS ID
+    (51) expression -> . MINUSMINUS ID
+    (52) expression -> . ( expression )
+    (53) expression -> . NUMBER
+    (54) expression -> . STRING
+    (55) expression -> . ID
+    (2) compound_statement -> . { stmt_list }
+
+    IF              shift and go to state 9
+    WHILE           shift and go to state 11
+    DO              shift and go to state 12
+    FOR             shift and go to state 13
+    PRINT           shift and go to state 14
+    SCAN            shift and go to state 15
+    ID              shift and go to state 16
+    +               shift and go to state 17
+    -               shift and go to state 18
+    ~               shift and go to state 19
+    !               shift and go to state 20
+    PLUSPLUS        shift and go to state 21
+    MINUSMINUS      shift and go to state 22
+    (               shift and go to state 10
+    NUMBER          shift and go to state 23
+    STRING          shift and go to state 24
+    {               shift and go to state 3
+
+    expression                     shift and go to state 7
+    statement                      shift and go to state 101
+    compound_statement             shift and go to state 8
+
+state 95
+
+    (10) statement -> DO statement WHILE ( . expression ) ;
+    (29) expression -> . ID assign_op expression
+    (30) expression -> . expression + expression
+    (31) expression -> . expression - expression
+    (32) expression -> . expression * expression
+    (33) expression -> . expression / expression
+    (34) expression -> . expression % expression
+    (35) expression -> . expression < expression
+    (36) expression -> . expression > expression
+    (37) expression -> . expression LE expression
+    (38) expression -> . expression GE expression
+    (39) expression -> . expression EQ expression
+    (40) expression -> . expression NE expression
+    (41) expression -> . expression AND expression
+    (42) expression -> . expression OR expression
+    (43) expression -> . + expression
+    (44) expression -> . - expression
+    (45) expression -> . ~ expression
+    (46) expression -> . ! expression
+    (47) expression -> . expression | expression
+    (48) expression -> . expression ^ expression
+    (49) expression -> . expression & expression
+    (50) expression -> . PLUSPLUS ID
+    (51) expression -> . MINUSMINUS ID
+    (52) expression -> . ( expression )
+    (53) expression -> . NUMBER
+    (54) expression -> . STRING
+    (55) expression -> . ID
+
+    ID              shift and go to state 16
+    +               shift and go to state 17
+    -               shift and go to state 18
+    ~               shift and go to state 19
+    !               shift and go to state 20
+    PLUSPLUS        shift and go to state 21
+    MINUSMINUS      shift and go to state 22
+    (               shift and go to state 10
+    NUMBER          shift and go to state 23
+    STRING          shift and go to state 24
+
+    expression                     shift and go to state 102
+
+state 96
+
+    (11) statement -> FOR ( opt_expr ; . opt_expr ; opt_expr ) statement
+    (12) opt_expr -> . expression
+    (13) opt_expr -> .
+    (29) expression -> . ID assign_op expression
+    (30) expression -> . expression + expression
+    (31) expression -> . expression - expression
+    (32) expression -> . expression * expression
+    (33) expression -> . expression / expression
+    (34) expression -> . expression % expression
+    (35) expression -> . expression < expression
+    (36) expression -> . expression > expression
+    (37) expression -> . expression LE expression
+    (38) expression -> . expression GE expression
+    (39) expression -> . expression EQ expression
+    (40) expression -> . expression NE expression
+    (41) expression -> . expression AND expression
+    (42) expression -> . expression OR expression
+    (43) expression -> . + expression
+    (44) expression -> . - expression
+    (45) expression -> . ~ expression
+    (46) expression -> . ! expression
+    (47) expression -> . expression | expression
+    (48) expression -> . expression ^ expression
+    (49) expression -> . expression & expression
+    (50) expression -> . PLUSPLUS ID
+    (51) expression -> . MINUSMINUS ID
+    (52) expression -> . ( expression )
+    (53) expression -> . NUMBER
+    (54) expression -> . STRING
+    (55) expression -> . ID
+
+    ;               reduce using rule 13 (opt_expr -> .)
+    ID              shift and go to state 16
+    +               shift and go to state 17
+    -               shift and go to state 18
+    ~               shift and go to state 19
+    !               shift and go to state 20
+    PLUSPLUS        shift and go to state 21
+    MINUSMINUS      shift and go to state 22
+    (               shift and go to state 10
+    NUMBER          shift and go to state 23
+    STRING          shift and go to state 24
+
+    opt_expr                       shift and go to state 103
+    expression                     shift and go to state 88
+
+state 97
+
+    (14) statement -> PRINT ( print_args ) . ;
+
+    ;               shift and go to state 104
+
+
+state 98
+
+    (15) print_args -> STRING , . expression
+    (29) expression -> . ID assign_op expression
+    (30) expression -> . expression + expression
+    (31) expression -> . expression - expression
+    (32) expression -> . expression * expression
+    (33) expression -> . expression / expression
+    (34) expression -> . expression % expression
+    (35) expression -> . expression < expression
+    (36) expression -> . expression > expression
+    (37) expression -> . expression LE expression
+    (38) expression -> . expression GE expression
+    (39) expression -> . expression EQ expression
+    (40) expression -> . expression NE expression
+    (41) expression -> . expression AND expression
+    (42) expression -> . expression OR expression
+    (43) expression -> . + expression
+    (44) expression -> . - expression
+    (45) expression -> . ~ expression
+    (46) expression -> . ! expression
+    (47) expression -> . expression | expression
+    (48) expression -> . expression ^ expression
+    (49) expression -> . expression & expression
+    (50) expression -> . PLUSPLUS ID
+    (51) expression -> . MINUSMINUS ID
+    (52) expression -> . ( expression )
+    (53) expression -> . NUMBER
+    (54) expression -> . STRING
+    (55) expression -> . ID
+
+    ID              shift and go to state 16
+    +               shift and go to state 17
+    -               shift and go to state 18
+    ~               shift and go to state 19
+    !               shift and go to state 20
+    PLUSPLUS        shift and go to state 21
+    MINUSMINUS      shift and go to state 22
+    (               shift and go to state 10
+    NUMBER          shift and go to state 23
+    STRING          shift and go to state 24
+
+    expression                     shift and go to state 105
+
+state 99
+
+    (17) statement -> SCAN ( ID ) . ;
+
+    ;               shift and go to state 106
+
+
+state 100
+
+    (7) statement -> IF ( expression ) statement .
+    (8) statement -> IF ( expression ) statement . ELSE statement
+
+  ! shift/reduce conflict for ELSE resolved as shift
+    }               reduce using rule 7 (statement -> IF ( expression ) statement .)
+    IF              reduce using rule 7 (statement -> IF ( expression ) statement .)
+    WHILE           reduce using rule 7 (statement -> IF ( expression ) statement .)
+    DO              reduce using rule 7 (statement -> IF ( expression ) statement .)
+    FOR             reduce using rule 7 (statement -> IF ( expression ) statement .)
+    PRINT           reduce using rule 7 (statement -> IF ( expression ) statement .)
+    SCAN            reduce using rule 7 (statement -> IF ( expression ) statement .)
+    ID              reduce using rule 7 (statement -> IF ( expression ) statement .)
+    +               reduce using rule 7 (statement -> IF ( expression ) statement .)
+    -               reduce using rule 7 (statement -> IF ( expression ) statement .)
+    ~               reduce using rule 7 (statement -> IF ( expression ) statement .)
+    !               reduce using rule 7 (statement -> IF ( expression ) statement .)
+    PLUSPLUS        reduce using rule 7 (statement -> IF ( expression ) statement .)
+    MINUSMINUS      reduce using rule 7 (statement -> IF ( expression ) statement .)
+    (               reduce using rule 7 (statement -> IF ( expression ) statement .)
+    NUMBER          reduce using rule 7 (statement -> IF ( expression ) statement .)
+    STRING          reduce using rule 7 (statement -> IF ( expression ) statement .)
+    {               reduce using rule 7 (statement -> IF ( expression ) statement .)
+    ELSE            shift and go to state 107
+
+  ! ELSE            [ reduce using rule 7 (statement -> IF ( expression ) statement .) ]
+
+
+state 101
+
+    (9) statement -> WHILE ( expression ) statement .
+
+    }               reduce using rule 9 (statement -> WHILE ( expression ) statement .)
+    IF              reduce using rule 9 (statement -> WHILE ( expression ) statement .)
+    WHILE           reduce using rule 9 (statement -> WHILE ( expression ) statement .)
+    DO              reduce using rule 9 (statement -> WHILE ( expression ) statement .)
+    FOR             reduce using rule 9 (statement -> WHILE ( expression ) statement .)
+    PRINT           reduce using rule 9 (statement -> WHILE ( expression ) statement .)
+    SCAN            reduce using rule 9 (statement -> WHILE ( expression ) statement .)
+    ID              reduce using rule 9 (statement -> WHILE ( expression ) statement .)
+    +               reduce using rule 9 (statement -> WHILE ( expression ) statement .)
+    -               reduce using rule 9 (statement -> WHILE ( expression ) statement .)
+    ~               reduce using rule 9 (statement -> WHILE ( expression ) statement .)
+    !               reduce using rule 9 (statement -> WHILE ( expression ) statement .)
+    PLUSPLUS        reduce using rule 9 (statement -> WHILE ( expression ) statement .)
+    MINUSMINUS      reduce using rule 9 (statement -> WHILE ( expression ) statement .)
+    (               reduce using rule 9 (statement -> WHILE ( expression ) statement .)
+    NUMBER          reduce using rule 9 (statement -> WHILE ( expression ) statement .)
+    STRING          reduce using rule 9 (statement -> WHILE ( expression ) statement .)
+    {               reduce using rule 9 (statement -> WHILE ( expression ) statement .)
+    ELSE            reduce using rule 9 (statement -> WHILE ( expression ) statement .)
+
+
+state 102
+
+    (10) statement -> DO statement WHILE ( expression . ) ;
+    (30) expression -> expression . + expression
+    (31) expression -> expression . - expression
+    (32) expression -> expression . * expression
+    (33) expression -> expression . / expression
+    (34) expression -> expression . % expression
+    (35) expression -> expression . < expression
+    (36) expression -> expression . > expression
+    (37) expression -> expression . LE expression
+    (38) expression -> expression . GE expression
+    (39) expression -> expression . EQ expression
+    (40) expression -> expression . NE expression
+    (41) expression -> expression . AND expression
+    (42) expression -> expression . OR expression
+    (47) expression -> expression . | expression
+    (48) expression -> expression . ^ expression
+    (49) expression -> expression . & expression
+
+    )               shift and go to state 108
+    +               shift and go to state 26
+    -               shift and go to state 27
+    *               shift and go to state 28
+    /               shift and go to state 29
+    %               shift and go to state 30
+    <               shift and go to state 31
+    >               shift and go to state 32
+    LE              shift and go to state 33
+    GE              shift and go to state 34
+    EQ              shift and go to state 35
+    NE              shift and go to state 36
+    AND             shift and go to state 37
+    OR              shift and go to state 38
+    |               shift and go to state 39
+    ^               shift and go to state 40
+    &               shift and go to state 41
+
+
+state 103
+
+    (11) statement -> FOR ( opt_expr ; opt_expr . ; opt_expr ) statement
+
+    ;               shift and go to state 109
+
+
+state 104
+
+    (14) statement -> PRINT ( print_args ) ; .
+
+    }               reduce using rule 14 (statement -> PRINT ( print_args ) ; .)
+    IF              reduce using rule 14 (statement -> PRINT ( print_args ) ; .)
+    WHILE           reduce using rule 14 (statement -> PRINT ( print_args ) ; .)
+    DO              reduce using rule 14 (statement -> PRINT ( print_args ) ; .)
+    FOR             reduce using rule 14 (statement -> PRINT ( print_args ) ; .)
+    PRINT           reduce using rule 14 (statement -> PRINT ( print_args ) ; .)
+    SCAN            reduce using rule 14 (statement -> PRINT ( print_args ) ; .)
+    ID              reduce using rule 14 (statement -> PRINT ( print_args ) ; .)
+    +               reduce using rule 14 (statement -> PRINT ( print_args ) ; .)
+    -               reduce using rule 14 (statement -> PRINT ( print_args ) ; .)
+    ~               reduce using rule 14 (statement -> PRINT ( print_args ) ; .)
+    !               reduce using rule 14 (statement -> PRINT ( print_args ) ; .)
+    PLUSPLUS        reduce using rule 14 (statement -> PRINT ( print_args ) ; .)
+    MINUSMINUS      reduce using rule 14 (statement -> PRINT ( print_args ) ; .)
+    (               reduce using rule 14 (statement -> PRINT ( print_args ) ; .)
+    NUMBER          reduce using rule 14 (statement -> PRINT ( print_args ) ; .)
+    STRING          reduce using rule 14 (statement -> PRINT ( print_args ) ; .)
+    {               reduce using rule 14 (statement -> PRINT ( print_args ) ; .)
+    ELSE            reduce using rule 14 (statement -> PRINT ( print_args ) ; .)
+
+
+state 105
+
+    (15) print_args -> STRING , expression .
+    (30) expression -> expression . + expression
+    (31) expression -> expression . - expression
+    (32) expression -> expression . * expression
+    (33) expression -> expression . / expression
+    (34) expression -> expression . % expression
+    (35) expression -> expression . < expression
+    (36) expression -> expression . > expression
+    (37) expression -> expression . LE expression
+    (38) expression -> expression . GE expression
+    (39) expression -> expression . EQ expression
+    (40) expression -> expression . NE expression
+    (41) expression -> expression . AND expression
+    (42) expression -> expression . OR expression
+    (47) expression -> expression . | expression
+    (48) expression -> expression . ^ expression
+    (49) expression -> expression . & expression
+
+    )               reduce using rule 15 (print_args -> STRING , expression .)
+    +               shift and go to state 26
+    -               shift and go to state 27
+    *               shift and go to state 28
+    /               shift and go to state 29
+    %               shift and go to state 30
+    <               shift and go to state 31
+    >               shift and go to state 32
+    LE              shift and go to state 33
+    GE              shift and go to state 34
+    EQ              shift and go to state 35
+    NE              shift and go to state 36
+    AND             shift and go to state 37
+    OR              shift and go to state 38
+    |               shift and go to state 39
+    ^               shift and go to state 40
+    &               shift and go to state 41
+
+
+state 106
+
+    (17) statement -> SCAN ( ID ) ; .
+
+    }               reduce using rule 17 (statement -> SCAN ( ID ) ; .)
+    IF              reduce using rule 17 (statement -> SCAN ( ID ) ; .)
+    WHILE           reduce using rule 17 (statement -> SCAN ( ID ) ; .)
+    DO              reduce using rule 17 (statement -> SCAN ( ID ) ; .)
+    FOR             reduce using rule 17 (statement -> SCAN ( ID ) ; .)
+    PRINT           reduce using rule 17 (statement -> SCAN ( ID ) ; .)
+    SCAN            reduce using rule 17 (statement -> SCAN ( ID ) ; .)
+    ID              reduce using rule 17 (statement -> SCAN ( ID ) ; .)
+    +               reduce using rule 17 (statement -> SCAN ( ID ) ; .)
+    -               reduce using rule 17 (statement -> SCAN ( ID ) ; .)
+    ~               reduce using rule 17 (statement -> SCAN ( ID ) ; .)
+    !               reduce using rule 17 (statement -> SCAN ( ID ) ; .)
+    PLUSPLUS        reduce using rule 17 (statement -> SCAN ( ID ) ; .)
+    MINUSMINUS      reduce using rule 17 (statement -> SCAN ( ID ) ; .)
+    (               reduce using rule 17 (statement -> SCAN ( ID ) ; .)
+    NUMBER          reduce using rule 17 (statement -> SCAN ( ID ) ; .)
+    STRING          reduce using rule 17 (statement -> SCAN ( ID ) ; .)
+    {               reduce using rule 17 (statement -> SCAN ( ID ) ; .)
+    ELSE            reduce using rule 17 (statement -> SCAN ( ID ) ; .)
+
+
+state 107
+
+    (8) statement -> IF ( expression ) statement ELSE . statement
+    (5) statement -> . expression ;
+    (6) statement -> . compound_statement
+    (7) statement -> . IF ( expression ) statement
+    (8) statement -> . IF ( expression ) statement ELSE statement
+    (9) statement -> . WHILE ( expression ) statement
+    (10) statement -> . DO statement WHILE ( expression ) ;
+    (11) statement -> . FOR ( opt_expr ; opt_expr ; opt_expr ) statement
+    (14) statement -> . PRINT ( print_args ) ;
+    (17) statement -> . SCAN ( ID ) ;
+    (29) expression -> . ID assign_op expression
+    (30) expression -> . expression + expression
+    (31) expression -> . expression - expression
+    (32) expression -> . expression * expression
+    (33) expression -> . expression / expression
+    (34) expression -> . expression % expression
+    (35) expression -> . expression < expression
+    (36) expression -> . expression > expression
+    (37) expression -> . expression LE expression
+    (38) expression -> . expression GE expression
+    (39) expression -> . expression EQ expression
+    (40) expression -> . expression NE expression
+    (41) expression -> . expression AND expression
+    (42) expression -> . expression OR expression
+    (43) expression -> . + expression
+    (44) expression -> . - expression
+    (45) expression -> . ~ expression
+    (46) expression -> . ! expression
+    (47) expression -> . expression | expression
+    (48) expression -> . expression ^ expression
+    (49) expression -> . expression & expression
+    (50) expression -> . PLUSPLUS ID
+    (51) expression -> . MINUSMINUS ID
+    (52) expression -> . ( expression )
+    (53) expression -> . NUMBER
+    (54) expression -> . STRING
+    (55) expression -> . ID
+    (2) compound_statement -> . { stmt_list }
+
+    IF              shift and go to state 9
+    WHILE           shift and go to state 11
+    DO              shift and go to state 12
+    FOR             shift and go to state 13
+    PRINT           shift and go to state 14
+    SCAN            shift and go to state 15
+    ID              shift and go to state 16
+    +               shift and go to state 17
+    -               shift and go to state 18
+    ~               shift and go to state 19
+    !               shift and go to state 20
+    PLUSPLUS        shift and go to state 21
+    MINUSMINUS      shift and go to state 22
+    (               shift and go to state 10
+    NUMBER          shift and go to state 23
+    STRING          shift and go to state 24
+    {               shift and go to state 3
+
+    expression                     shift and go to state 7
+    statement                      shift and go to state 110
+    compound_statement             shift and go to state 8
+
+state 108
+
+    (10) statement -> DO statement WHILE ( expression ) . ;
+
+    ;               shift and go to state 111
+
+
+state 109
+
+    (11) statement -> FOR ( opt_expr ; opt_expr ; . opt_expr ) statement
+    (12) opt_expr -> . expression
+    (13) opt_expr -> .
+    (29) expression -> . ID assign_op expression
+    (30) expression -> . expression + expression
+    (31) expression -> . expression - expression
+    (32) expression -> . expression * expression
+    (33) expression -> . expression / expression
+    (34) expression -> . expression % expression
+    (35) expression -> . expression < expression
+    (36) expression -> . expression > expression
+    (37) expression -> . expression LE expression
+    (38) expression -> . expression GE expression
+    (39) expression -> . expression EQ expression
+    (40) expression -> . expression NE expression
+    (41) expression -> . expression AND expression
+    (42) expression -> . expression OR expression
+    (43) expression -> . + expression
+    (44) expression -> . - expression
+    (45) expression -> . ~ expression
+    (46) expression -> . ! expression
+    (47) expression -> . expression | expression
+    (48) expression -> . expression ^ expression
+    (49) expression -> . expression & expression
+    (50) expression -> . PLUSPLUS ID
+    (51) expression -> . MINUSMINUS ID
+    (52) expression -> . ( expression )
+    (53) expression -> . NUMBER
+    (54) expression -> . STRING
+    (55) expression -> . ID
+
+    )               reduce using rule 13 (opt_expr -> .)
+    ID              shift and go to state 16
+    +               shift and go to state 17
+    -               shift and go to state 18
+    ~               shift and go to state 19
+    !               shift and go to state 20
+    PLUSPLUS        shift and go to state 21
+    MINUSMINUS      shift and go to state 22
+    (               shift and go to state 10
+    NUMBER          shift and go to state 23
+    STRING          shift and go to state 24
+
+    opt_expr                       shift and go to state 112
+    expression                     shift and go to state 88
+
+state 110
+
+    (8) statement -> IF ( expression ) statement ELSE statement .
+
+    }               reduce using rule 8 (statement -> IF ( expression ) statement ELSE statement .)
+    IF              reduce using rule 8 (statement -> IF ( expression ) statement ELSE statement .)
+    WHILE           reduce using rule 8 (statement -> IF ( expression ) statement ELSE statement .)
+    DO              reduce using rule 8 (statement -> IF ( expression ) statement ELSE statement .)
+    FOR             reduce using rule 8 (statement -> IF ( expression ) statement ELSE statement .)
+    PRINT           reduce using rule 8 (statement -> IF ( expression ) statement ELSE statement .)
+    SCAN            reduce using rule 8 (statement -> IF ( expression ) statement ELSE statement .)
+    ID              reduce using rule 8 (statement -> IF ( expression ) statement ELSE statement .)
+    +               reduce using rule 8 (statement -> IF ( expression ) statement ELSE statement .)
+    -               reduce using rule 8 (statement -> IF ( expression ) statement ELSE statement .)
+    ~               reduce using rule 8 (statement -> IF ( expression ) statement ELSE statement .)
+    !               reduce using rule 8 (statement -> IF ( expression ) statement ELSE statement .)
+    PLUSPLUS        reduce using rule 8 (statement -> IF ( expression ) statement ELSE statement .)
+    MINUSMINUS      reduce using rule 8 (statement -> IF ( expression ) statement ELSE statement .)
+    (               reduce using rule 8 (statement -> IF ( expression ) statement ELSE statement .)
+    NUMBER          reduce using rule 8 (statement -> IF ( expression ) statement ELSE statement .)
+    STRING          reduce using rule 8 (statement -> IF ( expression ) statement ELSE statement .)
+    {               reduce using rule 8 (statement -> IF ( expression ) statement ELSE statement .)
+    ELSE            reduce using rule 8 (statement -> IF ( expression ) statement ELSE statement .)
+
+
+state 111
+
+    (10) statement -> DO statement WHILE ( expression ) ; .
+
+    }               reduce using rule 10 (statement -> DO statement WHILE ( expression ) ; .)
+    IF              reduce using rule 10 (statement -> DO statement WHILE ( expression ) ; .)
+    WHILE           reduce using rule 10 (statement -> DO statement WHILE ( expression ) ; .)
+    DO              reduce using rule 10 (statement -> DO statement WHILE ( expression ) ; .)
+    FOR             reduce using rule 10 (statement -> DO statement WHILE ( expression ) ; .)
+    PRINT           reduce using rule 10 (statement -> DO statement WHILE ( expression ) ; .)
+    SCAN            reduce using rule 10 (statement -> DO statement WHILE ( expression ) ; .)
+    ID              reduce using rule 10 (statement -> DO statement WHILE ( expression ) ; .)
+    +               reduce using rule 10 (statement -> DO statement WHILE ( expression ) ; .)
+    -               reduce using rule 10 (statement -> DO statement WHILE ( expression ) ; .)
+    ~               reduce using rule 10 (statement -> DO statement WHILE ( expression ) ; .)
+    !               reduce using rule 10 (statement -> DO statement WHILE ( expression ) ; .)
+    PLUSPLUS        reduce using rule 10 (statement -> DO statement WHILE ( expression ) ; .)
+    MINUSMINUS      reduce using rule 10 (statement -> DO statement WHILE ( expression ) ; .)
+    (               reduce using rule 10 (statement -> DO statement WHILE ( expression ) ; .)
+    NUMBER          reduce using rule 10 (statement -> DO statement WHILE ( expression ) ; .)
+    STRING          reduce using rule 10 (statement -> DO statement WHILE ( expression ) ; .)
+    {               reduce using rule 10 (statement -> DO statement WHILE ( expression ) ; .)
+    ELSE            reduce using rule 10 (statement -> DO statement WHILE ( expression ) ; .)
+
+
+state 112
+
+    (11) statement -> FOR ( opt_expr ; opt_expr ; opt_expr . ) statement
+
+    )               shift and go to state 113
+
+
+state 113
+
+    (11) statement -> FOR ( opt_expr ; opt_expr ; opt_expr ) . statement
+    (5) statement -> . expression ;
+    (6) statement -> . compound_statement
+    (7) statement -> . IF ( expression ) statement
+    (8) statement -> . IF ( expression ) statement ELSE statement
+    (9) statement -> . WHILE ( expression ) statement
+    (10) statement -> . DO statement WHILE ( expression ) ;
+    (11) statement -> . FOR ( opt_expr ; opt_expr ; opt_expr ) statement
+    (14) statement -> . PRINT ( print_args ) ;
+    (17) statement -> . SCAN ( ID ) ;
+    (29) expression -> . ID assign_op expression
+    (30) expression -> . expression + expression
+    (31) expression -> . expression - expression
+    (32) expression -> . expression * expression
+    (33) expression -> . expression / expression
+    (34) expression -> . expression % expression
+    (35) expression -> . expression < expression
+    (36) expression -> . expression > expression
+    (37) expression -> . expression LE expression
+    (38) expression -> . expression GE expression
+    (39) expression -> . expression EQ expression
+    (40) expression -> . expression NE expression
+    (41) expression -> . expression AND expression
+    (42) expression -> . expression OR expression
+    (43) expression -> . + expression
+    (44) expression -> . - expression
+    (45) expression -> . ~ expression
+    (46) expression -> . ! expression
+    (47) expression -> . expression | expression
+    (48) expression -> . expression ^ expression
+    (49) expression -> . expression & expression
+    (50) expression -> . PLUSPLUS ID
+    (51) expression -> . MINUSMINUS ID
+    (52) expression -> . ( expression )
+    (53) expression -> . NUMBER
+    (54) expression -> . STRING
+    (55) expression -> . ID
+    (2) compound_statement -> . { stmt_list }
+
+    IF              shift and go to state 9
+    WHILE           shift and go to state 11
+    DO              shift and go to state 12
+    FOR             shift and go to state 13
+    PRINT           shift and go to state 14
+    SCAN            shift and go to state 15
+    ID              shift and go to state 16
+    +               shift and go to state 17
+    -               shift and go to state 18
+    ~               shift and go to state 19
+    !               shift and go to state 20
+    PLUSPLUS        shift and go to state 21
+    MINUSMINUS      shift and go to state 22
+    (               shift and go to state 10
+    NUMBER          shift and go to state 23
+    STRING          shift and go to state 24
+    {               shift and go to state 3
+
+    statement                      shift and go to state 114
+    expression                     shift and go to state 7
+    compound_statement             shift and go to state 8
+
+state 114
+
+    (11) statement -> FOR ( opt_expr ; opt_expr ; opt_expr ) statement .
+
+    }               reduce using rule 11 (statement -> FOR ( opt_expr ; opt_expr ; opt_expr ) statement .)
+    IF              reduce using rule 11 (statement -> FOR ( opt_expr ; opt_expr ; opt_expr ) statement .)
+    WHILE           reduce using rule 11 (statement -> FOR ( opt_expr ; opt_expr ; opt_expr ) statement .)
+    DO              reduce using rule 11 (statement -> FOR ( opt_expr ; opt_expr ; opt_expr ) statement .)
+    FOR             reduce using rule 11 (statement -> FOR ( opt_expr ; opt_expr ; opt_expr ) statement .)
+    PRINT           reduce using rule 11 (statement -> FOR ( opt_expr ; opt_expr ; opt_expr ) statement .)
+    SCAN            reduce using rule 11 (statement -> FOR ( opt_expr ; opt_expr ; opt_expr ) statement .)
+    ID              reduce using rule 11 (statement -> FOR ( opt_expr ; opt_expr ; opt_expr ) statement .)
+    +               reduce using rule 11 (statement -> FOR ( opt_expr ; opt_expr ; opt_expr ) statement .)
+    -               reduce using rule 11 (statement -> FOR ( opt_expr ; opt_expr ; opt_expr ) statement .)
+    ~               reduce using rule 11 (statement -> FOR ( opt_expr ; opt_expr ; opt_expr ) statement .)
+    !               reduce using rule 11 (statement -> FOR ( opt_expr ; opt_expr ; opt_expr ) statement .)
+    PLUSPLUS        reduce using rule 11 (statement -> FOR ( opt_expr ; opt_expr ; opt_expr ) statement .)
+    MINUSMINUS      reduce using rule 11 (statement -> FOR ( opt_expr ; opt_expr ; opt_expr ) statement .)
+    (               reduce using rule 11 (statement -> FOR ( opt_expr ; opt_expr ; opt_expr ) statement .)
+    NUMBER          reduce using rule 11 (statement -> FOR ( opt_expr ; opt_expr ; opt_expr ) statement .)
+    STRING          reduce using rule 11 (statement -> FOR ( opt_expr ; opt_expr ; opt_expr ) statement .)
+    {               reduce using rule 11 (statement -> FOR ( opt_expr ; opt_expr ; opt_expr ) statement .)
+    ELSE            reduce using rule 11 (statement -> FOR ( opt_expr ; opt_expr ; opt_expr ) statement .)
+
+WARNING: 
+WARNING: Conflicts:
+WARNING: 
+WARNING: shift/reduce conflict for + in state 63 resolved as shift
+WARNING: shift/reduce conflict for - in state 63 resolved as shift
+WARNING: shift/reduce conflict for * in state 63 resolved as shift
+WARNING: shift/reduce conflict for / in state 63 resolved as shift
+WARNING: shift/reduce conflict for % in state 63 resolved as shift
+WARNING: shift/reduce conflict for < in state 63 resolved as shift
+WARNING: shift/reduce conflict for > in state 63 resolved as shift
+WARNING: shift/reduce conflict for LE in state 63 resolved as shift
+WARNING: shift/reduce conflict for GE in state 63 resolved as shift
+WARNING: shift/reduce conflict for EQ in state 63 resolved as shift
+WARNING: shift/reduce conflict for NE in state 63 resolved as shift
+WARNING: shift/reduce conflict for AND in state 63 resolved as shift
+WARNING: shift/reduce conflict for OR in state 63 resolved as shift
+WARNING: shift/reduce conflict for | in state 63 resolved as shift
+WARNING: shift/reduce conflict for ^ in state 63 resolved as shift
+WARNING: shift/reduce conflict for & in state 63 resolved as shift
+WARNING: shift/reduce conflict for + in state 64 resolved as shift
+WARNING: shift/reduce conflict for - in state 64 resolved as shift
+WARNING: shift/reduce conflict for * in state 64 resolved as shift
+WARNING: shift/reduce conflict for / in state 64 resolved as shift
+WARNING: shift/reduce conflict for % in state 64 resolved as shift
+WARNING: shift/reduce conflict for < in state 64 resolved as shift
+WARNING: shift/reduce conflict for > in state 64 resolved as shift
+WARNING: shift/reduce conflict for LE in state 64 resolved as shift
+WARNING: shift/reduce conflict for GE in state 64 resolved as shift
+WARNING: shift/reduce conflict for EQ in state 64 resolved as shift
+WARNING: shift/reduce conflict for NE in state 64 resolved as shift
+WARNING: shift/reduce conflict for AND in state 64 resolved as shift
+WARNING: shift/reduce conflict for OR in state 64 resolved as shift
+WARNING: shift/reduce conflict for | in state 64 resolved as shift
+WARNING: shift/reduce conflict for ^ in state 64 resolved as shift
+WARNING: shift/reduce conflict for & in state 64 resolved as shift
+WARNING: shift/reduce conflict for + in state 92 resolved as shift
+WARNING: shift/reduce conflict for - in state 92 resolved as shift
+WARNING: shift/reduce conflict for * in state 92 resolved as shift
+WARNING: shift/reduce conflict for / in state 92 resolved as shift
+WARNING: shift/reduce conflict for % in state 92 resolved as shift
+WARNING: shift/reduce conflict for < in state 92 resolved as shift
+WARNING: shift/reduce conflict for > in state 92 resolved as shift
+WARNING: shift/reduce conflict for LE in state 92 resolved as shift
+WARNING: shift/reduce conflict for GE in state 92 resolved as shift
+WARNING: shift/reduce conflict for EQ in state 92 resolved as shift
+WARNING: shift/reduce conflict for NE in state 92 resolved as shift
+WARNING: shift/reduce conflict for AND in state 92 resolved as shift
+WARNING: shift/reduce conflict for OR in state 92 resolved as shift
+WARNING: shift/reduce conflict for | in state 92 resolved as shift
+WARNING: shift/reduce conflict for ^ in state 92 resolved as shift
+WARNING: shift/reduce conflict for & in state 92 resolved as shift
+WARNING: shift/reduce conflict for ELSE in state 100 resolved as shift
