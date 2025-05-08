@@ -294,27 +294,29 @@ precedence = (
         "XOREQ",
         "OREQ",
     ),
-    ("left", "OR"),  # logical ||
-    ("left", "AND"),  # logical &&
+    ("left", "OR"),  #  ||
+    ("left", "AND"),  #  &&
     ("left", "EQ", "NE"),  # ==, !=
     ("left", "<", ">", "LE", "GE"),
     ("left", "LSHIFT", "RSHIFT"),
     ("left", "+", "-"),
     ("left", "*", "/", "%"),
-    ("left", "|"),  # bitwise OR
-    ("left", "^"),  # bitwise XOR
-    ("left", "&"),  # bitwise AND
+    ("left", "|"),  # bit. operace OR
+    ("left", "^"),  # bit. operace XOR
+    ("left", "&"),  # bit. operace AND
     ("right", "UPLUS", "UMINUS"),
 )
 
 
 def p_program(p):
     "program : compound_statement"
+        # Kořenová položka gramatiky: celý program je složený blok příkazů
     p[0] = p[1]
 
 
 def p_compound(p):
     'compound_statement : "{" stmt_list "}"'
+        # Složený příkaz uzavřený do { }: vytvoříme uzel Compound s vnitřním seznamem příkazů
     p[0] = Compound(p[2])
 
 
@@ -330,6 +332,7 @@ def p_stmt_list_empty(p):
 
 def p_statement_expr(p):
     'statement : expression ";"'
+        # Jednořádkový výraz zakončený středníkem
     p[0] = p[1]
 
 
@@ -339,12 +342,12 @@ def p_statement_compound(p):
 
 
 def p_statement_if(p):
-    'statement : IF "(" expression ")" statement'
+    'statement : IF "(" expression ")" statement'#IF
     p[0] = If(p[3], p[5])
 
 
 def p_statement_if_else(p):
-    'statement : IF "(" expression ")" statement ELSE statement'
+    'statement : IF "(" expression ")" statement ELSE statement'#IF-ELSE
     p[0] = If(p[3], p[5], p[7])
 
 
@@ -360,6 +363,7 @@ def p_statement_do(p):
 
 def p_statement_for(p):
     'statement : FOR "(" opt_expr ";" opt_expr ";" opt_expr ")" statement'
+    # FOR(s; c; i)
     p[0] = For(p[3], p[5], p[7], p[9])
 
 
@@ -596,6 +600,7 @@ class CodeGen:
         return "\n".join(self.lines)
 
     def gen(self, node):
+                # Hlavní metoda: rekurzivně projdeme AST a vygenerujeme odpovídající Python
         if isinstance(node, Compound):
             for stmt in node.stmt_list:
                 self.gen(stmt)
