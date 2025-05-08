@@ -3,8 +3,8 @@ import sys
 from lib.ply import lex, yacc
 from lib.utils import find_column
 
-errors = []# Seznam chyb z lexingu/parsing, na konci se vypíší a ukončí program
-
+# Seznam chyb z lexingu/parsing, na konci se vypíší a ukončí program
+errors = []  
 
 # =====================
 # Lexer
@@ -26,16 +26,16 @@ tokens = [
     "NUMBER",
     "ID",
     "STRING",
-    "PLUSPLUS",     # ++
-    "MINUSMINUS",   # --
-    "EQ",           # ==
-    "NE",           # !=
-    "LE",           # <=
-    "GE",           # >=
-    "AND",          # &&
-    "OR",           # ||
-    "LSHIFT",       # <<
-    "RSHIFT",       # >>
+    "PLUSPLUS",  # ++
+    "MINUSMINUS",  # --
+    "EQ",  # ==
+    "NE",  # !=
+    "LE",  # <=
+    "GE",  # >=
+    "AND",  # &&
+    "OR",  # ||
+    "LSHIFT",  # <<
+    "RSHIFT",  # >>
     # Složené přiřazovací operátory (+=, -=, ...)
     "PLUSEQ",
     "MINUSEQ",
@@ -72,11 +72,12 @@ literals = [
     ",",
 ]
 
-t_ignore = " \t\r"# bílé znaky, které se ignorují - mezery, tabulátory...
+t_ignore = " \t\r"  # bílé znaky, které se ignorují - mezery, tabulátory...
 
 # ---------------------
 # Definice regulárních výrazů pro lexér
 # ---------------------
+
 
 def t_COMMENT(t):
     r"//.*|/\*(.|\n)*?\*/"
@@ -86,7 +87,7 @@ def t_COMMENT(t):
 def t_TRUE(t):
     r"\b(true|false)\b"
     t.type = "NUMBER"
-    t.value = 1 if t.value == "true" else 0    # true/false => 1/0
+    t.value = 1 if t.value == "true" else 0  # true/false => 1/0
     return t
 
 
@@ -192,21 +193,25 @@ class Node:
 
 
 class Number(Node):
+
     def __init__(self, value):
         self.value = value
 
 
 class String(Node):
+
     def __init__(self, value):
         self.value = value
 
 
 class Var(Node):
+
     def __init__(self, name):
         self.name = name
 
 
 class BinOp(Node):
+
     def __init__(self, op, left, right):
         self.op = op
         self.left = left
@@ -214,12 +219,14 @@ class BinOp(Node):
 
 
 class UnOp(Node):
+
     def __init__(self, op, expr):
         self.op = op
         self.expr = expr
 
 
 class Assign(Node):
+
     def __init__(self, target, op, expr):
         self.target = target
         self.op = op
@@ -227,22 +234,26 @@ class Assign(Node):
 
 
 class Print(Node):
+
     def __init__(self, fmt, expr=None):
         self.fmt = fmt
         self.expr = expr
 
 
 class Scan(Node):
+
     def __init__(self, var):
         self.var = var
 
 
 class Compound(Node):
+
     def __init__(self, stmt_list):
         self.stmt_list = stmt_list
 
 
 class If(Node):
+
     def __init__(self, cond, then, otherwise=None):
         self.cond = cond
         self.then = then
@@ -250,18 +261,21 @@ class If(Node):
 
 
 class While(Node):
+
     def __init__(self, cond, body):
         self.cond = cond
         self.body = body
 
 
 class DoWhile(Node):
+
     def __init__(self, body, cond):
         self.body = body
         self.cond = cond
 
 
 class For(Node):
+
     def __init__(self, init, cond, incr, body):
         self.init = init
         self.cond = cond
@@ -270,6 +284,7 @@ class For(Node):
 
 
 class PreInc(Node):
+
     def __init__(self, var):
         self.var = var
 
@@ -310,13 +325,13 @@ precedence = (
 
 def p_program(p):
     "program : compound_statement"
-        # Kořenová položka gramatiky: celý program je složený blok příkazů
+    # Kořenová položka gramatiky: celý program je složený blok příkazů
     p[0] = p[1]
 
 
 def p_compound(p):
     'compound_statement : "{" stmt_list "}"'
-        # Složený příkaz uzavřený do { }: vytvoříme uzel Compound s vnitřním seznamem příkazů
+    # Složený příkaz uzavřený do { }: vytvoříme uzel Compound s vnitřním seznamem příkazů
     p[0] = Compound(p[2])
 
 
@@ -332,7 +347,7 @@ def p_stmt_list_empty(p):
 
 def p_statement_expr(p):
     'statement : expression ";"'
-        # Jednořádkový výraz zakončený středníkem
+    # Jednořádkový výraz zakončený středníkem
     p[0] = p[1]
 
 
@@ -342,12 +357,12 @@ def p_statement_compound(p):
 
 
 def p_statement_if(p):
-    'statement : IF "(" expression ")" statement'#IF
+    'statement : IF "(" expression ")" statement'  #IF
     p[0] = If(p[3], p[5])
 
 
 def p_statement_if_else(p):
-    'statement : IF "(" expression ")" statement ELSE statement'#IF-ELSE
+    'statement : IF "(" expression ")" statement ELSE statement'  #IF-ELSE
     p[0] = If(p[3], p[5], p[7])
 
 
@@ -377,7 +392,6 @@ def p_opt_expr_empty(p):
     p[0] = None
 
 
-
 def p_statement_print(p):
     'statement : PRINT "(" print_args ")" ";"'
     p[0] = Print(*p[3])
@@ -399,17 +413,17 @@ def p_statement_scan(p):
 
 
 for tok in [
-    "=",
-    "PLUSEQ",
-    "MINUSEQ",
-    "TIMESEQ",
-    "DIVEQ",
-    "MODEQ",
-    "LSHIFTEQ",
-    "RSHIFTEQ",
-    "ANDEQ",
-    "XOREQ",
-    "OREQ",
+        "=",
+        "PLUSEQ",
+        "MINUSEQ",
+        "TIMESEQ",
+        "DIVEQ",
+        "MODEQ",
+        "LSHIFTEQ",
+        "RSHIFTEQ",
+        "ANDEQ",
+        "XOREQ",
+        "OREQ",
 ]:
     pass
 
@@ -589,6 +603,7 @@ parser = yacc.yacc()
 # Code generation
 # =====================
 class CodeGen:
+
     def __init__(self):
         self.indent = 0
         self.lines = []
@@ -600,7 +615,7 @@ class CodeGen:
         return "\n".join(self.lines)
 
     def gen(self, node):
-                # Hlavní metoda: rekurzivně projdeme AST a vygenerujeme odpovídající Python
+        # Hlavní metoda: rekurzivně projdeme AST a vygenerujeme odpovídající Python
         if isinstance(node, Compound):
             for stmt in node.stmt_list:
                 self.gen(stmt)
@@ -609,7 +624,7 @@ class CodeGen:
         elif isinstance(node, Var):
             self.emit(node.name)
         elif isinstance(node, Assign):
-            if node.op == "=" and isinstance(node.expr, Assign):            # m = (r = 0)
+            if node.op == "=" and isinstance(node.expr, Assign):  # m = (r = 0)
                 inner = node.expr
                 self.emit(f"{inner.target.name} = {self.expr(inner.expr)}")
                 self.emit(f"{node.target.name} = {inner.target.name}")
@@ -630,7 +645,8 @@ class CodeGen:
             self.emit(self.expr(node))
         elif isinstance(node, Print):
             if node.expr is not None:
-                self.emit(f'print(f"{node.fmt}" % ({self.expr(node.expr)}), end="")')
+                self.emit(
+                    f'print(f"{node.fmt}" % ({self.expr(node.expr)}), end="")')
             else:
                 self.emit(f'print(f"{node.fmt}", end="")')
         elif isinstance(node, String):
@@ -653,7 +669,7 @@ class CodeGen:
             self.gen(node.body)
             self.indent -= 1
         elif isinstance(node, DoWhile):
-            self.emit("while True:")            # do while cykly
+            self.emit("while True:")  # do while cykly
             self.indent += 1
             self.gen(node.body)
             cond = node.cond
@@ -674,11 +690,13 @@ class CodeGen:
                 expr_code = self.expr(assign.expr)
                 pyop = "//=" if assign.op == "/=" else assign.op
                 self.emit(f"{var} {pyop} {expr_code}")
-                self.emit(f"if not ({var} {cond.op} {self.expr(cond.right)}): break")
+                self.emit(
+                    f"if not ({var} {cond.op} {self.expr(cond.right)}): break")
             elif isinstance(cond, BinOp) and isinstance(cond.left, PreInc):
                 var = cond.left.var.name
                 self.emit(f"{var} += 1")
-                self.emit(f"if not ({var} {cond.op} {self.expr(cond.right)}): break")
+                self.emit(
+                    f"if not ({var} {cond.op} {self.expr(cond.right)}): break")
             elif isinstance(cond, PreInc):
                 var = cond.var.name
                 self.emit(f"{var} += 1")
@@ -689,7 +707,8 @@ class CodeGen:
         elif isinstance(node, For):
             if node.init:
                 self.gen(node.init)
-            self.emit(f"while {self.expr(node.cond) if node.cond else 'True'}:")
+            self.emit(
+                f"while {self.expr(node.cond) if node.cond else 'True'}:")
             self.indent += 1
             self.gen(node.body)
             incr = node.incr
@@ -735,7 +754,9 @@ class CodeGen:
 
 def main(testPath=None):
     if testPath is None and len(sys.argv) < 2:
-        print("použijte:\tpython compiler_microC.py <zdroj_kod.mC>\nnebo\t\tpython3 compiler_microC.py <zdroj_kod.mC>")
+        print(
+            "použijte:\tpython compiler_microC.py <zdroj_kod.mC>\nnebo\t\tpython3 compiler_microC.py <zdroj_kod.mC>"
+        )
         sys.exit(1)
     path = testPath if testPath else sys.argv[1]
     data = open(path).read()  # načtení mC souboru
