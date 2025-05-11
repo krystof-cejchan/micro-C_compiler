@@ -599,9 +599,6 @@ def p_error(p):
 parser = yacc.yacc()
 
 
-# =====================
-# Code generation
-# =====================
 class CodeGen:
 
     def __init__(self):
